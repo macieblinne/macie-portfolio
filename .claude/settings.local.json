@@ -44,7 +44,10 @@
       "Bash(grep -n \"^  {$\\\\|id: '\" /Users/macielinne/Portfolio/src/components/WorkModal.jsx)",
       "Bash(ls -la /Users/macielinne/Portfolio/doc/logos/*.png)",
       "Bash(grep -c \"IconBriefcase2\\\\|IconHome\\\\|IconUser\\\\|IconSparkles\" /Users/macielinne/Portfolio/node_modules/@tabler/icons-react/dist/esm/*.mjs)",
-      "Bash(ls /Users/macielinne/Portfolio/public/*.jpg)"
+      "Bash(ls /Users/macielinne/Portfolio/public/*.jpg)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
     ]
   }
 }
