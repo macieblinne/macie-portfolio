@@ -1,0 +1,179 @@
+/* --- Geist Font --- */
+@font-face { font-family: 'Geist'; src: url('/fonts/Geist-Regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Geist'; src: url('/fonts/Geist-Medium.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Geist'; src: url('/fonts/Geist-SemiBold.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Geist'; src: url('/fonts/Geist-Bold.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Geist Mono'; src: url('/fonts/GeistMono-Regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Geist Mono'; src: url('/fonts/GeistMono-Medium.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Geist Mono'; src: url('/fonts/GeistMono-SemiBold.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Geist Mono'; src: url('/fonts/GeistMono-Bold.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
+/* ============================================
+   DESIGN TOKENS
+   ============================================ */
+
+:root {
+  /* --- Typography --- */
+  --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-serif: 'Space Mono', 'Courier New', monospace;
+  --font-mono: 'Geist Mono', 'Courier New', monospace;
+
+  --text-xs: 1rem;        /* 16px */
+  --text-sm: 1.0625rem;   /* 17px */
+  --text-base: 1.125rem;  /* 18px */
+  --text-md: 1.25rem;     /* 20px */
+  --text-lg: 1.375rem;    /* 22px */
+  --text-xl: 1.5rem;      /* 24px */
+  --text-2xl: 2rem;       /* 32px */
+  --text-3xl: 2.5rem;     /* 40px */
+  --text-4xl: 3.25rem;    /* 52px */
+  --text-5xl: 4rem;       /* 64px */
+
+  --leading-tight: 1.1;
+  --leading-snug: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.65;
+
+  --tracking-tight: -0.03em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.02em;
+
+  /* --- Spacing --- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  /* --- Radius --- */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
+  --radius-full: 9999px;
+
+  /* --- Shadows (layered for depth) --- */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 4px rgba(0, 0, 0, 0.03);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.07), 0 4px 12px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 24px 64px rgba(0, 0, 0, 0.09), 0 8px 24px rgba(0, 0, 0, 0.05);
+  --shadow-glow: 0 0 0 1px rgba(200, 168, 88, 0.1), 0 8px 32px rgba(200, 168, 88, 0.08);
+
+  /* --- Transitions --- */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.45, 0, 0.15, 1);
+  --duration-fast: 250ms;
+  --duration-normal: 450ms;
+  --duration-slow: 650ms;
+
+  /* --- Layout --- */
+  --max-width: 1200px;
+  --nav-height: 64px;
+  --nav-offset: calc(var(--space-6) * 2 + var(--nav-height));
+  --grid-gap: 10px;
+  --card-radius: 28px;
+}
+
+/* ============================================
+   LIGHT THEME — Evergreen & Gold
+   Deep forest, warm gold, stone neutrals
+   ============================================ */
+[data-theme='light'] {
+  --color-bg: #FFFFFF;
+  --color-bg-alt: #E6E6E2;
+  --color-bg-card: #F7F9FD;
+  --color-bg-card-hover: #E8EAED;
+  --color-bg-elevated: #FFFFFF;
+  --color-bg-overlay: rgba(240, 240, 236, 0.9);
+
+  --color-surface: #E0E0DC;
+  --color-surface-hover: #D4D4CF;
+
+  --color-border: transparent;
+  --color-border-strong: #EDF1F7;
+
+  --color-text-primary: #182838;
+  --color-text-secondary: #2A4A5A;
+  --color-text-tertiary: #5A7A8A;
+  --color-text-inverse: #F0F0EC;
+
+  /* Alpine Blue, Teal & Gold accents */
+  --color-accent: #C8A858;         /* Warm gold */
+  --color-accent-hover: #B8984A;
+  --color-accent-soft: rgba(200, 168, 88, 0.14);
+  --color-accent-clay: #2A4A5A;    /* Deep alpine blue */
+  --color-accent-plum: #2E5868;    /* Teal blue */
+  --color-accent-plum-soft: rgba(46, 88, 104, 0.12);
+  --color-accent-berry: #1A3040;   /* Deepest twilight blue */
+  --color-accent-stone: #5A7A8A;   /* Slate blue */
+
+  /* Functional */
+  --color-success: #2E6A6A;
+  --color-tag-bg: #E2E6E8;
+  --color-tag-text: #2A4A5A;
+
+  /* Gradients */
+  --gradient-glow: linear-gradient(135deg, rgba(200, 168, 88, 0.06) 0%, rgba(58, 90, 72, 0.05) 100%);
+  --gradient-card: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(234, 229, 223, 0.3) 100%);
+  --gradient-warm: linear-gradient(160deg, #FFFFFF 0%, #FBF6EE 50%, #F5EDDF 100%);
+  --gradient-frost: linear-gradient(160deg, #FFFFFF 0%, #EFF3F0 50%, #E4EBE6 100%);
+  --gradient-sunset: linear-gradient(135deg, #FBF6EE 0%, #F5EDDF 40%, #EDE4D4 100%);
+  --gradient-meadow: linear-gradient(160deg, #FFFFFF 0%, #F7F4EF 100%);
+}
+
+/* ============================================
+   DARK THEME — Deep Forest Night
+   Rich charcoal-green with warm gold accents
+   ============================================ */
+[data-theme='dark'] {
+  --color-bg: #121A1C;
+  --color-bg-alt: #1A2426;
+  --color-bg-card: #182022;
+  --color-bg-card-hover: #202C2E;
+  --color-bg-elevated: #1C2628;
+  --color-bg-overlay: rgba(18, 26, 28, 0.92);
+
+  --color-surface: #283438;
+  --color-surface-hover: #303E42;
+
+  --color-border: transparent;
+  --color-border-strong: rgba(224, 224, 220, 0.1);
+
+  --color-text-primary: #E4E6EA;
+  --color-text-secondary: #8AAABE;
+  --color-text-tertiary: #506878;
+  --color-text-inverse: #182838;
+
+  /* Alpine Blue, Teal & Gold accents (brightened for dark bg) */
+  --color-accent: #D4B868;
+  --color-accent-hover: #E0C878;
+  --color-accent-soft: rgba(212, 184, 104, 0.15);
+  --color-accent-clay: #8AAABE;
+  --color-accent-plum: #5A98B0;
+  --color-accent-plum-soft: rgba(90, 152, 176, 0.14);
+  --color-accent-berry: #3A88A0;
+  --color-accent-stone: #506878;
+
+  /* Functional */
+  --color-success: #3A8A88;
+  --color-tag-bg: #202E34;
+  --color-tag-text: #8AAABE;
+
+  /* Gradients */
+  --gradient-glow: linear-gradient(135deg, rgba(212, 184, 104, 0.08) 0%, rgba(120, 160, 136, 0.06) 100%);
+  --gradient-card: linear-gradient(180deg, rgba(26, 36, 32, 0) 0%, rgba(20, 28, 24, 0.5) 100%);
+  --gradient-warm: linear-gradient(160deg, #1A2420 0%, #222A22 50%, #2A3028 100%);
+  --gradient-frost: linear-gradient(160deg, #1A2420 0%, #1C2824 50%, #1E2C28 100%);
+  --gradient-sunset: linear-gradient(135deg, #222A22 0%, #2A3028 40%, #2E342C 100%);
+  --gradient-meadow: linear-gradient(160deg, #1A2420 0%, #1E2824 100%);
+  --shadow-glow: 0 0 0 1px rgba(212, 184, 104, 0.1), 0 8px 32px rgba(212, 184, 104, 0.06);
+}
