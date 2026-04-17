@@ -47,7 +47,16 @@
       "Bash(ls /Users/macielinne/Portfolio/public/*.jpg)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(brew install:*)",
+      "Bash(git config:*)",
+      "Bash(git credential-osxkeychain:*)",
+      "Bash(git remote:*)",
+      "Bash(git checkout:*)",
+      "Bash(cp /Users/macielinne/Downloads/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-Regular.woff2 /Users/macielinne/Downloads/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-Medium.woff2 /Users/macielinne/Downloads/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-Bold.woff2 /Users/macielinne/Downloads/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-Black.woff2 /Users/macielinne/Downloads/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-Italic.woff2 /Users/macielinne/Portfolio/public/fonts/)",
+      "Bash(ls /Users/macielinne/Portfolio/public/fonts/Satoshi*)",
+      "Bash(lsof -ti:3000 -ti:3001 -ti:3002)",
+      "Bash(lsof -ti:3000)"
     ]
   }
 }

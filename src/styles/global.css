@@ -122,6 +122,93 @@ body {
   animation: pageSwipeIn 0.68s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+/* ============================================
+   SLIDE-UP SHEET — case study from home card
+   ============================================ */
+
+/* Scrim: dark overlay fades in behind the sheet */
+.expand-from-card::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9;
+  background: rgba(0, 0, 0, 0.35);
+  animation: scrimIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  pointer-events: none;
+}
+
+@keyframes scrimIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Sheet slides up from below */
+.expand-from-card .page-content-enter {
+  animation: sheetSlideUp 0.68s cubic-bezier(0.16, 1, 0.3, 1) both;
+  border-radius: 20px 20px 0 0;
+}
+
+@keyframes sheetSlideUp {
+  0% {
+    transform: translateY(100%);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Home shrinks back slightly to create depth */
+.expand-from-card .page-home-exit {
+  animation: homeSheetRecede 0.68s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes homeSheetRecede {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+    border-radius: 0;
+  }
+  100% {
+    transform: scale(0.94);
+    opacity: 0.6;
+    border-radius: 16px;
+  }
+}
+
+/* Close: sheet slides back down */
+.collapse-to-card .page-content-exit {
+  animation: sheetSlideDown 0.45s cubic-bezier(0.36, 0, 0.66, -0.1) both;
+}
+
+@keyframes sheetSlideDown {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+/* Remove scrim on close */
+.collapse-to-card::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9;
+  background: rgba(0, 0, 0, 0.35);
+  animation: scrimOut 0.45s cubic-bezier(0.36, 0, 0.66, -0.1) both;
+  pointer-events: none;
+}
+
+@keyframes scrimOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
 .page-content-exit {
   animation: pageSwipeOut 0.42s cubic-bezier(0.64, 0, 0.78, 0) both;
   pointer-events: none;

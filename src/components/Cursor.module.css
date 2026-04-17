@@ -83,3 +83,7 @@
 @media (prefers-reduced-motion: reduce) {
   .cursor { display: none; }
 }
+
+@media (max-width: 768px) {
+  .cursor { display: none; }
+}

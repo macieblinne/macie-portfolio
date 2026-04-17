@@ -36,6 +36,7 @@ export default function App() {
     // Close (Home button or close)
     if (!id) {
       if (!activePage) return;
+      document.documentElement.classList.remove('expand-from-card');
       setTransitioning(true);
       setNavTarget(null);
       setExitingPage(activePage);
@@ -78,18 +79,29 @@ export default function App() {
 
   const closePage = useCallback(() => openPage(null), [openPage]);
 
-  const openProject = useCallback((projectId) => {
+  const openProject = useCallback((projectId, e) => {
     setProjectOrigin('home');
     setInitialProjectId(projectId);
+    const rect = e?._cardRect;
+    if (rect) {
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      document.documentElement.style.setProperty('--expand-x', `${cx}px`);
+      document.documentElement.style.setProperty('--expand-y', `${cy}px`);
+      document.documentElement.classList.add('expand-from-card');
+    }
     openPage('work');
   }, [openPage]);
 
   const handleProjectClose = useCallback(() => {
     if (projectOrigin === 'home') {
+      document.documentElement.classList.remove('expand-from-card');
+      document.documentElement.classList.add('collapse-to-card');
       setProjectOrigin(null);
       setInitialProjectId(null);
       setProjectOpen(false);
       closePage();
+      setTimeout(() => document.documentElement.classList.remove('collapse-to-card'), 700);
     } else {
       window.dispatchEvent(new Event('closeProject'));
     }

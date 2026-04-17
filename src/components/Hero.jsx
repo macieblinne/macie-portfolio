@@ -578,7 +578,7 @@ export default function Hero({ onOpenModal, onOpenProject }) {
         className={`${styles.card} ${styles.navCard} ${styles.projectFull}`}
         delay="240ms"
         impact="Replaced three disconnected internal tools with one unified platform"
-        onClick={() => onOpenProject('flexomics')}
+        onClick={(e) => { e._cardRect = e.currentTarget.getBoundingClientRect(); onOpenProject('flexomics', e); }}
       >
         <img src="/flexomics-hero.svg" alt="Flexomics" className={styles.projectHeroImg} />
         <div className={styles.glassTags}>
@@ -594,7 +594,7 @@ export default function Hero({ onOpenModal, onOpenProject }) {
         className={`${styles.card} ${styles.navCard} ${styles.projectFull}`}
         delay="320ms"
         impact="Closed a seed round with the POC, then shipped a 50-screen MVP in 13 weeks."
-        onClick={() => onOpenProject('accio3d')}
+        onClick={(e) => { e._cardRect = e.currentTarget.getBoundingClientRect(); onOpenProject('accio3d', e); }}
       >
         <img src="/accio-hero.svg" alt="Accio3D" className={styles.projectHeroImg} />
         <div className={styles.glassTags}>

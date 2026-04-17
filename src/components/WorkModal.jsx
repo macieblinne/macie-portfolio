@@ -19,7 +19,7 @@ const projects = [
     logoBg: '#0075A5',
     detail: {
       headline: 'From Three Fragmented Tools to One Research Platform',
-      subtitle: 'Giving scientists one place to unify imaging and sequencing data for the first time',
+      subtitle: '',
       year: '12 weeks',
       client: 'Flexomics',
       platform: 'Web Application',
@@ -56,7 +56,7 @@ const projects = [
     impact: 'Closed a seed round with the POC, then shipped a 50-screen MVP in 13 weeks.',
     detail: {
       headline: 'An AI-Powered Procurement Platform from POC to MVP',
-      subtitle: 'Making 3D asset management intuitive for non-technical teams',
+      subtitle: '',
       year: '2023 — Present',
       client: 'Accio3D',
       platform: 'Web Application',
@@ -324,20 +324,23 @@ export default function WorkModal({ onProjectOpenChange, initialProjectId }) {
   if (activeProject) {
     const isWide = activeProject.id === 'accio3d' || activeProject.id === 'flexomics';
     return (
-      <section
-        className={`${styles.workDetail} ${isWide ? styles.workDetailWide : ''}`}
-        aria-label="Project detail"
-      >
-        <div className={`${styles.detailWrap} ${isWide ? styles.detailWrapFull : ''}`}>
-          {activeProject.id === 'accio3d' ? (
-            <AccioDetail />
-          ) : activeProject.id === 'flexomics' ? (
-            <FlexomicsDetail />
-          ) : (
-            <ProjectDetail project={activeProject} />
-          )}
-        </div>
-      </section>
+      <>
+        <div className={styles.detailScrim} onClick={() => setActiveId(null)} />
+        <section
+          className={`${styles.workDetail} ${styles.workDetailSheet} ${isWide ? styles.workDetailWide : ''}`}
+          aria-label="Project detail"
+        >
+          <div className={`${styles.detailWrap} ${isWide ? styles.detailWrapFull : ''}`}>
+            {activeProject.id === 'accio3d' ? (
+              <AccioDetail />
+            ) : activeProject.id === 'flexomics' ? (
+              <FlexomicsDetail />
+            ) : (
+              <ProjectDetail project={activeProject} />
+            )}
+          </div>
+        </section>
+      </>
     );
   }
 

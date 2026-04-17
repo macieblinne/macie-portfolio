@@ -444,6 +444,39 @@
   animation: detailWrapperIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+.detailScrim {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: rgba(0, 0, 0, 0.3);
+  animation: workScrimIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  cursor: pointer;
+}
+
+@keyframes workScrimIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.workDetailSheet {
+  position: relative;
+  z-index: 1;
+  animation: workSheetUp 0.68s cubic-bezier(0.16, 1, 0.3, 1) both;
+  border-radius: 20px 20px 0 0;
+  overflow: hidden;
+}
+
+@keyframes workSheetUp {
+  0% {
+    transform: translateY(100%);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 .workDetailWide {
   padding-left: 200px;
   padding-right: 200px;
@@ -754,6 +787,7 @@
   .workListEyebrow { font-size: var(--text-xs); }
   .bentoGrid { gap: 32px; }
   .bentoProject { padding: 12px; }
+  .bentoCard { flex-direction: column-reverse; }
   .bentoLeft { padding: 24px; }
   .bentoRight { padding: 32px; aspect-ratio: 4 / 3; }
   .bentoHeadline { font-size: var(--text-xl); }
@@ -781,6 +815,7 @@
     aspect-ratio: 1 / 1;
   }
   .bentoHeadline { font-size: var(--text-lg); }
+  .bentoImpactText { font-size: var(--text-sm); line-height: 1.4; }
   .bentoCategory { font-size: 10px; height: 28px; padding: 0 var(--space-3); }
   .bentoBadges { gap: 4px; }
   .metricLabel { font-size: 9px; }
