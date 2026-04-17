@@ -11,6 +11,9 @@ body {
   background-color: var(--color-bg);
   transition: background-color var(--duration-slow) var(--ease-out),
               color var(--duration-slow) var(--ease-out);
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
 ::selection {

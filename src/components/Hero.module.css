@@ -821,10 +821,11 @@
    =========================== */
 
 .locationDot {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  background: #7CDB8A;
+  background: #4ADE80;
+  box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.25);
   flex-shrink: 0;
   box-shadow: 0 0 6px rgba(124, 219, 138, 0.5);
   animation: pulse 2.5s infinite ease-in-out;
