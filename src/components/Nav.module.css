@@ -182,6 +182,11 @@
     width: 320px;
   }
 
+  .tabIcon {
+    width: 20px;
+    height: 20px;
+  }
+
   .pill {
     justify-content: center;
     gap: 2px;
