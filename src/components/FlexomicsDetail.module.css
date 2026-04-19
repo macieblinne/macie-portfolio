@@ -681,17 +681,39 @@
   }
 }
 
-.decision {
+.decisionGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
   margin: var(--space-10) 0;
+}
+
+.decision {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+}
+
+.decisionDimmed .decisionBody {
+  border-style: dashed;
+}
+
+.decisionDimmed .decisionNum,
+.decisionDimmed .decisionLabel {
+  color: var(--color-text-tertiary);
+}
+
+.decisionChosen .decisionBody {
+  border-color: rgba(74, 222, 128, 0.3);
+  border-left: 3px solid rgba(74, 222, 128, 0.6);
+  background: rgba(74, 222, 128, 0.06);
 }
 
 .decisionHeader {
   display: flex;
   align-items: baseline;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .decisionNum {
@@ -718,6 +740,19 @@
   color: var(--color-text-tertiary);
 }
 
+.chosenBadge {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #FFFFFF;
+  background: linear-gradient(135deg, #4ADE80, #22C55E);
+  padding: var(--space-1) var(--space-4);
+  border-radius: var(--radius-full);
+  margin-left: auto;
+}
+
 .decisionBody {
   font-size: var(--text-base);
   line-height: var(--leading-relaxed);
@@ -734,6 +769,52 @@
 
 .decisionBody p {
   margin: 0;
+}
+
+.impactGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--space-6);
+  margin: var(--space-10) 0;
+}
+
+.impactCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-6);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-secondary);
+}
+
+.impactCard p {
+  margin: 0;
+}
+
+.highlight {
+  font-style: italic;
+  background: linear-gradient(180deg, transparent 30%, rgba(135, 206, 235, 0.3) 30%, rgba(135, 206, 235, 0.3) 95%, transparent 95%);
+  padding: 0 2px;
+}
+
+.impactHeading {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .decisionGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .impactGrid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .graphicPair {

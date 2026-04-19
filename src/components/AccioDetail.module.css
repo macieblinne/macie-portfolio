@@ -736,6 +736,25 @@
   margin: 0;
 }
 
+.decisionGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+  margin: var(--space-10) 0;
+}
+
+.highlight {
+  font-style: italic;
+  background: linear-gradient(180deg, transparent 30%, rgba(255, 105, 150, 0.25) 30%, rgba(255, 105, 150, 0.25) 95%, transparent 95%);
+  padding: 0 2px;
+}
+
+@media (max-width: 600px) {
+  .decisionGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .graphicPair {
   display: grid;
   grid-template-columns: 1fr 1fr;
