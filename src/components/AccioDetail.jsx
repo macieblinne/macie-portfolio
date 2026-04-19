@@ -126,9 +126,9 @@ export default function AccioDetail() {
       <p className={styles.body}>
         Accio3D is a marketplace for end-of-life industrial parts. When a critical component
         fails and the original supplier no longer exists, procurement teams are left searching
-        manually: phone calls, spreadsheets, days of coordination. Accio3D replaces that process:
+        manually: <span className={styles.highlight}>phone calls, spreadsheets, days of coordination</span>. Accio3D replaces that process:
         upload a part, AI assesses the printability of the part and matches qualified suppliers, quotes come
-        back, an order gets placed. All in one session.
+        back, an order gets placed. <span className={styles.highlight}>All in one session</span>.
       </p>
 
       <hr className={styles.divider} />
@@ -138,7 +138,7 @@ export default function AccioDetail() {
       </div>
       <h2 className={styles.sectionHeading}>Making the value visible</h2>
       <p className={styles.body}>
-        The POC had one job: show investors something they could follow without explanation. Two
+        The POC had one job: <span className={styles.highlight}>show investors something they could follow without explanation</span>. Two
         design decisions carried the most weight.
       </p>
 
@@ -150,7 +150,7 @@ export default function AccioDetail() {
             <span className={styles.decisionLabel}>Printability Assessment</span>
           </div>
           <p>
-            I designed the assessment so buyers could see printability status at a glance. The
+            I designed the assessment so buyers could see <span className={styles.highlight}>printability status at a glance</span>. The
             path forward still required manual material and equipment input (a friction point
             that became central to how the screen evolved in Phase 2).
           </p>
@@ -171,7 +171,7 @@ export default function AccioDetail() {
           <p>
             I designed the matching view to surface qualified suppliers with the context buyers
             needed to evaluate them immediately: capabilities, geography, lead time, quality
-            tier. The decision was to show enough to act on, without requiring any digging.
+            tier. The decision was to <span className={styles.highlight}>show enough to act on, without requiring any digging</span>.
           </p>
         </div>
         <Graphic
@@ -187,15 +187,15 @@ export default function AccioDetail() {
       <p className={styles.body}>
         Before the seed round closed, the client brought me back to gather user feedback and
         implement changes.{' '}
-        <strong style={{ fontStyle: 'italic' }}>
+        <span className={styles.highlight}>
           The most important signal: the core workflow held up. Users followed it and were
           excited about seeing themselves using it.
-        </strong>
+        </span>
       </p>
       <p className={styles.body}>
         But one thing was clear. The Printability Assessment required too many manual selections
         and overrides. These were busy people coming for quick answers & not more work. That
-        feedback directly shaped Phase 2: we shifted the burden from the user to the system,
+        feedback directly shaped Phase 2: we <span className={styles.highlight}>shifted the burden from the user to the system</span>,
         surfacing AI recommendations by default rather than asking buyers to drive them.
       </p>
       <p className={styles.body}>
@@ -213,7 +213,7 @@ export default function AccioDetail() {
         </span>
         <p className={styles.milestoneHeadline}>Seed round closed.</p>
         <p className={styles.milestoneQuote}>
-          The technology showed what was possible. The design empowered our stakeholder to sell it.
+          The technology showed what was possible. <span className={styles.highlight}>The design empowered our stakeholder to sell it.</span>
         </p>
       </div>
 
@@ -224,7 +224,7 @@ export default function AccioDetail() {
       <p className={styles.body}>
         Working alongside the strategist leading the Blueprint sessions, I contributed user flow
         work and brought firsthand Phase 1 context directly into the scope discussions. The
-        result: 50 screens across two applications in 13 weeks.
+        result: <span className={styles.highlight}>50 screens across two applications in 13 weeks</span>.
       </p>
 
       <Graphic
@@ -233,13 +233,12 @@ export default function AccioDetail() {
       />
 
       <h3 className={styles.subSectionHeading}>
-        <span className={styles.subSectionEyebrow}>Part 1 / 3</span>
         The Purchaser App
       </h3>
       <p className={styles.body}>
-        I designed the purchaser experience as a single continuous path. Upload a part, review
-        the assessment, send requests to suppliers, compare bids, place an order. No tool
-        switching. No dead ends.
+        I designed the purchaser experience as a <span className={styles.highlight}>single continuous path</span>. Upload a part, review
+        the assessment, send requests to suppliers, compare bids, place an order. <span className={styles.highlight}>No tool
+        switching. No dead ends.</span>
       </p>
 
       <Carousel
@@ -253,7 +252,6 @@ export default function AccioDetail() {
       />
 
       <h3 className={styles.subSectionHeading}>
-        <span className={styles.subSectionEyebrow}>Part 2 / 3</span>
         The Supplier App
       </h3>
       <p className={styles.body}>
@@ -270,20 +268,19 @@ export default function AccioDetail() {
       </div>
 
       <h3 className={styles.subSectionHeading}>
-        <span className={styles.subSectionEyebrow}>Part 3 / 3</span>
         The hardest call
       </h3>
       <p className={styles.body}>
         There was real pressure to surface AI everywhere. Every screen felt like an opportunity
         to show what the technology could do. The design position I held was the opposite. A
-        procurement specialist doesn't need to see the AI working. They need an answer.
+        procurement specialist doesn't need to see the AI working. <span className={styles.highlight}>They need an answer.</span>
       </p>
       <p className={styles.body}>
         That meant deliberate choices about where AI surfaced and how: clearly, in the right
-        moments, without explanation. <strong style={{ fontStyle: 'italic' }}>
+        moments, without explanation. <span className={styles.highlight}>
           The hardest part wasn't designing the AI interfaces. It was making the case for
           restraint when the appetite for more was real.
-        </strong>
+        </span>
       </p>
 
       <Graphic src="/accio-cs/AI.svg" alt="AI surfaced in the workflow" />

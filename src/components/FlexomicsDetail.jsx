@@ -126,18 +126,18 @@ export default function FlexomicsDetail() {
         <h2 className={styles.sectionHeading}>The Situation</h2>
         <p className={styles.body}>
           When you run single-cell experiments, insights are quietly fragmented across imaging
-          tools, sequencing software, and analysis programs. Sometimes representing months of
-          scientific work that can't be interpreted without hours of manual reconstruction.
+          tools, sequencing software, and analysis programs. Sometimes representing <span className={styles.highlight}>months of
+          scientific work</span> that can't be interpreted without <span className={styles.highlight}>hours of manual reconstruction</span>.
         </p>
         <p className={styles.body}>
           FLXplorer gives researchers one place to see the full experimental picture, so they
           can answer: "What did we find, and what does it mean?"
         </p>
         <p className={styles.body}>
-          <strong style={{ fontStyle: 'italic' }}>
+          <span className={styles.highlight}>
             It replaces three disconnected tools with a single unified environment, so scientists
             can move from experiment to insight without reconstructing anything by hand.
-          </strong>
+          </span>
         </p>
 
         <hr className={styles.divider} />
@@ -148,9 +148,9 @@ export default function FlexomicsDetail() {
         <h2 className={styles.sectionHeading}>Where the complexity was hiding</h2>
         <p className={styles.body}>
           Early conversations with scientists made clear that the problem wasn't the amount of
-          data. It was how that data was distributed. Researchers were constantly switching
-          contexts between imaging and sequencing systems while trying to hold the relationships
-          between datasets in their heads.
+          data. It was how that data was distributed. Researchers were <span className={styles.highlight}>constantly switching
+          contexts</span> between imaging and sequencing systems while trying to <span className={styles.highlight}>hold the relationships
+          between datasets in their heads</span>.
         </p>
 
         <Quote>
@@ -226,8 +226,8 @@ export default function FlexomicsDetail() {
         </p>
         <p className={styles.body}>
           The data stayed connected so the researcher didn't have to be the one holding it
-          together. Moving between workspaces felt like one continuous line of thinking, not a
-          context switch.
+          together. Moving between workspaces felt like <span className={styles.highlight}>one continuous line of thinking, not a
+          context switch</span>.
         </p>
 
         <hr className={styles.divider} />
@@ -239,37 +239,40 @@ export default function FlexomicsDetail() {
         <p className={styles.body}>
           Midway through development, researchers made clear they wanted the ability to compare
           results across multiple experiments. It was a real scientific need. Implementing it
-          within the 12-week timeline would have introduced performance problems at the dataset
+          within the <span className={styles.highlight}>12-week timeline</span> would have introduced performance problems at the dataset
           sizes Flexomics was working at.
         </p>
 
-        <div className={styles.decision}>
-          <div className={styles.decisionBody}>
-            <div className={styles.decisionHeader}>
-              <span className={styles.decisionNum}>Option 1</span>
-              <span className={styles.decisionDivider} aria-hidden="true">·</span>
-              <span className={styles.decisionLabel}>Build it now</span>
+        <div className={styles.decisionGrid}>
+          <div className={`${styles.decision} ${styles.decisionDimmed}`}>
+            <div className={styles.decisionBody}>
+              <div className={styles.decisionHeader}>
+                <span className={styles.decisionNum}>Option 1</span>
+                <span className={styles.decisionDivider} aria-hidden="true">·</span>
+                <span className={styles.decisionLabel}>Build it now</span>
+              </div>
+              <p>
+                Support multi-experiment comparison in the MVP. Risk: <span className={styles.highlight}>performance instability</span> under
+                real dataset sizes. A platform that <span className={styles.highlight}>broke down under load</span> would have undermined
+                everything shipped alongside it.
+              </p>
             </div>
-            <p>
-              Support multi-experiment comparison in the MVP. Risk: performance instability under
-              real dataset sizes. A platform that broke down under load would have undermined
-              everything shipped alongside it.
-            </p>
           </div>
-        </div>
 
-        <div className={styles.decision}>
-          <div className={styles.decisionBody}>
-            <div className={styles.decisionHeader}>
-              <span className={styles.decisionNum}>Option 2</span>
-              <span className={styles.decisionDivider} aria-hidden="true">·</span>
-              <span className={styles.decisionLabel}>Protect the core</span>
+          <div className={`${styles.decision} ${styles.decisionChosen}`}>
+            <div className={styles.decisionBody}>
+              <div className={styles.decisionHeader}>
+                <span className={styles.decisionNum}>Option 2</span>
+                <span className={styles.decisionDivider} aria-hidden="true">·</span>
+                <span className={styles.decisionLabel}>Protect the core</span>
+                <span className={styles.chosenBadge}>Chosen</span>
+              </div>
+              <p>
+                Focus on making imaging and sequencing exploration <span className={styles.highlight}>reliable at scale</span>. Ship a {' '}
+                <span className={styles.highlight}>stable, fast platform</span> researchers could trust, and plan multi-experiment
+                comparison for the next phase.
+              </p>
             </div>
-            <p>
-              Focus on making imaging and sequencing exploration reliable at scale. Ship a
-              stable, fast platform researchers could trust, and plan multi-experiment
-              comparison for the next phase.
-            </p>
           </div>
         </div>
 
@@ -292,8 +295,8 @@ export default function FlexomicsDetail() {
           </span>
           <p className={styles.milestoneHeadline}>MVP shipped in 12 weeks.</p>
           <p className={styles.milestoneQuote}>
-            Stable at millions of cells. Two workspaces operating on a single dataset. Three
-            disconnected tools replaced by one continuous research session.
+            Stable at <span className={styles.highlight}>millions of cells</span>. Two workspaces operating on a single dataset. Three
+            disconnected tools replaced by <span className={styles.highlight}>one continuous research session</span>.
           </p>
         </div>
 
@@ -304,44 +307,38 @@ export default function FlexomicsDetail() {
         </div>
         <h2 className={styles.sectionHeading}>What actually changed</h2>
 
-        <h3 className={styles.subSectionHeading}>
-          <span className={styles.subSectionEyebrow}>Part 1 / 3</span>
-          The defining moment
-        </h3>
-        <p className={styles.body}>
-          The platform's impact became clear in a single interaction. A scientist selected one
-          cell in the imaging view and watched its genetic data appear instantly, no tool
-          switching, no manual digging. Then they did it in reverse: clicked a single data point
-          in the sequencing view and watched the exact corresponding cell illuminate in the
-          image.
-        </p>
-        <p className={styles.body}>
-          Something that previously required hours of cross-referencing across three separate
-          systems happened in two clicks. It was the first time those connections had ever
-          existed in one place.
-        </p>
+        <div className={styles.impactGrid}>
+          <div className={styles.impactCard}>
+            <h3 className={styles.impactHeading}>The defining moment</h3>
+            <p>
+              A scientist selected one cell in the imaging view and watched its genetic data appear
+              instantly. Then did it in reverse — clicked a data point in sequencing and the
+              corresponding cell illuminated in the image.
+            </p>
+            <p>
+              <span className={styles.highlight}>Something that previously required hours of cross-referencing across three
+              separate systems happened in two clicks.</span>
+            </p>
+          </div>
 
-        <h3 className={styles.subSectionHeading}>
-          <span className={styles.subSectionEyebrow}>Part 2 / 3</span>
-          Operational impact
-        </h3>
-        <p className={styles.body}>
-          FLXplorer replaced three disconnected internal tools and became the primary environment
-          for exploring experimental data. Workflows that previously required stitching together
-          multiple systems, and holding that context mentally, were consolidated into a single
-          session.
-        </p>
+          <div className={styles.impactCard}>
+            <h3 className={styles.impactHeading}>Operational impact</h3>
+            <p>
+              FLXplorer <span className={styles.highlight}>replaced three disconnected internal tools</span> and became the primary
+              environment for exploring experimental data. Workflows that required stitching
+              together multiple systems were consolidated into a <span className={styles.highlight}>single session</span>.
+            </p>
+          </div>
 
-        <h3 className={styles.subSectionHeading}>
-          <span className={styles.subSectionEyebrow}>Part 3 / 3</span>
-          Strategic impact
-        </h3>
-        <p className={styles.body}>
-          FLXplorer became Flexomics' primary differentiator. In a market with no comparable
-          platform, it repositioned the company from a hardware provider to an integrated
-          platform for single-cell research. It anchored customer conversations, powered
-          collaborator demos, and became central to internal research workflows.
-        </p>
+          <div className={styles.impactCard}>
+            <h3 className={styles.impactHeading}>Strategic impact</h3>
+            <p>
+              FLXplorer became Flexomics' <span className={styles.highlight}>primary differentiator</span>, repositioning the company from
+              a <span className={styles.highlight}>hardware provider to an integrated platform</span> for single-cell research. It anchored
+              customer conversations, powered demos, and drove internal research workflows.
+            </p>
+          </div>
+        </div>
 
         <hr className={styles.divider} />
 

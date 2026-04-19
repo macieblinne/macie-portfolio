@@ -248,14 +248,43 @@ const AI_TOOL_LOGOS = [
   { name: 'Vercel',     phase: 'Ship',  role: 'Deploying prototypes fast for real stakeholder testing',                       logo: '/logos/ai/vercel.png',     chipLogo: '/logos/ai/vercel-solid.png',     accent: '#0C447C' },
 ];
 
+const PHASE_ICONS = {
+  Think: (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9.5 2a6.5 6.5 0 0 0-1 12.93V17h3v-2.07A6.5 6.5 0 0 0 9.5 2z" />
+      <path d="M13.5 5.5a5 5 0 0 1 3 8.5" />
+      <path d="M9.5 2C8 2 6.6 2.6 5.5 3.6" />
+      <path d="M18 9.5a5 5 0 0 0-1-3" />
+      <path d="M8 19h5" />
+      <path d="M8.5 22h4" />
+    </svg>
+  ),
+  Make: (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 19l7-7 3 3-7 7-3-3z" />
+      <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
+      <path d="M2 2l7.586 7.586" />
+      <circle cx="11" cy="11" r="2" />
+    </svg>
+  ),
+  Ship: (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
+      <path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
+      <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
+      <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
+    </svg>
+  ),
+};
+
 const DRAG_BLOCKS = [
   { id: 'drag',       label: 'Drag me!', tone: 'accent', kind: 'block', w: 120, h: 64 },
-  { id: 'claude',     label: 'Claude',     tone: 'peach',  kind: 'block', w: 96, h: 96 },
-  { id: 'chatgpt',    label: 'ChatGPT',    tone: 'mint',   kind: 'block', w: 96, h: 96 },
-  { id: 'figma',      label: 'Figma',      tone: 'violet', kind: 'block', w: 96, h: 96 },
-  { id: 'midjourney', label: 'Midjourney', tone: 'slate',  kind: 'block', w: 96, h: 96 },
-  { id: 'cursor',     label: 'Cursor',     tone: 'ink',    kind: 'block', w: 96, h: 96 },
-  { id: 'vercel',     label: 'Vercel',     tone: 'indigo', kind: 'block', w: 96, h: 96 },
+  { id: 'claude',     label: 'Claude',     tone: 'peach',  kind: 'tool', phase: 'Think', w: 96, h: 96 },
+  { id: 'chatgpt',    label: 'ChatGPT',    tone: 'mint',   kind: 'tool', phase: 'Think', w: 96, h: 96 },
+  { id: 'figma',      label: 'Figma',      tone: 'violet', kind: 'tool', phase: 'Make',  w: 96, h: 96 },
+  { id: 'midjourney', label: 'Midjourney', tone: 'slate',  kind: 'tool', phase: 'Make',  w: 96, h: 96 },
+  { id: 'cursor',     label: 'Cursor',     tone: 'ink',    kind: 'tool', phase: 'Ship',  w: 96, h: 96 },
+  { id: 'vercel',     label: 'Vercel',     tone: 'indigo', kind: 'tool', phase: 'Ship',  w: 96, h: 96 },
   { id: 'ball',       emoji: '🔮', kind: 'emoji', size: 68, w: 68, h: 68 },
   { id: 'sparkles',   emoji: '✨', kind: 'emoji', size: 72, w: 72, h: 72 },
 ];
@@ -380,9 +409,9 @@ function AIToolsCard({ onOpenModal }) {
           type="button"
           className={styles.aiToolsCta}
           onClick={() => onOpenModal('ai')}
+          aria-label="See how I use them"
         >
-          See how I use them
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <line x1="7" y1="17" x2="17" y2="7" />
             <polyline points="7 7 17 7 17 17" />
           </svg>
@@ -395,6 +424,22 @@ function AIToolsCard({ onOpenModal }) {
           const transform = s
             ? `translate3d(${Math.round(s.x - b.w / 2)}px, ${Math.round(s.y - b.h / 2)}px, 0) rotate(${s.angle.toFixed(4)}rad)`
             : 'translate3d(-400px, -400px, 0)';
+          if (b.kind === 'tool') {
+            return (
+              <span
+                key={b.id}
+                className={`${styles.aiStackBlock} ${styles.aiStackTool} ${styles[`aiStackTone_${b.tone}`]}`}
+                style={{
+                  width: b.w,
+                  height: b.h,
+                  transform,
+                }}
+              >
+                <span className={styles.toolPhaseIcon}>{PHASE_ICONS[b.phase]}</span>
+                <span className={styles.aiStackBlockLabel}>{b.label}</span>
+              </span>
+            );
+          }
           if (b.kind === 'emoji') {
             return (
               <span
