@@ -1,0 +1,238 @@
+/* ==========================================================================
+   macielinne.design — design tokens
+   Source of truth: Figma › Portfolio › Concepts page (Summit Model system)
+   Themes: [data-theme="summer"] (dark, default) · [data-theme="winter"] (light)
+   ========================================================================== */
+
+/* -------- 1. Primitives (never used directly in components) -------------- */
+:root {
+  /* Palette */
+  --ml-blue-100: #EAF2F6;   /* pale ice · light surfaces, contour fill (winter) */
+  --ml-blue-200: #CFE0E9;   /* contour fill, low (winter) */
+  --ml-blue-300: #B9D6E3;   /* baby blue · primary (winter ground, summer accent text) */
+  --ml-blue-500: #7FA3B5;   /* dim blue · secondary text on dark */
+  --ml-cocoa-700: #4A3129;  /* cocoa · next-route band */
+  --ml-cocoa-800: #2F211C;  /* espresso · primary brown, dark buttons, strokes */
+  --ml-cocoa-850: #2A1E19;  /* ground · dark contour fill, label plates */
+  --ml-cocoa-900: #231915;  /* night · dark page background */
+  --ml-ink-900: #35321F;    /* ink · body text on light */
+  --ml-ink-600: #6A6650;    /* mute · secondary text on light */
+  --ml-orange-500: #E57F33; /* orange · route completed, active pin, accents */
+  --ml-chartreuse-400: #C9CC52; /* chartreuse · focus ring, stickers, ML mark */
+  --ml-green-700: #3C4F2C;  /* dark green · accent band, patches */
+  --ml-paper-100: #F4F6F7;  /* paper · cards inside drawer */
+  --ml-white: #FFFFFF;
+  --ml-black: #000000;
+
+  /* Type families (only these three) */
+  --ml-font-display: "Bricolage Grotesque", system-ui, sans-serif;
+  --ml-font-mono: "Space Mono", ui-monospace, monospace;
+  --ml-font-badge: "Unbounded", system-ui, sans-serif;
+
+  /* Type scale (px → rem @16) · min 12px anywhere */
+  --ml-text-2xs: 0.6875rem; /* 11 · mono eyebrows, chips */
+  --ml-text-xs: 0.75rem;    /* 12 · mono labels, plates */
+  --ml-text-sm: 0.875rem;   /* 14 · nav, UI */
+  --ml-text-base: 0.9375rem;/* 15 · body on cards */
+  --ml-text-md: 1.0625rem;  /* 17 · impact line, intro */
+  --ml-text-lg: 1.125rem;   /* 18 · case-study body */
+  --ml-text-xl: 1.25rem;    /* 20 · client lockup */
+  --ml-text-2xl: 1.625rem;  /* 26 · card title, pull quote sm */
+  --ml-text-3xl: 2.5rem;    /* 40 · section heading */
+  --ml-text-4xl: 2.75rem;   /* 44 · pull quote, index headline */
+  --ml-text-5xl: 4rem;      /* 64 · home name, milestone */
+  --ml-text-6xl: 4.5rem;    /* 72 · case-study hero */
+  --ml-text-7xl: 5.25rem;   /* 84 · (desktop hero max) */
+  --ml-text-ghost: 10rem;   /* 160 · "Selected work" */
+
+  --ml-leading-tight: 1.0;
+  --ml-leading-snug: 1.05;
+  --ml-leading-normal: 1.3;
+  --ml-leading-relaxed: 1.45;
+  --ml-leading-loose: 1.5;
+
+  --ml-tracking-tight: -0.01em;
+  --ml-tracking-mono: 0.02em;
+  --ml-tracking-eyebrow: 0.04em; /* uppercase mono eyebrows */
+
+  /* Spacing (4-pt) */
+  --ml-space-1: 4px;  --ml-space-2: 8px;  --ml-space-3: 12px; --ml-space-4: 16px;
+  --ml-space-5: 20px; --ml-space-6: 24px; --ml-space-7: 28px; --ml-space-8: 32px;
+  --ml-space-10: 40px; --ml-space-12: 48px; --ml-space-14: 56px; --ml-space-18: 72px;
+  --ml-space-24: 96px;
+
+  /* Layout */
+  --ml-grid-columns: 12;
+  --ml-grid-margin: 48px;     /* desktop page margin */
+  --ml-grid-gutter: 24px;
+  --ml-grid-column: 90px;     /* at 1440 */
+  --ml-content-max: 1344px;   /* 1440 − 2×48 */
+  --ml-section-gap: var(--ml-space-18);   /* 72 · card → next label (About) */
+  --ml-label-gap: 14px;                   /* label → card */
+  --ml-pitch-gap: var(--ml-space-24);     /* 96 · between case-study blocks */
+  --ml-mobile-margin: 20px;
+  --ml-mobile-width: 390px;
+
+  /* Radii */
+  --ml-radius-sm: 8px;
+  --ml-radius-md: 10px;
+  --ml-radius-lg: 14px;
+  --ml-radius-xl: 16px;
+  --ml-radius-pill: 999px;
+
+  /* Strokes */
+  --ml-stroke-hairline: 1px;
+  --ml-stroke-keyline: 1.5px;
+  --ml-stroke-route: 3px;
+  --ml-stroke-route-done: 3.5px;
+  --ml-stroke-sticker: 3px;   /* white outside stroke on stickers */
+  --ml-stroke-badge: 6px;     /* white die-cut edge on patches */
+  --ml-dash-route: 0.1 9;     /* round-cap dots */
+  --ml-dash-rail: 2 7;        /* case-study waypoint rail */
+  --ml-dash-stitch: 4 4;
+
+  /* Elevation */
+  --ml-shadow-sticker: 0 10px 22px -4px rgb(0 0 0 / 0.35);
+  --ml-shadow-card: 0 6px 14px rgb(0 0 0 / 0.18);
+  --ml-shadow-drawer: -12px 0 40px rgb(0 0 0 / 0.35);
+  --ml-shadow-pin-drop: 0 30px 30px rgb(0 0 0 / 0.40);
+
+  /* Motion (from "Spec — Pin states & transitions") */
+  --ml-ease-standard: cubic-bezier(.65, 0, .35, 1);
+  --ml-ease-out: cubic-bezier(.16, 1, .3, 1);
+  --ml-ease-in: cubic-bezier(.7, 0, .84, 0);
+  --ml-dur-press: 80ms;
+  --ml-dur-fast: 150ms;      /* label plate fade */
+  --ml-dur-card-out: 200ms;
+  --ml-dur-pin: 250ms;
+  --ml-dur-card-in: 300ms;
+  --ml-dur-route: 450ms;
+  --ml-dur-rotate: 600ms;
+  --ml-dur-contours: 1200ms; /* loading draw-in */
+  --ml-rotate-clamp: 20deg;  /* max dial rotation per pin change */
+  --ml-pin-lift: -8px;       /* hover / focus */
+  --ml-pin-press: 0.94;
+
+  /* Sizes */
+  --ml-pin-active: 64px;
+  --ml-pin: 52px;
+  --ml-pin-mobile: 36px;
+  --ml-pin-mobile-active: 44px;
+  --ml-tap-min: 44px;
+  --ml-focus-ring: 2px solid var(--ml-chartreuse-400);
+  --ml-focus-offset: 4px;
+  --ml-drawer-width: 520px;
+  --ml-detail-card-width: 420px;
+  --ml-badge: 150px;
+  --ml-z-scrim: 40; --ml-z-drawer: 50; --ml-z-sticker: 10;
+}
+
+/* -------- 2. Semantic tokens · SUMMER (dark, default) -------------------- */
+:root,
+[data-theme="summer"] {
+  color-scheme: dark;
+
+  --bg: var(--ml-cocoa-900);
+  --bg-ground: var(--ml-cocoa-850);          /* contour fill, plates */
+  --bg-surface: var(--ml-white);             /* cards */
+  --bg-surface-2: var(--ml-blue-100);        /* impact block inside a card */
+  --bg-band-anchor: var(--ml-cocoa-800);     /* milestone / spec strip */
+  --bg-band-next: var(--ml-cocoa-700);
+
+  --fg: var(--ml-white);
+  --fg-muted: var(--ml-blue-300);            /* tagline, secondary on dark */
+  --fg-dim: var(--ml-blue-500);              /* mono meta on dark */
+  --fg-on-surface: var(--ml-ink-900);
+  --fg-on-surface-muted: var(--ml-ink-600);
+
+  --line: rgb(255 255 255 / 0.18);
+  --line-strong: rgb(255 255 255 / 0.35);
+  --contour-stroke: rgb(185 214 227 / 0.30); /* blue-300 @30% */
+  --contour-fill: var(--ml-cocoa-850);
+
+  --route-done: var(--ml-orange-500);
+  --route-ahead: var(--ml-white);            /* dotted */
+  --pin-done-bg: var(--ml-white);   --pin-done-fg: var(--ml-ink-900);  --pin-done-stem: var(--ml-orange-500);
+  --pin-active-bg: var(--ml-orange-500); --pin-active-fg: var(--ml-ink-900); --pin-active-stem: var(--ml-white);
+  --pin-ahead-bg: var(--ml-cocoa-800); --pin-ahead-fg: var(--ml-white); --pin-ahead-stem: var(--ml-white);
+  --pin-ring: var(--ml-white);
+  --plate-bg: rgb(42 30 25 / 0.92);          /* label plates */
+  --plate-fg: var(--ml-white);
+  --plate-sub: var(--ml-blue-300);
+
+  --accent: var(--ml-orange-500);
+  --accent-2: var(--ml-chartreuse-400);
+  --accent-3: var(--ml-green-700);
+  --focus: var(--ml-chartreuse-400);
+  --scrim: rgb(0 0 0 / 0.5);
+}
+
+/* -------- 3. Semantic tokens · WINTER (light / ski) ---------------------- */
+[data-theme="winter"] {
+  color-scheme: light;
+
+  --bg: var(--ml-blue-300);
+  --bg-ground: var(--ml-blue-100);
+  --bg-surface: var(--ml-white);
+  --bg-surface-2: var(--ml-blue-100);
+  --bg-band-anchor: var(--ml-cocoa-800);     /* keep one espresso anchor band */
+  --bg-band-next: var(--ml-cocoa-700);
+
+  --fg: var(--ml-ink-900);
+  --fg-muted: var(--ml-ink-600);
+  --fg-dim: var(--ml-ink-600);
+  --fg-on-surface: var(--ml-ink-900);
+  --fg-on-surface-muted: var(--ml-ink-600);
+
+  --line: rgb(47 33 28 / 0.14);
+  --line-strong: rgb(47 33 28 / 0.35);
+  --contour-stroke: rgb(47 33 28 / 0.45);    /* espresso 0.45 */
+  --contour-fill: var(--ml-blue-200);        /* graded 200 → 100 by elevation */
+
+  --route-done: var(--ml-orange-500);
+  --route-ahead: var(--ml-cocoa-800);
+  --pin-done-bg: var(--ml-white);   --pin-done-fg: var(--ml-ink-900);  --pin-done-stem: var(--ml-orange-500);
+  --pin-active-bg: var(--ml-orange-500); --pin-active-fg: var(--ml-ink-900); --pin-active-stem: var(--ml-cocoa-800);
+  --pin-ahead-bg: var(--ml-cocoa-800); --pin-ahead-fg: var(--ml-white); --pin-ahead-stem: var(--ml-cocoa-800);
+  --pin-ring: var(--ml-white);
+  --plate-bg: rgb(255 255 255 / 0.92);
+  --plate-fg: var(--ml-ink-900);
+  --plate-sub: var(--ml-ink-600);
+
+  --accent: var(--ml-orange-500);
+  --accent-2: var(--ml-chartreuse-400);
+  --accent-3: var(--ml-green-700);
+  --focus: var(--ml-chartreuse-400);
+  --scrim: rgb(35 25 21 / 0.4);
+}
+
+/* -------- 4. Reduced motion --------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --ml-dur-rotate: 0ms;
+    --ml-dur-route: 0ms;
+    --ml-dur-contours: 0ms;
+    --ml-dur-card-out: 200ms;
+    --ml-dur-card-in: 200ms;
+    --ml-rotate-clamp: 0deg;
+    --ml-pin-lift: 0px;
+  }
+}
+
+/* -------- 5. Component recipes (reference, not exhaustive) --------------- */
+/*
+.eyebrow      font: 700 var(--ml-text-2xs)/1 var(--ml-font-mono); letter-spacing: var(--ml-tracking-eyebrow); text-transform: uppercase; color: var(--fg-dim)
+.sticker      font: 800 var(--ml-text-xs) var(--ml-font-badge); padding: 8px 14px; border-radius: var(--ml-radius-pill);
+              box-shadow: 0 0 0 var(--ml-stroke-sticker) var(--ml-white), var(--ml-shadow-sticker); rotate: -3deg | 2deg
+.plate        background: var(--plate-bg); border-radius: var(--ml-radius-sm); padding: 6px 10px; font: var(--ml-text-xs) var(--ml-font-mono)
+.pin          width/height: var(--ml-pin); border: 2.5px solid var(--pin-ring); border-radius: 50%
+.pin.active   width/height: var(--ml-pin-active); border-width: 4px
+.pin:hover,
+.pin:focus-visible  translate: 0 var(--ml-pin-lift); transition: translate var(--ml-dur-fast) var(--ml-ease-out)
+.pin:focus-visible  outline: var(--ml-focus-ring); outline-offset: var(--ml-focus-offset)
+.pin:active   scale: var(--ml-pin-press); transition-duration: var(--ml-dur-press)
+.route-done   stroke: var(--route-done); stroke-width: var(--ml-stroke-route-done)
+.route-ahead  stroke: var(--route-ahead); stroke-width: var(--ml-stroke-route); stroke-dasharray: var(--ml-dash-route); stroke-linecap: round
+.badge        150px; 6px white outside stroke; 1.5px inner keyline at 88%; Unbounded 800 name; Space Mono industry
+.waypoint     36px disc var(--accent); number Unbounded 800 11px; rail: 2px dotted var(--line-strong) (dash 2 7)
+*/

@@ -1,0 +1,27 @@
+{
+  "_note": "Lat/lon are the anchor points the pins are seated on via zAt(lat,lon). Longs values are approximate route landmarks (±50 m); tighten from a GPX if you want them exact. Mary Jane terminals are approximate lift bases/tops.",
+  "summer": {
+    "terrain": "longs-peak.json",
+    "stops": [
+      { "id": "trailhead", "label": "Trailhead · Boulder Field", "sub": "Welcome · 12,760 ft", "lat": 40.2660, "lon": -105.6140, "icon": "tent" },
+      { "id": "flexomics", "n": "01", "label": "Flexomics", "sub": "The Keyhole · 13,160 ft", "lat": 40.2601, "lon": -105.6180, "href": "/work/flexomics" },
+      { "id": "accio3d", "n": "02", "label": "Accio3D", "sub": "The Trough · 13,500 ft", "lat": 40.2556, "lon": -105.6195, "href": "/work/accio3d" },
+      { "id": "summit", "label": "Summit · Let's work together", "sub": "14,259 ft", "lat": 40.2550, "lon": -105.6151, "icon": "flag" }
+    ],
+    "route": "polyline through stops in order; segment i is 'done' when activeIndex > i"
+  },
+  "winter": {
+    "terrain": "mary-jane.json",
+    "stops": [
+      { "id": "trailhead", "label": "Base · Mary Jane", "sub": "Welcome · 9,450 ft", "lat": 39.8745, "lon": -105.7640, "icon": "tent" },
+      { "id": "flexomics", "n": "01", "label": "Flexomics", "sub": "Lunch Rock · 11,200 ft", "lat": 39.8655, "lon": -105.7735, "href": "/work/flexomics" },
+      { "id": "accio3d", "n": "02", "label": "Accio3D", "sub": "Panoramic base · 11,000 ft", "lat": 39.8585, "lon": -105.7765, "href": "/work/accio3d" },
+      { "id": "summit", "label": "Summit · Let's work together", "sub": "Parsenn Bowl · 12,060 ft", "lat": 39.8445, "lon": -105.7830, "icon": "flag" }
+    ],
+    "lifts": [
+      { "name": "Super Gauge Express", "from": "trailhead", "to": "flexomics", "style": "chairs" },
+      { "name": "traverse", "from": "flexomics", "to": "accio3d", "style": "dotted" },
+      { "name": "Panoramic Express", "from": "accio3d", "to": "summit", "style": "chairs" }
+    ]
+  }
+}

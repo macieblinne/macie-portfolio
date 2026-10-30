@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm run build:terrain && vite build",
+    "build:terrain": "node scripts/build-terrain.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
