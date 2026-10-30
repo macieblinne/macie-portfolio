@@ -59,3 +59,17 @@ export function makeScene(g, rings, pins, { k = 1, origin = [STAGE.x, STAGE.y] }
 
 export function themeColours(theme) { return THEMES[theme]; }
 export { lerpColor, DEG };
+
+/**
+ * Vertical extent of the model over a full 360° turn, in stage px at k=1:
+ * top = highest pin-head edge any pin reaches, bottom = lowest dial tick.
+ */
+export function sceneEnvelope(g, rings, pins) {
+  const sc = makeScene(g, rings, pins, { k: 1 });
+  let top = Infinity;
+  for (let a = 0; a < 360; a += 5) {
+    for (const p of sc.projectPins(a * DEG)) top = Math.min(top, p.py - 64);
+  }
+  const bottom = sc.dial.cy + sc.dial.ry + 56 + 16; // compass letter below the rim
+  return { top, bottom };
+}

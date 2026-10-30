@@ -1,7 +1,7 @@
 import { useEffect, useRef, useCallback } from 'react';
 import { clampAzimuth, DEG } from './project.js';
 
-const RAD_PER_PX = 0.006;
+const RAD_PER_PX = -0.006; // negative: the front of the mountain follows the pointer
 const FRICTION = 0.92;
 const STOP_V = 1e-4;
 const MAX_V = 0.05;

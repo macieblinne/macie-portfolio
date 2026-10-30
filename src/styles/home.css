@@ -193,12 +193,12 @@ button { background: none; border: 0; cursor: pointer; color: inherit; }
 .plate__title { font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; }
 .plate__sub { color: var(--plate-sub); }
 .plate--accent .plate__sub { color: var(--accent); }
-.plate--left { translate: -100% 0; text-align: right; }
+.plate--left { text-align: right; align-items: flex-end; }
 .stop:has(.pin:hover) .plate, .stop:has(.pin:focus-visible) .plate { filter: brightness(1.12); }
 
 .here {
   position: absolute; left: 0; top: 0; z-index: 2; pointer-events: none;
-  transition: opacity var(--ml-dur-route) var(--ml-ease-standard);
+  transition: opacity var(--ml-dur-fast) var(--ml-ease-out);
 }
 .here .sticker { rotate: -4deg; }
 
@@ -207,11 +207,13 @@ button { background: none; border: 0; cursor: pointer; color: inherit; }
 
 /* ---- detail card ------------------------------------------------------- */
 .card-slot {
-  position: absolute; right: 33px; top: 116px; z-index: 4;
+  position: absolute; right: 33px; top: 116px; bottom: 64px; z-index: 4;
   width: var(--ml-detail-card-width);
+  display: flex;
 }
 .card {
-  position: relative; width: 100%;
+  position: relative; width: 100%; height: 100%; min-height: 520px;
+  display: flex; flex-direction: column;
   background: var(--bg-surface); color: var(--fg-on-surface);
   border-radius: 22px; overflow: hidden;
   box-shadow: 0 12px 28px -6px rgb(0 0 0 / 0.35);
@@ -244,11 +246,11 @@ button { background: none; border: 0; cursor: pointer; color: inherit; }
 .card__pager-btn:disabled { opacity: 0.35; cursor: default; }
 .card__count { margin-left: 2px; font: 700 var(--ml-text-2xs) / 1 var(--ml-font-mono); color: var(--fg-on-surface-muted); }
 .card__art {
-  margin: 0 16px; height: 200px; border-radius: var(--ml-radius-xl); overflow: hidden; position: relative;
+  margin: 0 16px; flex: 1 1 200px; min-height: 120px; border-radius: var(--ml-radius-xl); overflow: hidden; position: relative;
   background: var(--ml-blue-300);
 }
 .card__art-img {
-  position: absolute; left: 29px; top: 36px; width: 340px; height: 212px;
+  position: absolute; left: 29px; top: 36px; width: 340px; height: calc(100% + 24px); min-height: 212px;
   border-radius: var(--ml-radius-sm); rotate: 4deg;
   box-shadow: 0 10px 24px -4px rgb(0 0 0 / 0.25); object-fit: cover; object-position: top left;
   background: var(--ml-paper-100);
@@ -260,6 +262,7 @@ button { background: none; border: 0; cursor: pointer; color: inherit; }
 .card__art-welcome .emoji { font-size: 52px; line-height: 1; }
 .card__art-welcome .howdy { font-size: 20px; font-weight: 700; }
 .card__art-contours { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.card__head, .card__body { flex: none; }
 .card__body { padding: 16px 22px 18px; display: flex; flex-direction: column; gap: 20px; }
 .card__headline { font-size: var(--ml-text-2xl); font-weight: 800; line-height: 1.02; letter-spacing: -0.014em; }
 .card__meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin-top: 12px; font: 400 var(--ml-text-2xs) / 1 var(--ml-font-mono); letter-spacing: 0.02em; text-transform: uppercase; }
@@ -324,9 +327,9 @@ button { background: none; border: 0; cursor: pointer; color: inherit; }
 .m-stop__row small { display: block; font-weight: 400; font-size: var(--ml-text-xs); color: var(--fg-dim); margin-top: 2px; }
 .m-stop__row .accent { color: var(--accent); }
 .m-stop__card { grid-column: 2; margin-top: 8px; }
-.m-stop__card .card { animation: none; border-radius: 18px; }
-.m-stop__card .card__art { margin: 0; border-radius: 18px 18px 0 0; height: 150px; }
-.m-stop__card .card__art-img { left: 20px; top: 26px; width: 300px; height: 190px; }
+.m-stop__card .card { animation: none; border-radius: 18px; height: auto; min-height: 0; }
+.m-stop__card .card__art { margin: 0; border-radius: 18px 18px 0 0; flex: 0 0 150px; min-height: 150px; }
+.m-stop__card .card__art-img { left: 20px; top: 26px; width: 300px; height: 190px; min-height: 0; }
 .m-stop__card .card__body { padding: 16px; gap: 16px; }
 .m-stop__card .card__headline { font-size: 22px; }
 .m-stop__card .card__block-text { font-size: 17px; }

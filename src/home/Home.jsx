@@ -1,10 +1,11 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { IconSun, IconSnowflake, IconMenu2 } from '@tabler/icons-react';
 import pinsConfig from '../data/pins.json';
 import { useTerrain } from '../summit/useTerrain.js';
 import SummitModel from '../summit/SummitModel.jsx';
 import DetailCard, { CardBody } from './DetailCard.jsx';
 import { STAGE } from '../summit/theme.js';
+import { sceneEnvelope } from '../summit/scene.js';
 import { LINKS, MOBILE_ROWS } from './stops.js';
 import { IconTent, IconFlag, IconChevronRight } from '@tabler/icons-react';
 
@@ -54,20 +55,30 @@ function DesktopHome({ theme, setTheme }) {
   const stops = pinsConfig[theme].stops;
   const [active, setActive] = useState(1); // "01 active" is the resting state in Figma
   const prev = useRef(undefined);
-  const [k, setK] = useState(1);
   const [fading, setFading] = useState(false);
+  const [fitState, setFit] = useState({ k: 1, top: STAGE.y });
+  const { k, top } = fitState;
+  const headerRef = useRef(null);
+  const envelope = useMemo(() => (terrain ? sceneEnvelope(terrain.g, terrain.rings, terrain.pins) : null), [terrain]);
 
-  // scale the 1000×720 stage to the viewport (Figma numbers assume 1440×900)
-  useEffect(() => {
+  // Fit the stage: the highest any pin reaches over a full turn stays below the hero
+  // text, the dial stays on screen, and the stage stays left of the detail card.
+  useLayoutEffect(() => {
     const fit = () => {
       const vw = window.innerWidth, vh = window.innerHeight;
-      const kk = Math.min((vw - 460) / STAGE.w, (vh - 140) / STAGE.h);
-      setK(Math.max(0.55, Math.min(1.1, kk)));
+      const headerBottom = headerRef.current ? headerRef.current.getBoundingClientRect().bottom : 270;
+      const env = envelope ?? { top: 30, bottom: 690 };
+      const clearTop = headerBottom + 14;        // gap under the hint line
+      const span = env.bottom - env.top;         // model height at k = 1
+      const kW = (vw - 33 - 420 - 24) / STAGE.w; // room left of the card
+      const kH = (vh - 16 - clearTop) / span;
+      const kk = Math.max(0.5, Math.min(1.1, kW, kH));
+      setFit({ k: kk, top: clearTop - env.top * kk });
     };
     fit();
     window.addEventListener('resize', fit);
     return () => window.removeEventListener('resize', fit);
-  }, []);
+  }, [envelope]);
 
   const select = useCallback((i) => {
     setActive((cur) => { prev.current = cur; return i; });
@@ -96,7 +107,7 @@ function DesktopHome({ theme, setTheme }) {
 
   return (
     <main className="home">
-      <header className="home__header">
+      <header className="home__header" ref={headerRef}>
         <a className="mark" href="/" aria-label="Macie Linne — home">ML</a>
         <h1 className="home__name">{hero.name}</h1>
         <p className="home__tag">{hero.tag}</p>
@@ -121,11 +132,12 @@ function DesktopHome({ theme, setTheme }) {
             prevActive={prev.current}
             onSelect={select}
             k={k}
+            top={top}
           />
         ) : (
-          <div className="stage" style={{ width: STAGE.w * k, height: STAGE.h * k, top: STAGE.y * k }} aria-busy="true" />
+          <div className="stage" style={{ width: STAGE.w * k, height: STAGE.h * k, top }} aria-busy="true" />
         )}
-        <div className="stage__stickers" style={{ position: 'absolute', top: (STAGE.y + STAGE.h) * k - 110 }}>
+        <div className="stage__stickers" style={{ position: 'absolute', top: 'auto', bottom: 28 }}>
           <span className="sticker sticker--tilt-l">{place}</span>
           <span className="sticker sticker--chartreuse sticker--tilt-r">0→1 SPECIALIST</span>
         </div>
