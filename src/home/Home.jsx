@@ -7,10 +7,12 @@ import DetailCard, { CardBody } from './DetailCard.jsx';
 import { STAGE } from '../summit/theme.js';
 import { sceneEnvelope } from '../summit/scene.js';
 import { LINKS, MOBILE_ROWS } from './stops.js';
+import { useSite, ThemeToggle } from '../site/site.jsx';
+import { MenuSheet } from '../site/SiteHeader.jsx';
+import { IconNotes } from '@tabler/icons-react';
 import { IconTent, IconFlag, IconChevronRight } from '@tabler/icons-react';
 
 const LIVE_QUERY = '(pointer: fine) and (min-width: 768px)';
-const THEME_KEY = 'ml:theme';
 
 function useMedia(q) {
   const [m, setM] = useState(() => (typeof matchMedia === 'function' ? matchMedia(q).matches : true));
@@ -21,26 +23,6 @@ function useMedia(q) {
     return () => mq.removeEventListener('change', h);
   }, [q]);
   return m;
-}
-
-function useTheme() {
-  const [theme, setTheme] = useState(() => {
-    try { return localStorage.getItem(THEME_KEY) === 'winter' ? 'winter' : 'summer'; } catch { return 'summer'; }
-  });
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    try { localStorage.setItem(THEME_KEY, theme); } catch { /* noop */ }
-  }, [theme]);
-  return [theme, setTheme];
-}
-
-function ThemeToggle({ theme, setTheme }) {
-  return (
-    <div className="theme-toggle" role="group" aria-label="Theme">
-      <button type="button" className="theme-toggle__btn" aria-pressed={theme === 'summer'} aria-label="Summer (dark) theme" onClick={() => setTheme('summer')}><IconSun size={14} stroke={2.2} /></button>
-      <button type="button" className="theme-toggle__btn" aria-pressed={theme === 'winter'} aria-label="Winter (light) theme" onClick={() => setTheme('winter')}><IconSnowflake size={14} stroke={2.2} /></button>
-    </div>
-  );
 }
 
 const hero = {
@@ -147,6 +129,7 @@ function DesktopHome({ theme, setTheme }) {
         <div className="stage__stickers" style={{ position: 'absolute', top: 'auto', bottom: 28 }}>
           <span className="sticker sticker--tilt-l">{place}</span>
           <span className="sticker sticker--chartreuse sticker--tilt-r">0→1 SPECIALIST</span>
+          <NotesSticker />
         </div>
       </div>
 
@@ -163,7 +146,17 @@ function DesktopHome({ theme, setTheme }) {
 }
 
 /* ------------------------------------------------------------------------ */
+function NotesSticker() {
+  const { openNotes } = useSite();
+  return (
+    <button type="button" className="sticker sticker--notes sticker--tilt-l" onClick={openNotes} aria-haspopup="dialog">
+      <IconNotes size={14} stroke={2.2} aria-hidden="true" /> FIELD NOTES · AI
+    </button>
+  );
+}
+
 function MobileHome({ theme, setTheme }) {
+  const [menu, setMenu] = useState(false);
   const stops = pinsConfig[theme].stops;
   const [active, setActive] = useState(1);
   const [svg, setSvg] = useState({});
@@ -185,8 +178,9 @@ function MobileHome({ theme, setTheme }) {
           <button type="button" className="m-iconbtn" aria-label={theme === 'summer' ? 'Switch to winter theme' : 'Switch to summer theme'} onClick={() => setTheme(theme === 'summer' ? 'winter' : 'summer')}>
             {theme === 'summer' ? <IconSun size={18} stroke={2} /> : <IconSnowflake size={18} stroke={2} />}
           </button>
-          <button type="button" className="m-iconbtn" aria-label="Menu"><IconMenu2 size={18} stroke={2} /></button>
+          <button type="button" className="m-iconbtn" aria-label="Open menu" aria-expanded={menu} onClick={() => setMenu(true)}><IconMenu2 size={18} stroke={2} /></button>
         </div>
+        <MenuSheet open={menu} onClose={() => setMenu(false)} />
       </header>
 
       <section>
@@ -233,6 +227,7 @@ function MobileHome({ theme, setTheme }) {
       <div className="m-stickers">
         <span className="sticker sticker--tilt-l">{theme === 'winter' ? 'WINTER PARK' : 'BOULDER, CO · 5,430 FT'}</span>
         <span className="sticker sticker--chartreuse sticker--tilt-r">0→1 SPECIALIST</span>
+        <NotesSticker />
       </div>
 
       <footer className="m-footer">
@@ -252,7 +247,7 @@ function STOP_LABEL(s) {
 
 /* ------------------------------------------------------------------------ */
 export default function Home() {
-  const [theme, setTheme] = useTheme();
+  const { theme, setTheme } = useSite();
   const live = useMedia(LIVE_QUERY);
   return live ? <DesktopHome theme={theme} setTheme={setTheme} /> : <MobileHome theme={theme} setTheme={setTheme} />;
 }

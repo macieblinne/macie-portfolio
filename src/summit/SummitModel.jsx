@@ -6,6 +6,7 @@ import { useDial, prefersReducedMotion } from './useDial.js';
 import { STAGE } from './theme.js';
 import { DEG } from './project.js';
 import { placeLabels } from './labels.js';
+import { useRouter } from '../site/router.jsx';
 
 const DRAW_IN_MS = 1200;
 
@@ -14,6 +15,7 @@ const DRAW_IN_MS = 1200;
  * The canvas is decorative; pins, stems, plates and the route are DOM/SVG.
  */
 export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, top, left = 0, prevActive }) {
+  const { navigate } = useRouter();
   const stageRef = useRef(null);
   const canvasRef = useRef(null);
   const routeDoneRef = useRef(null);
@@ -179,7 +181,7 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
 
   const handlePin = (i) => {
     const p = pins[i];
-    if (i === activeIndex && p.href) { window.location.href = p.href; return; }
+    if (i === activeIndex && p.href) { navigate(p.href); return; }
     onSelect(i);
   };
 
