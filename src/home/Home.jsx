@@ -56,8 +56,9 @@ function DesktopHome({ theme, setTheme }) {
   const [active, setActive] = useState(1); // "01 active" is the resting state in Figma
   const prev = useRef(undefined);
   const [fading, setFading] = useState(false);
-  const [fitState, setFit] = useState({ k: 1, top: STAGE.y });
-  const { k, top } = fitState;
+  const [fitState, setFit] = useState({ k: 1, top: STAGE.y, left: 0 });
+  const { k, top, left } = fitState;
+  const mainRef = useRef(null);
   const headerRef = useRef(null);
   const envelope = useMemo(() => (terrain ? sceneEnvelope(terrain.g, terrain.rings, terrain.pins) : null), [terrain]);
 
@@ -65,20 +66,25 @@ function DesktopHome({ theme, setTheme }) {
   // text, the dial stays on screen, and the stage stays left of the detail card.
   useLayoutEffect(() => {
     const fit = () => {
-      const vw = window.innerWidth, vh = window.innerHeight;
+      const vw = mainRef.current ? mainRef.current.clientWidth : window.innerWidth;
+      const vh = window.innerHeight;
       const headerBottom = headerRef.current ? headerRef.current.getBoundingClientRect().bottom : 270;
       const env = envelope ?? { top: 30, bottom: 690 };
       const clearTop = headerBottom + 14;        // gap under the hint line
       const span = env.bottom - env.top;         // model height at k = 1
-      const kW = (vw - 33 - 420 - 24) / STAGE.w; // room left of the card
+      const freeW = vw - 33 - 420 - 24;         // room left of the card
+      const kW = freeW / STAGE.w;
       const kH = (vh - 16 - clearTop) / span;
       const kk = Math.max(0.5, Math.min(1.1, kW, kH));
-      setFit({ k: kk, top: clearTop - env.top * kk });
+      // centre the dial in the free column so the gap is shared on both sides
+      const cx = (terrain?.g.render.center[0] ?? 470) - STAGE.x;
+      const lft = Math.max(0, freeW / 2 - cx * kk);
+      setFit({ k: kk, top: clearTop - env.top * kk, left: lft });
     };
     fit();
     window.addEventListener('resize', fit);
     return () => window.removeEventListener('resize', fit);
-  }, [envelope]);
+  }, [envelope, terrain]);
 
   const select = useCallback((i) => {
     setActive((cur) => { prev.current = cur; return i; });
@@ -106,7 +112,7 @@ function DesktopHome({ theme, setTheme }) {
   const place = theme === 'winter' ? 'WINTER PARK' : 'BOULDER, CO · 5,430 FT';
 
   return (
-    <main className="home">
+    <main className="home" ref={mainRef}>
       <header className="home__header" ref={headerRef}>
         <a className="mark" href="/" aria-label="Macie Linne — home">ML</a>
         <h1 className="home__name">{hero.name}</h1>
@@ -133,9 +139,10 @@ function DesktopHome({ theme, setTheme }) {
             onSelect={select}
             k={k}
             top={top}
+            left={left}
           />
         ) : (
-          <div className="stage" style={{ width: STAGE.w * k, height: STAGE.h * k, top }} aria-busy="true" />
+          <div className="stage" style={{ width: STAGE.w * k, height: STAGE.h * k, top, left }} aria-busy="true" />
         )}
         <div className="stage__stickers" style={{ position: 'absolute', top: 'auto', bottom: 28 }}>
           <span className="sticker sticker--tilt-l">{place}</span>
@@ -143,13 +150,14 @@ function DesktopHome({ theme, setTheme }) {
         </div>
       </div>
 
-      <DetailCard stops={stops} activeIndex={active} onSelect={select} />
+      <DetailCard stops={stops} activeIndex={active} onSelect={select}>
+        <footer className="home__footer">
+          <a href={LINKS.email}>{theme === 'winter' ? 'macie@macielinne.design' : LINKS.site}</a>
+          <a href={LINKS.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
+          <a href={LINKS.resume}>Resume</a>
+        </footer>
+      </DetailCard>
 
-      <footer className="home__footer">
-        <a href={LINKS.email}>{theme === 'winter' ? 'macie@macielinne.design' : LINKS.site}</a>
-        <a href={LINKS.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
-        <a href={LINKS.resume}>Resume</a>
-      </footer>
     </main>
   );
 }
@@ -207,7 +215,7 @@ function MobileHome({ theme, setTheme }) {
                 <span className="m-pin" aria-hidden="true">{s.n ? s.n : s.icon === 'flag' ? <IconFlag size={16} stroke={2.2} /> : <IconTent size={16} stroke={2.2} />}</span>
               </div>
               <button type="button" className="m-stop__row" aria-expanded={state === 'active'} onClick={() => setActive(i)}>
-                <span>{r.title}<small className={r.accent ? 'accent' : ''}>{r.sub}</small></span>
+                <span>{r.title}<small>{r.sub}</small></span>
                 <IconChevronRight size={18} stroke={2} />
               </button>
               {state === 'active' && (

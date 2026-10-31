@@ -102,7 +102,7 @@ export function CardBody({ stop, index, total, onStep, compact = false }) {
 }
 
 /** Desktop detail card with the Figma out/in transition (200 ms out, 300 ms in). */
-export default function DetailCard({ stops, activeIndex, onSelect }) {
+export default function DetailCard({ stops, activeIndex, onSelect, children }) {
   const [shown, setShown] = useState(activeIndex);
   const [leaving, setLeaving] = useState(false);
 
@@ -120,6 +120,7 @@ export default function DetailCard({ stops, activeIndex, onSelect }) {
       <article key={stop.id} className={`card${leaving ? ' card--out' : ''}`} aria-live="polite">
         <CardBody stop={stop} index={shown} total={stops.length} onStep={onStep} />
       </article>
+      {children}
     </div>
   );
 }

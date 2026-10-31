@@ -18,7 +18,7 @@ export const STOP_CONTENT = {
       text: 'Two stops, then the summit. Tap a pin to open it; the route turns orange behind you. Drag the mountain to look around, or use ← → to step through.',
     },
     cta: { label: 'Start the route', action: 'next' },
-    next: 'Next: 01 The Keyhole',
+    next: 'Next: 01 Keyhole',
   },
   flexomics: {
     badge: '01',
@@ -66,9 +66,5 @@ export const STOP_CONTENT = {
 };
 
 /** Mobile stepper rows (Figma "Mobile — Summit Model"). */
-export const MOBILE_ROWS = {
-  trailhead: { title: 'Trailhead · Boulder Field', sub: 'Welcome · 12,760 ft', accent: true },
-  flexomics: { title: 'Flexomics', sub: 'The Keyhole · 13,160 ft' },
-  accio3d: { title: 'Accio3D', sub: 'The Trough · 13,500 ft' },
-  summit: { title: 'Summit · Let’s work together', sub: 'Where this is going · 14,259 ft' },
-};
+/** Mobile stepper rows mirror the pin plates: title = name, sub = place · elevation (pins.json). */
+export const MOBILE_ROWS = {};

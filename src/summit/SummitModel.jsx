@@ -13,7 +13,7 @@ const DRAW_IN_MS = 1200;
  * Live, draggable contour mountain. Desktop / fine-pointer only.
  * The canvas is decorative; pins, stems, plates and the route are DOM/SVG.
  */
-export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, top, prevActive }) {
+export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, top, left = 0, prevActive }) {
   const stageRef = useRef(null);
   const canvasRef = useRef(null);
   const routeDoneRef = useRef(null);
@@ -31,6 +31,8 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
   const prevPlacement = useRef({});
 
   const width = STAGE.w * k, height = STAGE.h * k;
+  // pins shrink with the mountain on short screens, but never below 72% (tap halo keeps 44px)
+  const pinK = Math.min(1, Math.max(0.72, k / 0.85));
   const { g, rings, pins, lifts } = terrain;
   const scene = useMemo(() => makeScene(g, rings, pins, { k, origin: [STAGE.x, STAGE.y] }), [g, rings, pins, k]);
   const baseAzimuth = g.render.viewAzimuthDeg * DEG;
@@ -65,7 +67,7 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
     // labels: collision-aware placement against every label, pin head and stem
     const sizes = sizesRef.current;
     const pinGeo = P.map((p, i) => {
-      const r = (i === activeIndex ? 32 : 26); // pin sizes are CSS px (not scaled)
+      const r = (i === activeIndex ? 32 : 26) * pinK;
       return { x: p.gx, yc: p.py - r, r, gy: p.gy };
     });
     const labels = [];
@@ -84,6 +86,8 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
       const pl = placed[`p${i}`];
       if (!plate || !pl) return;
       plate.classList.toggle('plate--left', pl.side === 'left');
+      // crowded (small screens): a label with no clear space waits for hover/focus; the active one always shows
+      plate.classList.toggle('plate--tucked', i !== activeIndex && pl.hit > 60);
       plate.style.transform = `translate3d(${pl.x - p.gx}px, ${pl.y - p.gy}px, 0)`;
     });
     if (hereRef.current && placed.here) {
@@ -125,7 +129,7 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
     const ft = performance.now() - t0;
     if (ft > 20) { if (++slowFrames.current >= 10) everyOther.current = true; }
     else { slowFrames.current = 0; if (everyOther.current && stageRef.current && !stageRef.current.classList.contains('stage--dragging')) everyOther.current = false; }
-  }, [scene, theme, width, height, activeIndex, lifts, k, loaded]);
+  }, [scene, theme, width, height, activeIndex, lifts, k, loaded, pinK]);
 
   const invalidateRef = useRef(null);
   const { faceTo, invalidate } = useDial({ baseAzimuth, onFrame, elementRef: stageRef });
@@ -183,7 +187,7 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
     <div
       ref={stageRef}
       className={`stage${loaded ? '' : ' stage--loading'}`}
-      style={{ width, height, top }}
+      style={{ width, height, top, left, '--pin-k': pinK }}
       data-theme-stage={theme}
     >
       <canvas ref={canvasRef} className="stage__canvas" style={{ width, height }} aria-hidden="true" />
@@ -220,7 +224,7 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
               </button>
               <div
                 ref={(el) => (plateRefs.current[i] = el)}
-                className={`plate${p.id === 'trailhead' ? ' plate--accent' : ''}`}
+                className="plate"
                 aria-hidden="true"
               >
                 <span className="plate__title">{p.label}</span>
