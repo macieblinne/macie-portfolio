@@ -1,0 +1,397 @@
+/* ==========================================================================
+   About — "Basecamp". Figma 5357:6616 (summer) / 5377:7103 (winter).
+   Desktop is laid out on the 1440 frame: 48px margins, 1344 content,
+   72px card → next label, 14px label → card.
+   ========================================================================== */
+
+.ab-page {
+  /* Figma frame fills (not tokens): summer = cocoa-850, winter = #DDE8EE */
+  --ab-page-bg: var(--ml-cocoa-850);
+  --ab-title: var(--fg);
+  --ab-lede: var(--fg-muted);
+  --ab-plan-label: var(--ml-chartreuse-400);
+  --ab-card-shadow: 0 12px 28px -6px rgb(0 0 0 / 0.35);
+  --ab-dark-shadow: 0 12px 28px -6px rgb(0 0 0 / 0.35);
+  --ab-stickers-bg: rgb(255 255 255 / 0.05);
+  --ab-stickers-line: rgb(255 255 255 / 0.15);
+  --ab-outline-line: #D3D8DA;
+
+  background: var(--ab-page-bg);
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: clip; /* the photo card hangs past the right margin, as in Figma */
+}
+[data-theme="winter"] .ab-page {
+  --ab-page-bg: #DDE8EE;
+  --ab-title: var(--ml-cocoa-800);
+  --ab-lede: var(--ml-cocoa-700);
+  --ab-plan-label: var(--ml-ink-900);
+  --ab-card-shadow: 0 12px 28px -6px rgb(26 38 51 / 0.18);
+  --ab-stickers-bg: rgb(47 33 28 / 0.06);
+  --ab-stickers-line: rgb(47 33 28 / 0.25);
+}
+
+.ab {
+  max-width: calc(var(--ml-content-max) + 2 * var(--ml-grid-margin));
+  margin: 0 auto;
+  padding: 65px var(--ml-grid-margin) 80px; /* header ends at 85 → first label at 150 */
+  min-height: 0;
+  font-variation-settings: "opsz" 14; /* Figma sets Bricolage's optical size to 14 throughout */
+}
+.ab-section { margin-top: var(--ml-section-gap); }
+
+/* ---- focus: keep pill shapes; darker ring on white cards ---------------- */
+.ab-page .ab-btn:focus-visible,
+.ab-page .ab-email__copy:focus-visible,
+.ab-page .ab-email__addr:focus-visible,
+.ab-page .ab-letstalk:focus-visible { border-radius: var(--ml-radius-pill); }
+.ab-card :focus-visible { outline-color: var(--ml-green-700); }
+
+/* ---- section label (icon disc + mono eyebrow) --------------------------- */
+.ab-label {
+  display: flex; align-items: center; gap: 10px;
+  margin: 0 0 var(--ml-label-gap);
+  font: 700 var(--ml-text-xs) / 18px var(--ml-font-mono);
+  letter-spacing: 0.03em; text-transform: uppercase;
+  color: var(--fg-dim);
+}
+.ab-label__disc {
+  flex: none; width: 22px; height: 22px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--ml-white); color: var(--ml-ink-900);
+}
+.ab-label__num { font: 800 9px / 1 var(--ml-font-badge); }
+
+/* ---- shared ------------------------------------------------------------- */
+.ab-card {
+  background: var(--bg-surface);
+  color: var(--fg-on-surface);
+  border-radius: 20px;
+  box-shadow: var(--ab-card-shadow);
+}
+.ab-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 18px; border-radius: var(--ml-radius-pill);
+  font-size: var(--ml-text-sm); font-weight: 500; line-height: 17px;
+  transition: translate var(--ml-dur-fast) var(--ml-ease-out), background var(--ml-dur-fast) var(--ml-ease-out);
+}
+.ab-btn--dark { background: var(--ml-cocoa-800); color: var(--ml-white); }
+.ab-btn--dark:hover { background: var(--ml-cocoa-700); }
+.ab-btn--outline { border: 1px solid var(--ab-outline-line); color: var(--ml-ink-900); }
+.ab-btn--outline:hover { background: var(--ml-blue-100); }
+.ab-btn--chartreuse {
+  gap: 10px; padding: 14px 20px;
+  background: var(--ml-chartreuse-400); color: var(--ml-ink-900);
+  font-size: var(--ml-text-base); font-weight: 600; line-height: 18px;
+}
+.ab-btn--chartreuse svg { transition: translate var(--ml-dur-fast) var(--ml-ease-out); }
+.ab-btn--chartreuse:hover svg { translate: 3px 0; }
+
+/* ==========================================================================
+   Hero
+   ========================================================================== */
+.ab-hero { position: relative; min-height: 428px; }
+.ab-hero__text { position: relative; z-index: 2; }
+.ab-label--static { margin-bottom: 18px; }
+.ab-hero__title {
+  margin: 0;
+  font-size: 112px; font-weight: 800; line-height: 0.92; letter-spacing: -0.04em;
+  color: var(--ab-title);
+}
+.ab-hero__lede {
+  margin: 28px 0 0; max-width: 774px;
+  font-size: 26px; font-weight: 600; line-height: 1.3;
+  color: var(--ab-lede);
+}
+.ab-hero__meta {
+  margin: 24px 0 0;
+  display: flex; flex-wrap: wrap; gap: 4px 10px;
+  font: 400 13px / 19px var(--ml-font-mono);
+  color: var(--fg-dim);
+}
+
+/* decorations: positioned from the 1440 frame, anchored to the content's right edge */
+.ab-hero__art { position: absolute; inset: 0; pointer-events: none; }
+.ab-hero__art > * { pointer-events: auto; }
+
+.ab-photo {
+  --ab-photo: 320px;
+  position: absolute; right: -44.5px; top: 38.5px; z-index: 1;
+  margin: 0; padding: 12px;
+  display: flex; flex-direction: column; gap: 10px;
+  background: var(--ml-white); border-radius: var(--ml-radius-lg);
+  box-shadow: 0 12px 28px -6px rgb(0 0 0 / 0.35);
+  rotate: -4deg;
+}
+.ab-photo__img {
+  display: block; width: var(--ab-photo); height: var(--ab-photo);
+  object-fit: cover; object-position: 50% 30%;
+  border-radius: var(--ml-radius-sm);
+}
+.ab-photo__cap {
+  font: 700 var(--ml-text-xs) / 18px var(--ml-font-mono);
+  letter-spacing: 0.02em; text-transform: uppercase; color: var(--ml-ink-900);
+}
+
+.ab-plan {
+  --ab-plan: 264.5px;
+  position: absolute; right: 252.6px; top: 250.1px;
+  width: var(--ab-plan);
+}
+.ab-plan__img { display: block; width: 100%; height: auto; }
+.ab-plan__label {
+  position: absolute; left: 41.25%; top: 92.97%; translate: -50% 0;
+  margin: 0; white-space: nowrap;
+  font: 700 11px / 16px var(--ml-font-mono); letter-spacing: 0.03em;
+  color: var(--ab-plan-label);
+}
+
+.ab-howdy {
+  position: absolute; left: calc(100% - 29.7px); top: 396.3px; z-index: 2;
+  translate: -50% -50%; rotate: -5deg;
+  font-size: 11px; letter-spacing: 0.02em; text-transform: uppercase;
+  box-shadow: 0 0 0 4px var(--ml-white), 0 12px 28px -6px rgb(0 0 0 / 0.35);
+}
+
+/* ==========================================================================
+   Who I am
+   ========================================================================== */
+.ab-who { padding: 36px; display: flex; flex-direction: column; gap: 18px; }
+.ab-who__lead { margin: 0; font-size: 22px; font-weight: 600; line-height: 1.4; color: var(--ml-ink-900); }
+.ab-who__body { margin: 0; font-size: 16px; line-height: 1.55; color: var(--ml-ink-600); }
+.ab-who__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+/* ==========================================================================
+   Design values
+   ========================================================================== */
+.ab-values {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px;
+}
+.ab-value { border-radius: var(--ml-radius-xl); padding: 24px; display: flex; flex-direction: column; gap: 14px; }
+.ab-value__num {
+  width: 44px; height: 44px; border-radius: 50%;
+  display: grid; place-items: center;
+  font: 800 13px / 1 var(--ml-font-badge); color: var(--ml-ink-900);
+}
+.ab-value--01 .ab-value__num { background: var(--ml-blue-300); }
+.ab-value--02 .ab-value__num { background: var(--ml-orange-500); }
+.ab-value--03 .ab-value__num { background: var(--ml-cocoa-800); color: var(--ml-white); }
+.ab-value--04 .ab-value__num { background: var(--ml-green-700); color: var(--ml-white); }
+.ab-value__title { margin: 0; font-size: 22px; font-weight: 800; line-height: 26px; letter-spacing: -0.01em; color: var(--ml-ink-900); }
+.ab-value__body { margin: 0; font-size: var(--ml-text-sm); line-height: 1.5; color: var(--ml-ink-600); }
+
+/* ==========================================================================
+   Basecamp log
+   ========================================================================== */
+.ab-log { display: grid; grid-template-columns: 660px minmax(0, 1fr); gap: 24px; }
+.ab-log__card { padding: 32px; display: flex; flex-direction: column; gap: 14px; }
+.ab-log__title { margin: 0; font-size: var(--ml-text-2xl); font-weight: 800; line-height: 1.08; letter-spacing: -0.01em; color: var(--ml-ink-900); }
+.ab-log__body { margin: 0; font-size: var(--ml-text-base); line-height: 1.55; color: var(--ml-ink-600); }
+.ab-chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+.ab-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 12px; border-radius: 12px;
+  background: var(--ml-blue-100); color: var(--ml-ink-900);
+  font-size: var(--ml-text-xs); font-weight: 600; line-height: 16px;
+}
+.ab-chip__emoji { flex: none; width: 16px; text-align: center; font: 800 16px / 16px var(--ml-font-badge); }
+
+.ab-kili { position: relative; margin: 0; min-height: 359px; border-radius: 20px; overflow: hidden; background: var(--ml-cocoa-800); }
+.ab-kili__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 75.8%; }
+.ab-kili__plate {
+  position: absolute; left: 20px; bottom: 20px;
+  display: flex; flex-direction: column; gap: 4px;
+  padding: 12px 16px; border-radius: 12px;
+  background: rgb(47 33 28 / 0.9); border: 2px dashed var(--ml-chartreuse-400);
+}
+.ab-kili__eyebrow { font: 700 11px / 16px var(--ml-font-mono); letter-spacing: 0.03em; color: var(--ml-chartreuse-400); }
+.ab-kili__title { width: 300px; max-width: 100%; font-size: 20px; font-weight: 800; line-height: 1.08; letter-spacing: -0.01em; color: var(--ml-white); }
+.ab-kili__sub { font: 400 11px / 16px var(--ml-font-mono); color: var(--ml-blue-300); }
+
+/* ==========================================================================
+   Field notes card (opens the AI drawer)
+   ========================================================================== */
+.ab-notes {
+  position: relative;
+  display: flex; align-items: flex-start; gap: 32px;
+  padding: 32px; border-radius: 24px;
+  background: var(--bg-band-anchor); color: var(--ml-white);
+  border: 2px dashed var(--ml-chartreuse-400);
+  box-shadow: var(--ab-dark-shadow);
+}
+.ab-notes__main { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+.ab-notes__title { margin: 0; font-size: 30px; font-weight: 800; line-height: 36px; letter-spacing: -0.015em; }
+.ab-notes__body { margin: 0; max-width: 790px; font-size: var(--ml-text-base); line-height: 1.5; color: var(--ml-blue-300); }
+/* the whole card is the hit area for the button (stretched link) */
+.ab-notes__cta::after { content: ''; position: absolute; inset: 0; border-radius: 24px; }
+.ab-notes__cta:hover { translate: 0 -1px; }
+.ab-tools { list-style: none; margin: 0; padding: 0; flex: none; width: 454px; display: flex; flex-direction: column; gap: 8px; }
+.ab-tools__row { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; padding: 3.5px 4px; }
+.ab-tool {
+  padding: 7px 12px; border-radius: var(--ml-radius-sm);
+  border: 3px solid var(--ml-white);
+  font: 700 11px / 14px var(--ml-font-badge); letter-spacing: 0.02em; text-transform: uppercase;
+  color: var(--ml-ink-900); background: var(--ml-white);
+}
+.ab-tool--claude { background: var(--ml-orange-500); }
+.ab-tool--figma { background: var(--ml-blue-300); }
+.ab-tool--cursor { background: var(--ml-green-700); color: var(--ml-white); }
+.ab-tool--vercel { background: var(--ml-chartreuse-400); }
+
+/* ==========================================================================
+   Company stickers
+   ========================================================================== */
+.ab-stickers {
+  position: relative;
+  aspect-ratio: 1344 / 380;
+  border-radius: 20px;
+  background: var(--ab-stickers-bg);
+  border: 1px dashed var(--ab-stickers-line);
+}
+.ab-stickers__set { list-style: none; margin: 0; padding: 0; position: absolute; inset: -1px; }
+.ab-badge { position: absolute; left: var(--x); top: var(--y); width: var(--w); }
+.ab-badge img { display: block; width: 100%; height: auto; transition: translate var(--ml-dur-fast) var(--ml-ease-out); }
+.ab-badge:hover img { translate: 0 -4px; }
+.ab-letstalk {
+  position: absolute; left: 87.067%; top: 81.3%;
+  font-size: 11px; letter-spacing: 0.02em;
+  box-shadow: 0 0 0 4px var(--ml-white), var(--ml-shadow-sticker);
+  rotate: 2deg;
+  transition: translate var(--ml-dur-fast) var(--ml-ease-out);
+}
+.ab-letstalk:hover { translate: 0 -2px; }
+
+/* ==========================================================================
+   Summit register
+   ========================================================================== */
+.ab-summit {
+  display: flex; align-items: center; gap: 40px;
+  padding: 40px; border-radius: 24px;
+  background: var(--bg-band-anchor); color: var(--ml-white);
+  border: 2px dashed var(--ml-chartreuse-400);
+  box-shadow: var(--ab-card-shadow);
+}
+.ab-summit__left { flex: none; width: 432px; display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+.ab-summit__flag { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; background: var(--ml-white); color: var(--ml-ink-900); }
+.ab-summit__title { margin: 0; font-size: 30px; font-weight: 800; line-height: 1.04; letter-spacing: -0.015em; }
+.ab-summit__right { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 22px; }
+.ab-summit__text { margin: 0; font-size: 22px; font-weight: 600; line-height: 1.4; }
+.ab-summit__row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.ab-summit__link { font-size: var(--ml-text-base); font-weight: 500; color: var(--ml-blue-300); }
+.ab-summit__link:hover { color: var(--ml-white); text-decoration: underline; text-underline-offset: 3px; }
+
+.ab-email {
+  display: inline-flex; align-items: center; gap: 12px;
+  padding: 14px 20px; border-radius: var(--ml-radius-pill);
+  background: var(--ml-white); color: var(--ml-ink-900);
+}
+.ab-email__addr { font-size: 16px; font-weight: 600; line-height: 19px; }
+.ab-email__addr:hover { text-decoration: underline; text-underline-offset: 3px; }
+.ab-email__copy {
+  position: relative;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 10px; border-radius: var(--ml-radius-pill);
+  background: var(--ml-chartreuse-400); color: var(--ml-ink-900);
+  font: 700 11px / 16px var(--ml-font-mono); letter-spacing: 0.02em; text-transform: uppercase;
+}
+.ab-email__copy::before { content: ''; position: absolute; inset: -9px -4px; } /* 44px tap target */
+.ab-email__copy:focus-visible { outline-color: var(--ml-green-700); }
+
+/* ==========================================================================
+   ≤ 1199: decorations drop below the hero text; grids fold
+   ========================================================================== */
+@media (max-width: 1199px) {
+  .ab-hero { min-height: 0; }
+  .ab-hero__art { position: relative; inset: auto; height: 480px; max-width: 720px; margin: 24px auto 0; }
+  .ab-photo { right: 16px; top: 16px; }
+  .ab-plan { right: auto; left: 24px; top: 170px; }
+  .ab-howdy { left: auto; right: 0; top: 440px; translate: none; }
+
+  .ab-values { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ab-log { grid-template-columns: minmax(0, 1fr); }
+  .ab-kili { min-height: 0; aspect-ratio: 660 / 359; }
+
+  .ab-notes { flex-direction: column; }
+  .ab-tools { width: auto; }
+  .ab-tools__row { justify-content: flex-start; padding: 0; }
+
+  .ab-summit { flex-direction: column; align-items: flex-start; gap: 28px; }
+  .ab-summit__left { width: auto; }
+  .ab-summit__right { flex: none; width: 100%; }
+}
+
+/* ≤ 1023: the sticker wall becomes a wrapped pile */
+@media (max-width: 1023px) {
+  .ab-stickers {
+    aspect-ratio: auto;
+    padding: 20px 8px 28px;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+  }
+  .ab-stickers__set { position: static; display: flex; flex-wrap: wrap; justify-content: center; gap: 0 4px; }
+  .ab-badge { position: static; width: calc(var(--wpx) * 0.85px); margin: -6px -4px; }
+  .ab-letstalk { position: relative; left: auto; top: auto; margin-top: 12px; }
+}
+
+/* ==========================================================================
+   Phone (< 768): 20px margins, single column, 40-ish display type
+   ========================================================================== */
+@media (max-width: 767px) {
+  .ab { padding: 40px var(--ml-mobile-margin) 56px; }
+  .ab-section { margin-top: 56px; }
+  .ab-label { font-size: 11px; line-height: 16px; letter-spacing: 0.03em; }
+
+  .ab-hero__title { font-size: 48px; line-height: 0.95; letter-spacing: -0.03em; }
+  .ab-label--static { margin-bottom: 14px; }
+  .ab-hero__lede { margin-top: 14px; font-size: var(--ml-text-md); }
+  .ab-hero__meta { margin-top: 12px; font-size: var(--ml-text-xs); line-height: 18px; }
+
+  .ab-hero__art { height: 392px; max-width: 390px; margin-top: 20px; }
+  .ab-hero__meta { flex-direction: column; }
+  .ab-hero__dot { display: none; }
+  .ab-photo { --ab-photo: min(214px, 56vw); right: 2px; top: 10px; padding: 9px; gap: 8px; border-radius: 12px; }
+  .ab-photo__cap { font-size: 11px; line-height: 14px; }
+  .ab-plan { --ab-plan: 200px; left: -6px; top: 168px; }
+  .ab-howdy { right: 4px; top: 330px; }
+
+  .ab-who { padding: 22px; gap: 14px; }
+  .ab-who__lead { font-size: 19px; line-height: 1.35; }
+  .ab-who__body { font-size: var(--ml-text-base); }
+  .ab-btn { min-height: var(--ml-tap-min); padding-block: 0; }
+
+  .ab-values { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .ab-value { padding: 20px; gap: 10px; display: grid; grid-template-columns: 44px 1fr; column-gap: 14px; align-items: center; }
+  .ab-value__body { grid-column: 1 / -1; }
+
+  .ab-log { gap: 16px; }
+  .ab-log__card { padding: 22px; }
+  .ab-log__title { font-size: 22px; }
+  .ab-kili { aspect-ratio: 1 / 1; }
+  .ab-kili__img { object-position: 50% 74%; }
+  .ab-kili__plate { left: 12px; right: 12px; bottom: 12px; }
+  .ab-kili__title { width: auto; font-size: 18px; }
+
+  .ab-notes { padding: 22px; gap: 22px; border-radius: 20px; }
+  .ab-notes__title { font-size: 26px; line-height: 1.1; }
+  .ab-notes__cta { width: 100%; justify-content: center; }
+  .ab-notes__cta::after { border-radius: 20px; }
+  .ab-tools__row { gap: 6px; }
+
+  .ab-stickers { padding: 16px 0 24px; border-radius: 16px; }
+  .ab-badge { width: calc(var(--wpx) * 0.74px); margin: -8px -6px; }
+
+  .ab-summit { padding: 24px 22px; gap: 22px; border-radius: 20px; }
+  .ab-summit__flag { width: 44px; height: 44px; }
+  .ab-summit__title { font-size: 26px; }
+  .ab-summit__text { font-size: 18px; }
+  .ab-summit__row { gap: 4px 20px; }
+  .ab-email { width: 100%; justify-content: space-between; padding: 6px 6px 6px 18px; min-height: 52px; }
+  .ab-email__addr { font-size: 15px; min-width: 0; overflow-wrap: anywhere; }
+  .ab-email__copy { min-height: 40px; padding: 0 14px; }
+  .ab-email__copy::before { inset: -2px; }
+  .ab-summit__link { display: inline-flex; align-items: center; min-height: var(--ml-tap-min); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ab-badge img, .ab-btn, .ab-letstalk, .ab-btn--chartreuse svg { transition: none; }
+}

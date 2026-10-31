@@ -1,6 +1,291 @@
-// STUB — built from Figma "Work — Case study · Flexomics · Alt" (5383:8227) and "· Accio3D · Alt" (5406:7911)
+// Case-study page (/work/flexomics, /work/accio3d) — built from Figma
+// "Work — Case study · Flexomics · Alt" (5383:8227) and "· Accio3D · Alt" (5406:7911).
+// One component, two data files. Section types: pitch | break | milestone.
+// Pitch block types: p | quote | lead | cards | fork | media | lessons.
+import { Fragment, useEffect, useRef } from 'react';
+import { IconArrowLeft, IconArrowRight, IconCheck, IconFlag, IconX } from '@tabler/icons-react';
 import SiteHeader from '../../site/SiteHeader.jsx';
-import SiteFooter from '../../site/SiteFooter.jsx';
+import { Link } from '../../site/router.jsx';
+import flexomics from './flexomics.js';
+import accio3d from './accio3d.js';
+import './case-study.css';
+
+const STUDIES = { flexomics, accio3d };
+const pad2 = (n) => String(n).padStart(2, '0');
+
+function Sticker({ tone = 'white', rotate = 0, className = '', style, children }) {
+  return (
+    <span className={`cs-sticker cs-sticker--${tone} ${className}`} style={{ '--cs-rot': `${rotate}deg`, ...style }}>
+      {children}
+    </span>
+  );
+}
+
+function Shot({ image, className = '', eager = false }) {
+  return (
+    <div className={`cs-shot ${className}`}>
+      <img
+        className="cs-shot__img"
+        src={image.src}
+        alt={image.alt}
+        width={image.width}
+        height={image.height}
+        style={{ '--cs-shot-scale': image.scale ?? 1 }}
+        loading={eager ? 'eager' : 'lazy'}
+        decoding="async"
+      />
+    </div>
+  );
+}
+
+function Hero({ study }) {
+  return (
+    <div className="cs-hero">
+      <span className="cs-contour cs-contour--hero" aria-hidden="true" />
+      <div className="cs-hero__body">
+        <nav className="cs-crumbs" aria-label="Breadcrumb">
+          <Link to="/work" className="cs-crumbs__back"><IconArrowLeft size={14} stroke={2} aria-hidden="true" />Work</Link>
+          <span className="cs-crumbs__sep" aria-hidden="true">/</span>
+          <span aria-current="page">{study.name}</span>
+        </nav>
+        <h1 className="cs-hero__title" style={{ '--cs-title-w': `${study.titleWidth}px`, '--cs-title-size': `${study.titleSize ?? 84}px`, '--cs-title-top': `${(study.titleTop ?? 186) - 140 - 18}px` }}>
+          {study.title}
+        </h1>
+      </div>
+      <div className="cs-hero__media">
+        <Shot image={study.hero.image} className="cs-shot--hero" eager />
+        {study.hero.stickers.map((s) => (
+          <Sticker key={s.label} tone={s.tone} rotate={s.rotate} className="cs-hero__sticker" style={{ '--cs-x': `${s.x}px`, '--cs-y': `${s.y}px` }}>
+            {s.label}
+          </Sticker>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function MetaStrip({ items }) {
+  return (
+    <dl className="cs-meta">
+      {items.map((m) => (
+        <div key={m.label} className="cs-meta__item">
+          <dt>{m.label}</dt>
+          <dd>{m.value}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
+function Cards({ cards, size }) {
+  return (
+    <div className={`cs-cards${size === 'sm' ? ' cs-cards--sm' : ''}`}>
+      {cards.map((c) => (
+        <div key={c.title} className={`cs-card cs-card--${c.tone}`}>
+          {c.eyebrow && <p className="cs-card__eyebrow">{c.eyebrow}</p>}
+          <h3 className="cs-card__title">{c.title}</h3>
+          <p className="cs-card__text">{c.text}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function Fork({ options }) {
+  return (
+    <div className="cs-fork">
+      <svg className="cs-fork__paths" viewBox="0 0 774 130" preserveAspectRatio="none" aria-hidden="true">
+        <path className="cs-fork__ahead" d="M387 58 C 330 66, 220 78, 193.5 130" />
+        <path className="cs-fork__done" d="M387 0 V 42 C 387 70, 420 74, 500 84 C 556 91, 580 104, 580 130" />
+      </svg>
+      <span className="cs-fork__here">You are here</span>
+      <ul className="cs-fork__options">
+        {options.map((o) => (
+          <li key={o.label} className={`cs-option${o.chosen ? ' cs-option--chosen' : ''}`}>
+            <div className="cs-option__head">
+              <p className="cs-option__label">{o.label}</p>
+              {o.chosen
+                ? <span className="cs-option__chip"><IconCheck size={11} stroke={2.5} aria-hidden="true" />Chosen</span>
+                : <span className="cs-option__x"><IconX size={12} stroke={2} aria-hidden="true" /><span className="sr-only">Not chosen</span></span>}
+            </div>
+            <p className="cs-option__text">{o.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+/** Screen recording: muted looping video that only plays while on screen.
+ *  Reduced motion → poster frame with controls, nothing autoplays. */
+function Recording({ block }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const v = ref.current;
+    if (!v) return;
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) { v.controls = true; return; }
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { v.preload = 'auto'; v.play().catch(() => {}); } else v.pause();
+    }, { rootMargin: '200px 0px' });
+    io.observe(v);
+    return () => io.disconnect();
+  }, []);
+  return (
+    <video
+      ref={ref}
+      src={block.video}
+      poster={block.poster}
+      width={block.width}
+      height={block.height}
+      muted
+      loop
+      playsInline
+      preload="none"
+      aria-label={block.alt}
+    />
+  );
+}
+
+function Media({ block }) {
+  return (
+    <figure className="cs-media">
+      <div className="cs-media__frame" style={{ aspectRatio: `${block.width} / ${block.height}` }}>
+        {block.video
+          ? <Recording block={block} />
+          : <img src={block.src} alt={block.alt} width={block.width} height={block.height} loading="lazy" decoding="async" />}
+        <Sticker tone="chartreuse" rotate={3} className="cs-media__sticker">{block.sticker}</Sticker>
+      </div>
+      <figcaption className="cs-media__caption">{block.caption}</figcaption>
+    </figure>
+  );
+}
+
+function Lessons({ items }) {
+  return (
+    <ol className="cs-lessons">
+      {items.map((text, i) => (
+        <li key={i} className="cs-lesson">
+          <span className="cs-lesson__n" aria-hidden="true">{pad2(i + 1)}</span>
+          <p>{text}</p>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+function Block({ block }) {
+  switch (block.type) {
+    case 'p': return <p className="cs-p">{block.text}</p>;
+    case 'quote': return <blockquote className="cs-quote"><p>{block.text}</p></blockquote>;
+    case 'lead': return <p className="cs-lead">{block.text}</p>;
+    case 'cards': return <Cards cards={block.cards} size={block.size} />;
+    case 'fork': return <Fork options={block.options} />;
+    case 'media': return <Media block={block} />;
+    case 'lessons': return <Lessons items={block.items} />;
+    default: return null;
+  }
+}
+
+function Pitch({ section, n, total }) {
+  const id = `cs-wp-${pad2(n)}`;
+  return (
+    <section className="cs-pitch" aria-labelledby={id}>
+      <div className="cs-pitch__rail" aria-hidden="true" />
+      <header className="cs-pitch__aside">
+        <span className="cs-waypoint" aria-hidden="true">{pad2(n)}</span>
+        <p className="cs-pitch__label">{section.label}</p>
+        <p className="cs-pitch__count">Waypoint {pad2(n)} / {pad2(total)}</p>
+      </header>
+      <div
+        className="cs-pitch__body"
+        style={{ '--cs-gap': section.gap ? `${section.gap}px` : undefined, '--cs-min-h': section.minHeight ? `${section.minHeight}px` : undefined }}
+      >
+        <h2 id={id} className="cs-pitch__title">{section.title}</h2>
+        {section.blocks.map((b, i) => <Block key={i} block={b} />)}
+      </div>
+    </section>
+  );
+}
+
+function ImageBreak({ section }) {
+  return (
+    <div className="cs-break">
+      <span className="cs-contour cs-contour--break" aria-hidden="true" />
+      <Shot image={section.image} className="cs-shot--break" />
+      <Sticker tone="chartreuse" rotate={1} className="cs-break__sticker">{section.sticker}</Sticker>
+    </div>
+  );
+}
+
+function Milestone({ section }) {
+  return (
+    <section className="cs-milestone" aria-labelledby="cs-milestone-title">
+      <span className="cs-contour cs-contour--milestone" aria-hidden="true" />
+      <div className="cs-milestone__main">
+        <span className="cs-milestone__icon" aria-hidden="true"><IconFlag size={22} stroke={2} /></span>
+        <div>
+          <p className="cs-milestone__eyebrow">Milestone</p>
+          <h2 id="cs-milestone-title" className="cs-milestone__title">{section.title}</h2>
+          <p className="cs-milestone__text">{section.text}</p>
+        </div>
+      </div>
+      <ul className="cs-stats">
+        {section.stats.map((s) => (
+          <li key={s.label} className="cs-stat">
+            <span className="cs-stat__value">{s.value}</span>
+            <span className="cs-stat__label">{s.label}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+function NextRoute({ next }) {
+  return (
+    <section className="cs-next" aria-labelledby="cs-next-title">
+      <span className="cs-next__ghost" aria-hidden="true">{next.ghost}</span>
+      <p className="cs-next__eyebrow">{next.eyebrow}</p>
+      <h2 id="cs-next-title" className="cs-next__title">{next.title}</h2>
+      <Link to={next.to} className="cs-next__cta">
+        {next.cta}<IconArrowRight size={16} stroke={2} aria-hidden="true" />
+      </Link>
+    </section>
+  );
+}
+
 export default function CaseStudy({ slug }) {
-  return (<><SiteHeader /><main className="page"><h1>{slug}</h1></main><SiteFooter /></>);
+  const study = STUDIES[slug];
+  if (!study) return null;
+  const total = study.sections.filter((s) => s.type === 'pitch').length;
+  let n = 0;
+  // Consecutive pitches share one "run" (48px in/out padding → 96px between bands).
+  const groups = [];
+  for (const s of study.sections) {
+    const last = groups[groups.length - 1];
+    if (s.type === 'pitch' && last?.type === 'run') last.items.push(s);
+    else groups.push(s.type === 'pitch' ? { type: 'run', items: [s] } : s);
+  }
+  return (
+    <div className="cs" data-study={study.slug}>
+      <div className="cs-top"><SiteHeader /></div>
+      <main className="cs-main">
+        <Hero study={study} />
+        <MetaStrip items={study.meta} />
+        {groups.map((g, i) => (
+          <Fragment key={i}>
+            {g.type === 'run' && (
+              <div className="cs-run">
+                {g.items.map((s) => { n += 1; return <Pitch key={s.title} section={s} n={n} total={total} />; })}
+              </div>
+            )}
+            {g.type === 'break' && <ImageBreak section={g} />}
+            {g.type === 'milestone' && <Milestone section={g} />}
+          </Fragment>
+        ))}
+        <NextRoute next={study.next} />
+      </main>
+    </div>
+  );
 }

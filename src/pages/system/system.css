@@ -1,0 +1,255 @@
+/* ==========================================================================
+   System screens — Loading (5408:8614 / 5417:9789) and 404 · Off route
+   (5408:8686 / 5417:9861). Every class is prefixed sys-. Tokens: ml-tokens.css.
+   ========================================================================== */
+
+/* ---- shared contour model ---------------------------------------------- */
+.sys-terrain { display: block; width: 100%; height: auto; overflow: visible; }
+.sys-terrain path,
+.sys-terrain ellipse { vector-effect: non-scaling-stroke; }
+
+.sys-terrain__dial-inner { fill: none; }
+.sys-terrain__dial-ring { fill: none; stroke: rgb(185 214 227 / 0.8); stroke-width: 2; }
+.sys-terrain__rings path {
+  fill: var(--contour-fill);
+  stroke: rgb(185 214 227 / 0.6);
+  stroke-width: 1;
+  stroke-linejoin: round;
+}
+.sys-terrain--static .sys-terrain__rings path.is-index { stroke-width: 1.75; }
+.sys-terrain__ghost path {
+  fill: none;
+  stroke: rgb(185 214 227 / 0.45);
+  stroke-width: 1;
+  stroke-dasharray: 5 4;
+}
+
+[data-theme="winter"] .sys-terrain__dial-inner { fill: var(--ml-blue-100); }
+[data-theme="winter"] .sys-terrain__dial-ring { stroke: rgb(47 33 28 / 0.5); stroke-width: 2.5; }
+[data-theme="winter"] .sys-terrain__rings path {
+  /* graded blue-200 (low) → blue-100 (high), like the home model */
+  fill: color-mix(in srgb, var(--ml-blue-100) calc(var(--t, 0) * 100%), var(--ml-blue-200));
+  stroke: rgb(47 33 28 / 0.62);
+}
+[data-theme="winter"] .sys-terrain__ghost path { stroke: rgb(47 33 28 / 0.5); }
+
+/* draw-in: contours stroke-draw in elevation order (1.2 s ease-out), then fill */
+.sys-terrain--draw .sys-terrain__rings path {
+  fill-opacity: 0;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation:
+    sys-draw calc(var(--ml-dur-contours) * 0.5) var(--ml-ease-out) calc(var(--o) * var(--ml-dur-contours) * 0.5) forwards,
+    sys-fill var(--ml-dur-card-in) var(--ml-ease-standard) var(--ml-dur-contours) forwards;
+}
+.sys-terrain--draw .sys-terrain__ghost { animation: sys-fade-out var(--ml-dur-card-in) linear var(--ml-dur-contours) forwards; }
+@keyframes sys-draw { to { stroke-dashoffset: 0; } }
+@keyframes sys-fill { to { fill-opacity: 1; } }
+@keyframes sys-fade-out { to { opacity: 0; } }
+
+/* ---- Loading ----------------------------------------------------------- */
+.sys-load {
+  position: fixed; inset: 0; z-index: 1000;
+  background: var(--bg); color: var(--fg);
+  font-family: var(--ml-font-display);
+  font-variation-settings: "opsz" 14;
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity 400ms var(--ml-ease-standard);
+}
+.sys-load.is-leaving { opacity: 0; pointer-events: none; }
+
+/* stage = frame x 0–940, y 200–820 of the 1440×900 design; dial centred on screen */
+.sys-load__stage {
+  position: absolute;
+  left: 50%; top: max(16px, calc(50% - 290px));
+  width: min(940px, 100vw - 40px);
+  translate: -50% 0;
+}
+.sys-load__pin-body circle { fill: var(--ml-orange-500); stroke: var(--ml-white); stroke-width: 3; }
+.sys-load__pin-body { filter: drop-shadow(0 30px 15px rgb(0 0 0 / 0.4)); }
+.sys-load__pin-shadow ellipse { fill: rgb(0 0 0 / 0.55); filter: blur(2px); }
+[data-theme="winter"] .sys-load__pin-shadow ellipse { fill: rgb(47 33 28 / 0.45); }
+
+/* pin drops from −120px with a 2-bounce spring, landing ≈1.0 s */
+.sys-load__pin-body { animation: sys-pin-drop 650ms linear 350ms both; }
+.sys-load__pin-shadow ellipse { transform-box: fill-box; transform-origin: center; animation: sys-shadow 650ms linear 350ms both; }
+@keyframes sys-pin-drop {
+  0%   { transform: translateY(-120px); opacity: 0; animation-timing-function: cubic-bezier(.55, 0, 1, .45); }
+  8%   { opacity: 1; }
+  45%  { transform: translateY(0); animation-timing-function: cubic-bezier(0, .55, .45, 1); }
+  62%  { transform: translateY(-22px); animation-timing-function: cubic-bezier(.55, 0, 1, .45); }
+  78%  { transform: translateY(0); animation-timing-function: cubic-bezier(0, .55, .45, 1); }
+  88%  { transform: translateY(-6px); animation-timing-function: cubic-bezier(.55, 0, 1, .45); }
+  100% { transform: translateY(0); opacity: 1; }
+}
+@keyframes sys-shadow {
+  0%   { transform: scale(0.3); opacity: 0; }
+  45%  { transform: scale(1); opacity: 1; }
+  62%  { transform: scale(0.8); }
+  78%  { transform: scale(1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.sys-load__meta { position: absolute; left: var(--ml-grid-margin); bottom: 54px; width: 320px; }
+.sys-load__title {
+  font-size: 28px; font-weight: 800; line-height: 1.2;
+  color: var(--fg);
+}
+.sys-load__bar {
+  --p: 0;
+  position: relative; height: 2px; margin-top: 18px;
+  background: rgb(255 255 255 / 0.18);
+}
+[data-theme="winter"] .sys-load__bar { background: rgb(47 33 28 / 0.18); }
+.sys-load__bar-fill {
+  position: absolute; inset: 0;
+  background: var(--accent);
+  transform-origin: left center; transform: scaleX(var(--p));
+}
+.sys-load__bar-dot {
+  position: absolute; top: -4px; left: calc(var(--p) * 100% - 5px);
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--accent);
+}
+.sys-load__caption {
+  margin-top: 16px;
+  font: 400 var(--ml-text-xs) / normal var(--ml-font-mono);
+  letter-spacing: var(--ml-tracking-mono);
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sys-terrain--draw .sys-terrain__rings path { animation: none; stroke-dasharray: none; stroke-dashoffset: 0; fill-opacity: 1; }
+  .sys-terrain--draw .sys-terrain__ghost { display: none; }
+  .sys-load__pin-body,
+  .sys-load__pin-shadow ellipse { animation: none; }
+  .sys-load { animation: sys-fade-in 300ms linear both; }
+}
+@keyframes sys-fade-in { from { opacity: 0; } }
+
+@media (max-width: 767px) {
+  .sys-load__stage { top: max(16px, calc(42% - 160px)); width: calc(100vw + 120px); }
+  .sys-load__meta { left: var(--ml-mobile-margin); right: var(--ml-mobile-margin); bottom: max(32px, env(safe-area-inset-bottom)); width: auto; }
+  .sys-load__title { font-size: 24px; }
+}
+
+/* ---- 404 · Off route ---------------------------------------------------- */
+.sys-404 {
+  overflow: hidden;
+  font-variation-settings: "opsz" 14;
+}
+.sys-404__main { position: relative; min-height: calc(100dvh - 80px); }
+.sys-404__copy {
+  position: relative; z-index: 2;
+  padding: 40px var(--ml-grid-margin) 96px;
+  max-width: 640px;
+}
+.sys-404__eyebrow {
+  font: 700 var(--ml-text-xs) / normal var(--ml-font-mono);
+  letter-spacing: var(--ml-tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.sys-404__title {
+  margin: 6px 0 0 -4px;
+  font-size: var(--ml-text-6xl); font-weight: 800; line-height: var(--ml-leading-tight);
+  color: var(--fg);
+}
+.sys-404__title span { display: block; white-space: nowrap; }
+.sys-404__lede {
+  margin-top: 32px; max-width: 520px;
+  font-size: var(--ml-text-lg); line-height: 1.4;
+  color: var(--fg-muted);
+}
+[data-theme="winter"] .sys-404__lede { color: var(--fg); }
+
+.sys-404__actions { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 35px; }
+.sys-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: var(--ml-tap-min);
+  padding: 12px 18px;
+  border-radius: var(--ml-radius-pill);
+  font-size: var(--ml-text-base); font-weight: 600; line-height: normal;
+  transition: background-color var(--ml-dur-fast) var(--ml-ease-out), border-color var(--ml-dur-fast) var(--ml-ease-out), translate var(--ml-dur-fast) var(--ml-ease-out);
+}
+.sys-btn:focus-visible { border-radius: var(--ml-radius-pill); }
+.sys-btn:active { scale: var(--ml-pin-press); transition-duration: var(--ml-dur-press); }
+.sys-btn--primary { background: var(--ml-white); color: var(--ml-ink-900); }
+.sys-btn--primary:hover { background: var(--ml-blue-100); }
+.sys-btn--ghost { border: 1.5px solid rgb(255 255 255 / 0.4); color: var(--fg); }
+.sys-btn--ghost:hover { border-color: var(--fg); }
+[data-theme="winter"] .sys-btn--ghost { border-color: rgb(47 33 28 / 0.5); }
+[data-theme="winter"] .sys-btn--ghost:hover { border-color: var(--ml-cocoa-800); }
+
+.sys-404__sticker {
+  display: inline-flex; align-items: center;
+  margin: 36px 0 0 -2px;
+  padding: 8px 14px;
+  border: var(--ml-stroke-sticker) solid var(--ml-white);
+  border-radius: var(--ml-radius-pill);
+  background: var(--accent-2); color: var(--ml-ink-900);
+  font: 700 var(--ml-text-2xs) / normal var(--ml-font-badge);
+  white-space: nowrap;
+  rotate: 3deg;
+}
+
+/* art = frame x 0–940, y 200–860; at 1440 it sits at (380, 240) like the Figma frame */
+.sys-404__art {
+  position: absolute; z-index: 1;
+  left: calc(50% - 340px); top: 160px; /* main starts 80px below the page top */
+  width: 940px;
+}
+.sys-404__terrain { opacity: 0.55; }
+.sys-404__pin {
+  position: absolute; left: 46.81%; top: 1.52%;
+  width: 52px;
+  display: flex; flex-direction: column; align-items: center;
+}
+.sys-404__pin-head {
+  width: 52px; height: 52px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--pin-ahead-bg); color: var(--pin-ahead-fg);
+  border: 2px solid var(--pin-ring);
+}
+.sys-404__pin-stem { width: 3px; height: 90px; margin-left: -1px; background: var(--pin-ahead-stem); }
+.sys-404__pin-foot { width: 16px; height: 9px; margin: -4px 0 0 -1px; border-radius: 50%; background: var(--ml-cocoa-800); }
+.sys-404__plate {
+  position: absolute; left: 53.62%; top: 1.82%;
+  display: flex; flex-direction: column;
+  padding: 6px 10px; border-radius: var(--ml-radius-sm);
+  background: var(--plate-bg); color: var(--plate-fg);
+  font: 400 var(--ml-text-xs) / normal var(--ml-font-mono);
+  white-space: nowrap;
+}
+.sys-404__plate strong { font-weight: 700; }
+.sys-404__plate span { color: var(--plate-sub); }
+[data-theme="winter"] .sys-404__plate span { color: var(--plate-fg); }
+
+/* tablet / narrow desktop: let the model drift right and down, behind the copy */
+@media (max-width: 1199px) and (min-width: 768px) {
+  .sys-404__art { left: auto; right: -100px; top: 160px; width: min(760px, 74vw); }
+}
+
+/* phone: single column, model below the copy */
+@media (max-width: 767px) {
+  .sys-404__main { min-height: 0; }
+  .sys-404__copy { padding: 32px var(--ml-mobile-margin) 0; max-width: none; }
+  .sys-404__title { font-size: var(--ml-text-3xl); line-height: var(--ml-leading-snug); margin-left: -2px; }
+  .sys-404__title span { white-space: normal; }
+  .sys-404__lede { margin-top: 16px; font-size: var(--ml-text-md); }
+  .sys-404__actions { flex-direction: column; align-items: stretch; gap: 10px; margin-top: 24px; }
+  .sys-404__sticker { margin-top: 28px; }
+  .sys-404__art {
+    position: relative; left: auto; top: auto;
+    width: calc(100% + 140px); margin: 112px -70px 0;
+  }
+  .sys-404__pin { top: calc(27.9% - 118px); left: calc(46.81% - 4px); width: 36px; }
+  .sys-404__pin-head { width: 36px; height: 36px; }
+  .sys-404__pin-head svg { width: 16px; height: 16px; }
+  .sys-404__pin-stem { height: 64px; }
+  .sys-404__plate { top: calc(27.9% - 116px); left: calc(46.81% + 44px); }
+}
