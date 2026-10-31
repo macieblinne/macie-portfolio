@@ -8,6 +8,7 @@ import LoadingScreen from './pages/system/LoadingScreen.jsx';
 import AINotesDrawer from './pages/ai/AINotesDrawer.jsx';
 import { RouterProvider, useRouter, useGlobalLinkInterception } from './site/router.jsx';
 import { SiteProvider, useSite } from './site/site.jsx';
+import { useScrollReveal } from './site/motion.js';
 
 const TITLES = {
   '/': 'Macie Linne — Product Designer',
@@ -20,6 +21,7 @@ const TITLES = {
 function Routes() {
   const { path } = useRouter();
   useGlobalLinkInterception();
+  useScrollReveal(path);
   useEffect(() => { document.title = TITLES[path] ?? 'Off route — Macie Linne'; }, [path]);
   if (path === '/') return <Home />;
   if (path === '/work') return <WorkIndex />;
@@ -31,17 +33,23 @@ function Routes() {
 
 function Shell() {
   const { notesOpen, closeNotes } = useSite();
-  // Loading screen: first visit of the session only, until fonts are ready (min 900ms so it reads)
+  // Loading screen: first visit of the session only, until fonts are ready — held long enough
+  // for the full choreography (contours draw 2.6 s, pin lands ≈2.65 s, fill settles ≈3.2 s)
   const [loading, setLoading] = useState(() => { try { return !sessionStorage.getItem('ml:loaded'); } catch { return false; } });
   const [mounted, setMounted] = useState(loading);
   useEffect(() => {
     if (!loading) return;
     const t0 = performance.now();
     (document.fonts?.ready ?? Promise.resolve()).then(() => {
-      setTimeout(() => { setLoading(false); try { sessionStorage.setItem('ml:loaded', '1'); } catch { /* noop */ } }, Math.max(0, 900 - (performance.now() - t0)));
+      setTimeout(() => { setLoading(false); try { sessionStorage.setItem('ml:loaded', '1'); } catch { /* noop */ } }, Math.max(0, 3400 - (performance.now() - t0)));
     });
   }, [loading]);
-  useEffect(() => { if (!loading && mounted) { const t = setTimeout(() => setMounted(false), 400); return () => clearTimeout(t); } }, [loading, mounted]);
+  // pages hold their entrance choreography while the loading screen is up (motion.css)
+  useEffect(() => {
+    const root = document.documentElement;
+    if (loading) root.dataset.loading = ''; else delete root.dataset.loading;
+  }, [loading]);
+  useEffect(() => { if (!loading && mounted) { const t = setTimeout(() => setMounted(false), 750); return () => clearTimeout(t); } }, [loading, mounted]);
   return (
     <>
       <Routes />

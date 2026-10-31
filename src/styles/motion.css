@@ -1,0 +1,186 @@
+/* ==========================================================================
+   Motion — page transitions, shared elements, theme reveal, scroll reveals,
+   and the home page's entrance choreography.
+   Principles: exits are quicker than entrances; things that persist (header,
+   nav, the active tab, project shots) morph instead of re-entering; entrances
+   cascade with a short stagger; springs for physical things (pins, stickers,
+   toggles), emphasized curves for layout moves. Reduced motion → opacity only.
+   ========================================================================== */
+
+/* ---- shared elements: persist / morph across routes ---------------------- */
+.site-header__brand .mark, .home__header .mark, .m-header__brand .mark { view-transition-name: brand-mark; }
+.nav { view-transition-name: site-nav; }
+.nav__pill { view-transition-name: nav-pill; }
+/* nav labels (nav-home/-work/-about) and project shots/titles (shot-<slug>, title-<slug>)
+   get their names inline; shots also carry view-transition-class `shot`. Headlines are
+   deliberately NOT paired: they wrap differently on each page and ghost when morphed. */
+
+/* active-tab indicator: a pill under the labels (SiteHeader.jsx PrimaryNav) */
+.nav { isolation: isolate; }
+.nav--inline { position: relative; top: auto; right: auto; } /* home's .nav is already absolutely positioned */
+.nav__pill { position: absolute; z-index: -1; border-radius: var(--ml-radius-pill); background: var(--ml-cocoa-800); pointer-events: none; }
+.nav__item[aria-current="page"] { background: transparent; color: var(--ml-white); }
+.nav__item:not([aria-current="page"]):hover { background: var(--ml-blue-100); }
+
+/* ---- page transitions ----------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  html[data-vt="page"]::view-transition-old(root) {
+    animation: vt-page-out var(--ml-dur-page-out) var(--ml-ease-exit) both;
+  }
+  html[data-vt="page"]::view-transition-new(root) {
+    animation: vt-page-in var(--ml-dur-page) var(--ml-ease-emph) calc(var(--ml-dur-page-out) * 0.45) both;
+  }
+  html[data-vt="page"][data-vt-dir="back"]::view-transition-old(root) { animation-name: vt-page-out-back; }
+  html[data-vt="page"][data-vt-dir="back"]::view-transition-new(root) { animation-name: vt-page-in-back; }
+
+  /* morphing elements (nav pill, active tab, shots, titles) */
+  html[data-vt="page"]::view-transition-group(*) {
+    animation-duration: var(--ml-dur-page);
+    animation-timing-function: var(--ml-ease-emph);
+  }
+  html[data-vt="page"]::view-transition-group(root) { animation-duration: var(--ml-dur-page); }
+  /* the active tab's pill slides with a little spring; labels just re-colour */
+  html[data-vt="page"]::view-transition-group(nav-pill) {
+    animation-duration: calc(var(--ml-dur-page) * 1.1);
+    animation-timing-function: var(--ml-ease-spring);
+  }
+  html[data-vt="page"]::view-transition-old(nav-pill),
+  html[data-vt="page"]::view-transition-new(nav-pill) { animation: none; }
+  html[data-vt="page"]::view-transition-old(nav-pill) { opacity: 0; }
+  /* project shots + titles cross-fade while they travel and keep their crop */
+  html[data-vt="page"]::view-transition-old(.shot),
+  html[data-vt="page"]::view-transition-new(.shot) {
+    height: 100%; object-fit: cover; overflow: clip;
+    animation-duration: calc(var(--ml-dur-page) * 0.7);
+  }
+  html[data-vt="page"]::view-transition-group(.shot) { border-radius: 16px; overflow: clip; }
+}
+
+@keyframes vt-page-out      { to   { opacity: 0; transform: translateX(-2.5%) scale(0.985); filter: blur(6px); } }
+@keyframes vt-page-in       { from { opacity: 0; transform: translateX(3.5%); filter: blur(8px); } }
+@keyframes vt-page-out-back { to   { opacity: 0; transform: translateX(2.5%) scale(0.985); filter: blur(6px); } }
+@keyframes vt-page-in-back  { from { opacity: 0; transform: translateX(-3.5%); filter: blur(8px); } }
+
+/* ---- theme: the new theme grows from the click as a circle (motion.js) ---- */
+html[data-vt="theme"]::view-transition-old(root),
+html[data-vt="theme"]::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+html[data-vt="theme"]::view-transition-new(root) { z-index: 2; }
+html[data-vt="theme"] * { view-transition-name: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { view-transition-name: none !important; } /* plain cross-fade only */
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation-duration: 200ms !important; }
+}
+
+/* ---- scroll reveals (classes applied by useScrollReveal) ------------------- */
+.rv {
+  transition:
+    opacity var(--ml-dur-reveal) var(--ml-ease-out),
+    translate var(--ml-dur-reveal) var(--ml-ease-out),
+    filter calc(var(--ml-dur-reveal) * 0.8) var(--ml-ease-out);
+  transition-delay: calc(var(--rv-i, 0) * var(--ml-stagger));
+}
+.rv:not(.rv-in) { opacity: 0; filter: blur(6px); }
+.rv--rise:not(.rv-in) { translate: 0 36px; }
+
+/* ---- shared entrance keyframes -------------------------------------------- */
+@keyframes rise-in   { from { opacity: 0; translate: 0 28px; filter: blur(6px); } }
+@keyframes fade-in   { from { opacity: 0; } }
+@keyframes pop-in    { from { opacity: 0; scale: 0.6; } }
+@keyframes slide-in-l { from { opacity: 0; translate: 40px 0; filter: blur(4px); } }
+
+/* while the loading screen is up, hold the page's entrance so it plays after */
+html[data-loading] .home__header > *,
+html[data-loading] .card-slot,
+html[data-loading] .stage__stickers > *,
+html[data-loading] .m-home > *,
+html[data-loading] .nav { animation-play-state: paused !important; }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* home: hero text cascades in */
+  .home__header > * { animation: rise-in var(--ml-dur-reveal) var(--ml-ease-out) both; }
+  .home__header > :nth-child(1) { animation-delay: 120ms; animation-name: pop-in; animation-timing-function: var(--ml-ease-spring); }
+  .home__header > :nth-child(2) { animation-delay: 220ms; }
+  .home__header > :nth-child(3) { animation-delay: 320ms; }
+  .home__header > :nth-child(4) { animation-delay: 420ms; }
+  .home__header > :nth-child(5) { animation-delay: 560ms; }
+  .home > .nav { animation: fade-in 900ms var(--ml-ease-out) 300ms both; }
+
+  /* home: detail card slides in, then its contents cascade (every card swap too) */
+  .card-slot { animation: slide-in-l var(--ml-dur-reveal) var(--ml-ease-emph) 650ms both; }
+  .card:not(.card--out) > .card__head,
+  .card:not(.card--out) > .card__art,
+  .card:not(.card--out) > .card__body > * { animation: rise-in var(--ml-dur-card-in) var(--ml-ease-out) both; }
+  .card:not(.card--out) > .card__head { animation-delay: 60ms; }
+  .card:not(.card--out) > .card__art { animation-delay: 120ms; }
+  .card:not(.card--out) > .card__body > :nth-child(1) { animation-delay: 200ms; }
+  .card:not(.card--out) > .card__body > :nth-child(2) { animation-delay: 270ms; }
+  .card:not(.card--out) > .card__body > :nth-child(3) { animation-delay: 340ms; }
+  .card:not(.card--out) > .card__body > :nth-child(4) { animation-delay: 410ms; }
+  .card__art-sticker-tl, .card__art-sticker-br { animation: pop-in var(--ml-dur-pin) var(--ml-ease-spring) both; }
+  .card__art-sticker-tl { animation-delay: 380ms; }
+  .card__art-sticker-br { animation-delay: 460ms; }
+
+  /* home: stickers pop on with a spring */
+  .stage__stickers > * { animation: pop-in var(--ml-dur-pin) var(--ml-ease-spring) both; }
+  .stage__stickers > :nth-child(1) { animation-delay: 1500ms; }
+  .stage__stickers > :nth-child(2) { animation-delay: 1620ms; }
+  .stage__stickers > :nth-child(3) { animation-delay: 1740ms; }
+
+  /* home (phone): sections cascade */
+  .m-home > * { animation: rise-in var(--ml-dur-reveal) var(--ml-ease-out) both; }
+  .m-home > :nth-child(2) { animation-delay: 100ms; }
+  .m-home > :nth-child(3) { animation-delay: 220ms; }
+  .m-home > :nth-child(4) { animation-delay: 340ms; }
+  .m-home > :nth-child(n+5) { animation-delay: 440ms; }
+
+  /* phone menu: links cascade in */
+  .menu-sheet__nav > * { animation: rise-in var(--ml-dur-card-in) var(--ml-ease-out) both; }
+  .menu-sheet__nav > :nth-child(1) { animation-delay: 80ms; }
+  .menu-sheet__nav > :nth-child(2) { animation-delay: 150ms; }
+  .menu-sheet__nav > :nth-child(3) { animation-delay: 220ms; }
+  .menu-sheet__nav > :nth-child(4) { animation-delay: 290ms; }
+  .menu-sheet__foot { animation: fade-in var(--ml-dur-card-in) var(--ml-ease-out) 380ms both; }
+
+  /* theme icon on phones spins in */
+  .m-iconbtn--theme svg { animation: icon-in var(--ml-dur-pin) var(--ml-ease-spring) both; }
+}
+@keyframes icon-in { from { opacity: 0; rotate: -120deg; scale: 0.4; } }
+
+/* ---- theme toggle: a thumb that slides with a spring ------------------------ */
+.theme-toggle { position: relative; isolation: isolate; }
+.theme-toggle::before {
+  content: ''; position: absolute; z-index: -1; left: 3px; top: 3px; width: 26px; height: 26px; border-radius: 50%;
+  background: var(--ml-white);
+  transition: translate var(--ml-dur-pin) var(--ml-ease-spring);
+}
+.theme-toggle[data-active="winter"]::before { translate: 28px 0; }
+.theme-toggle .theme-toggle__btn[aria-pressed="true"] { background: transparent; color: var(--ml-ink-900); transition: color var(--ml-dur-fast) var(--ml-ease-out); }
+.theme-toggle__btn:hover { scale: 1.08; }
+.theme-toggle__btn { transition: color var(--ml-dur-fast) var(--ml-ease-out), scale var(--ml-dur-fast) var(--ml-ease-spring); }
+
+/* ---- nav pill: hover lifts, press squashes -------------------------------- */
+.nav__item { transition: background var(--ml-dur-fast) var(--ml-ease-out), scale var(--ml-dur-fast) var(--ml-ease-spring); }
+.nav__item:active { scale: 0.94; transition-duration: var(--ml-dur-press); }
+
+/* ---- summit model extras (SummitModel.jsx) --------------------------------- */
+.stage--loading .plate, .stage--loading .here, .here--hidden { opacity: 0 !important; }
+.stage__route { transition: opacity 800ms var(--ml-ease-out) 200ms; }
+.stage--loading .stage__route { opacity: 0; }
+.stage .plate { transition: opacity 700ms var(--ml-ease-out), filter var(--ml-dur-fast); }
+.stage .here { transition: opacity 700ms var(--ml-ease-out) 300ms; }
+.here--moving { transition: transform var(--ml-dur-route) var(--ml-ease-emph), opacity 700ms var(--ml-ease-out) !important; }
+.compass { transition: opacity 900ms var(--ml-ease-out) 400ms; }
+.stage--loading .compass { opacity: 0; }
+.route-fresh {
+  fill: none; stroke: var(--route-done); stroke-width: var(--ml-stroke-route-done); stroke-linecap: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1;
+  animation: route-draw var(--ml-dur-route) var(--ml-ease-emph) 120ms forwards;
+}
+@keyframes route-draw { to { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) { .route-fresh { animation: none; stroke-dashoffset: 0; } }
+.nav__item[aria-current="page"]:hover { background: transparent; }
+.stop { transition: opacity 700ms var(--ml-ease-out); }
+.stage--loading .stop { opacity: 0; }
+/* labels stepping aside to avoid a collision get out of the way quickly; only entrances linger */
+.stage .plate--tucked, .stage .here--hidden { transition-duration: var(--ml-dur-fast) !important; transition-delay: 0s !important; }

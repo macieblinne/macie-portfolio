@@ -8,7 +8,7 @@ import { DEG } from './project.js';
 import { placeLabels } from './labels.js';
 import { useRouter } from '../site/router.jsx';
 
-const DRAW_IN_MS = 1200;
+const DRAW_IN_MS = 2600; // = --ml-dur-contours
 
 /**
  * Live, draggable contour mountain. Desktop / fine-pointer only.
@@ -20,6 +20,9 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
   const canvasRef = useRef(null);
   const routeDoneRef = useRef(null);
   const routeAheadRef = useRef(null);
+  const routeFreshRef = useRef(null);
+  const freshRef = useRef(-1);
+  const [freshKey, setFreshKey] = useState(0);
   const liftsRef = useRef(null);
   const stopRefs = useRef([]);
   const plateRefs = useRef([]);
@@ -50,9 +53,11 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
     }
     const ctx = canvas.getContext('2d');
     const reduced = prefersReducedMotion();
-    if (!startRef.current) startRef.current = t0;
-    const drawIn = reduced ? 1 : Math.min(1, (t0 - startRef.current) / DRAW_IN_MS);
-    paintTerrain(ctx, scene, phi, theme, { dpr, width, height, drawIn, everyOther: everyOther.current });
+    const holding = 'loading' in document.documentElement.dataset; // loading screen still up
+    if (!startRef.current && !holding) startRef.current = t0;
+    if (holding) invalidateRef.current?.();
+    const drawIn = holding ? 0 : reduced ? 1 : Math.min(1, (t0 - startRef.current) / DRAW_IN_MS);
+        paintTerrain(ctx, scene, phi, theme, { dpr, width, height, drawIn, everyOther: everyOther.current });
     if (drawIn < 1) invalidateRef.current?.();
     else if (!loaded) setLoaded(true);
 
@@ -95,12 +100,17 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
     if (hereRef.current && placed.here) {
       hereRef.current.style.transform = `translate3d(${placed.here.x + 4 - (sizes.here.dx ?? 0)}px, ${placed.here.y + 4 - (sizes.here.dy ?? 0)}px, 0)`;
       hereRef.current.classList.toggle('here--left', placed.here.side === 'left');
-      hereRef.current.style.opacity = placed.here.hit > 60 ? '0' : '1';
+      hereRef.current.classList.toggle('here--hidden', placed.here.hit > 60);
     }
     // route
     const seg = (a, b) => `M${a.gx} ${a.gy}L${b.gx} ${b.gy}`;
     let done = '', ahead = '';
-    for (let i = 0; i < P.length - 1; i++) (activeIndex > i ? (done += seg(P[i], P[i + 1])) : (ahead += seg(P[i], P[i + 1])));
+    const fresh = freshRef.current; // index of the segment currently drawing on, or -1
+    for (let i = 0; i < P.length - 1; i++) {
+      if (i === fresh) continue;
+      if (activeIndex > i) done += seg(P[i], P[i + 1]); else ahead += seg(P[i], P[i + 1]);
+    }
+    if (routeFreshRef.current && fresh >= 0 && P[fresh + 1]) routeFreshRef.current.setAttribute('d', seg(P[fresh], P[fresh + 1]));
     routeDoneRef.current?.setAttribute('d', done || 'M0 0');
     routeAheadRef.current?.setAttribute('d', ahead || 'M0 0');
     // lifts (winter)
@@ -173,6 +183,17 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
   useEffect(() => { invalidate(); }, [activeIndex, theme, scene, invalidate]);
   useEffect(() => { startRef.current = 0; setLoaded(false); }, [theme, scene]);
 
+  // advancing along the route: the completed segment draws on, "You are here" glides over
+  useEffect(() => {
+    if (prevActive === undefined || prevActive === activeIndex) return undefined;
+    const here = hereRef.current;
+    here?.classList.add('here--moving');
+    if (activeIndex > prevActive) { freshRef.current = activeIndex - 1; setFreshKey((n) => n + 1); }
+    invalidateRef.current?.();
+    const t = setTimeout(() => { here?.classList.remove('here--moving'); freshRef.current = -1; invalidateRef.current?.(); }, 1150);
+    return () => clearTimeout(t);
+  }, [activeIndex, prevActive]);
+
   // face the active pin on change
   useEffect(() => {
     const p = pins[activeIndex];
@@ -198,6 +219,7 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
           <g ref={liftsRef} />
           <path ref={routeAheadRef} className="route-ahead" d="M0 0" />
           <path ref={routeDoneRef} className="route-done" d="M0 0" />
+          {freshKey > 0 && <path key={freshKey} ref={routeFreshRef} className="route-fresh" pathLength="1" d="M0 0" />}
         </svg>
         {['N', 'E', 'S', 'W'].map((l, i) => (
           <span key={l} ref={(el) => (compassRefs.current[i] = el)} className="compass" aria-hidden="true">{l}</span>

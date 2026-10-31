@@ -1,6 +1,6 @@
 // System — Loading (Figma 5408:8614 summer / 5417:9789 winter).
 // Contract: App renders it above everything on the first visit of a session while
-// `visible`; when `visible` turns false it fades itself out (App unmounts it 400ms later).
+// `visible`; when `visible` turns false it fades itself out (App unmounts it 750ms later).
 // Motion (Figma motion note): contours stroke-draw in elevation order (1.2 s, ease-out),
 // then fill; the pin drops from −120 px with a 2-bounce spring. Reduced motion: fade only.
 import { useEffect, useRef, useState } from 'react';
@@ -8,7 +8,7 @@ import { useSite } from '../../site/site.jsx';
 import SystemTerrain from './SystemTerrain.jsx';
 import './system.css';
 
-const DRAW_MS = 1200;
+const DRAW_MS = 2600; // = --ml-dur-contours
 const easeOut = (x) => 1 - Math.pow(1 - x, 3);
 
 function reducedMotion() {

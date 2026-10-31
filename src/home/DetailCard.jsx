@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { IconArrowLeft, IconArrowRight, IconCheck } from '@tabler/icons-react';
 import { STOP_CONTENT, LINKS } from './stops.js';
+import { vt } from '../site/motion.js';
 
 function ContourMotif() {
   // faint wavy contour lines behind the art (route motif)
@@ -14,9 +15,9 @@ function ContourMotif() {
   );
 }
 
-function Art({ art, title }) {
+function Art({ art, title, slug }) {
   return (
-    <div className="card__art" data-kind={art.kind}>
+    <div className="card__art" data-kind={art.kind} style={art.kind === 'image' ? vt('shot', slug) : undefined}>
       {art.kind === 'image' && <img className="card__art-img" src={art.src} alt={`${title} product UI`} />}
       {art.kind === 'photo' && (
         <>
@@ -66,7 +67,7 @@ export function CardBody({ stop, index, total, onStep, compact = false }) {
           </div>
         </div>
       )}
-      <Art art={c.art} title={c.title} />
+      <Art art={c.art} title={c.title} slug={stop.id} />
       <div className="card__body">
         <div>
           <h2 className="card__headline">{c.headline}</h2>
@@ -101,7 +102,7 @@ export function CardBody({ stop, index, total, onStep, compact = false }) {
   );
 }
 
-/** Desktop detail card with the Figma out/in transition (200 ms out, 300 ms in). */
+/** Desktop detail card: out 360 ms, in 640 ms with a staggered content cascade (motion.css). */
 export default function DetailCard({ stops, activeIndex, onSelect, children }) {
   const [shown, setShown] = useState(activeIndex);
   const [leaving, setLeaving] = useState(false);
@@ -109,7 +110,7 @@ export default function DetailCard({ stops, activeIndex, onSelect, children }) {
   useEffect(() => {
     if (activeIndex === shown) return;
     setLeaving(true);
-    const t = setTimeout(() => { setShown(activeIndex); setLeaving(false); }, 200);
+    const t = setTimeout(() => { setShown(activeIndex); setLeaving(false); }, 360); // = --ml-dur-card-out
     return () => clearTimeout(t);
   }, [activeIndex, shown]);
 

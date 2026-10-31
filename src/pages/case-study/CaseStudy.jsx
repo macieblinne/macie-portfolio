@@ -3,6 +3,7 @@
 // One component, two data files. Section types: pitch | break | milestone.
 // Pitch block types: p | quote | lead | cards | fork | media | lessons.
 import { Fragment, useEffect, useRef } from 'react';
+import { vt } from '../../site/motion.js';
 import { IconArrowLeft, IconArrowRight, IconCheck, IconFlag, IconX } from '@tabler/icons-react';
 import SiteHeader from '../../site/SiteHeader.jsx';
 import { Link } from '../../site/router.jsx';
@@ -38,7 +39,7 @@ function Shot({ image, className = '', eager = false }) {
   );
 }
 
-function Hero({ study }) {
+function Hero({ study, slug }) {
   return (
     <div className="cs-hero">
       <span className="cs-contour cs-contour--hero" aria-hidden="true" />
@@ -52,7 +53,7 @@ function Hero({ study }) {
           {study.title}
         </h1>
       </div>
-      <div className="cs-hero__media">
+      <div className="cs-hero__media" style={vt('shot', slug)}>
         <Shot image={study.hero.image} className="cs-shot--hero" eager />
         {study.hero.stickers.map((s) => (
           <Sticker key={s.label} tone={s.tone} rotate={s.rotate} className="cs-hero__sticker" style={{ '--cs-x': `${s.x}px`, '--cs-y': `${s.y}px` }}>
@@ -271,7 +272,7 @@ export default function CaseStudy({ slug }) {
     <div className="cs" data-study={study.slug}>
       <div className="cs-top"><SiteHeader /></div>
       <main className="cs-main">
-        <Hero study={study} />
+        <Hero study={study} slug={slug} />
         <MetaStrip items={study.meta} />
         {groups.map((g, i) => (
           <Fragment key={i}>

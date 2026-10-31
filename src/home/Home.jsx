@@ -8,7 +8,7 @@ import { STAGE } from '../summit/theme.js';
 import { sceneEnvelope } from '../summit/scene.js';
 import { LINKS, MOBILE_ROWS } from './stops.js';
 import { useSite, ThemeToggle } from '../site/site.jsx';
-import { MenuSheet } from '../site/SiteHeader.jsx';
+import { MenuSheet, PrimaryNav } from '../site/SiteHeader.jsx';
 import { IconNotes } from '@tabler/icons-react';
 import { IconTent, IconFlag, IconChevronRight } from '@tabler/icons-react';
 
@@ -37,7 +37,6 @@ function DesktopHome({ theme, setTheme }) {
   const stops = pinsConfig[theme].stops;
   const [active, setActive] = useState(1); // "01 active" is the resting state in Figma
   const prev = useRef(undefined);
-  const [fading, setFading] = useState(false);
   const [fitState, setFit] = useState({ k: 1, top: STAGE.y, left: 0 });
   const { k, top, left } = fitState;
   const mainRef = useRef(null);
@@ -86,8 +85,8 @@ function DesktopHome({ theme, setTheme }) {
   // theme crossfade (300 ms)
   const switchTheme = (t) => {
     if (t === theme) return;
-    setFading(true);
-    setTimeout(() => { setTheme(t); prev.current = undefined; setTimeout(() => setFading(false), 50); }, 300);
+    prev.current = undefined; // the new mountain draws in and drops its pin again
+    setTheme(t);
   };
 
   const hint = theme === 'winter' ? 'Start at the base · drag to rotate' : 'Start at the trailhead · drag to rotate';
@@ -103,14 +102,9 @@ function DesktopHome({ theme, setTheme }) {
         <p className="home__hint">{hint}</p>
       </header>
 
-      <nav className="nav" aria-label="Primary">
-        <a className="nav__item" href="/" aria-current="page">Home</a>
-        <a className="nav__item" href="/work">Work</a>
-        <a className="nav__item" href="/about">About</a>
-        <ThemeToggle theme={theme} setTheme={switchTheme} />
-      </nav>
+      <PrimaryNav onTheme={switchTheme} />
 
-      <div style={{ transition: 'opacity 300ms var(--ml-ease-standard)', opacity: fading ? 0 : 1 }}>
+      <div>
         {terrain ? (
           <SummitModel
             key={theme}
@@ -175,7 +169,7 @@ function MobileHome({ theme, setTheme }) {
       <header className="m-header">
         <a className="m-header__brand" href="/"><span className="mark">ML</span>Macie Linne</a>
         <div className="m-header__actions">
-          <button type="button" className="m-iconbtn" aria-label={theme === 'summer' ? 'Switch to winter theme' : 'Switch to summer theme'} onClick={() => setTheme(theme === 'summer' ? 'winter' : 'summer')}>
+          <button type="button" className="m-iconbtn m-iconbtn--theme" aria-label={theme === 'summer' ? 'Switch to winter theme' : 'Switch to summer theme'} onClick={() => setTheme(theme === 'summer' ? 'winter' : 'summer')}>
             {theme === 'summer' ? <IconSun size={18} stroke={2} /> : <IconSnowflake size={18} stroke={2} />}
           </button>
           <button type="button" className="m-iconbtn" aria-label="Open menu" aria-expanded={menu} onClick={() => setMenu(true)}><IconMenu2 size={18} stroke={2} /></button>

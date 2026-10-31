@@ -55,9 +55,9 @@
   font-variation-settings: "opsz" 14;
   overflow: hidden;
   opacity: 1;
-  transition: opacity 400ms var(--ml-ease-standard);
+  transition: opacity 700ms var(--ml-ease-standard), scale 900ms var(--ml-ease-emph), filter 700ms var(--ml-ease-standard);
 }
-.sys-load.is-leaving { opacity: 0; pointer-events: none; }
+.sys-load.is-leaving { opacity: 0; scale: 1.04; filter: blur(10px); pointer-events: none; }
 
 /* stage = frame x 0–940, y 200–820 of the 1440×900 design; dial centred on screen */
 .sys-load__stage {
@@ -72,8 +72,8 @@
 [data-theme="winter"] .sys-load__pin-shadow ellipse { fill: rgb(47 33 28 / 0.45); }
 
 /* pin drops from −120px with a 2-bounce spring, landing ≈1.0 s */
-.sys-load__pin-body { animation: sys-pin-drop 650ms linear 350ms both; }
-.sys-load__pin-shadow ellipse { transform-box: fill-box; transform-origin: center; animation: sys-shadow 650ms linear 350ms both; }
+.sys-load__pin-body { animation: sys-pin-drop 1150ms linear 1500ms both; }
+.sys-load__pin-shadow ellipse { transform-box: fill-box; transform-origin: center; animation: sys-shadow 1150ms linear 1500ms both; }
 @keyframes sys-pin-drop {
   0%   { transform: translateY(-120px); opacity: 0; animation-timing-function: cubic-bezier(.55, 0, 1, .45); }
   8%   { opacity: 1; }

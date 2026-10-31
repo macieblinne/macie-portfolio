@@ -5,6 +5,7 @@ import './styles/reset.css';
 import './styles/ml-tokens.css';
 import './styles/home.css';
 import './styles/site.css';
+import './styles/motion.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

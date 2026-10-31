@@ -1,6 +1,7 @@
 // Work index (/work). Built from Figma "Work — Index · Alt" (5382:7911, summer) and
 // "Work — Index · Winter" (5406:13834). Three full-bleed project bands over contour lines.
 import { IconArrowRight, IconLock } from '@tabler/icons-react';
+import { vt } from '../../site/motion.js';
 import SiteHeader from '../../site/SiteHeader.jsx';
 import SiteFooter from '../../site/SiteFooter.jsx';
 import { Link } from '../../site/router.jsx';
@@ -80,7 +81,7 @@ function Band({ p }) {
             </div>
           ) : (
             <>
-              <Link to={p.to} className="wk-shot" tabIndex={-1} aria-hidden="true">
+              <Link to={p.to} className="wk-shot" tabIndex={-1} aria-hidden="true" style={vt('shot', p.to.split('/').pop())}>
                 <img src={p.shot.src} width={p.shot.w} height={p.shot.h} alt="" loading={p.id === '01' ? 'eager' : 'lazy'} decoding="async" />
               </Link>
               <span className="sticker sticker--chartreuse wk-sticker">{p.sticker}</span>

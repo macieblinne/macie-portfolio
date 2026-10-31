@@ -5,7 +5,7 @@ const RAD_PER_PX = -0.006; // negative: the front of the mountain follows the po
 const FRICTION = 0.92;
 const STOP_V = 1e-4;
 const MAX_V = 0.05;
-const ROTATE_MS = 600;
+const ROTATE_MS = 1100; // = --ml-dur-rotate
 const CLAMP = 20 * DEG;
 const easeStandard = (t) => { // cubic-bezier(.65,0,.35,1) approximation
   const c = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; return c(t);

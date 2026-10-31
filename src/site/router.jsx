@@ -1,27 +1,54 @@
 // Tiny client router (no dependency). Vercel rewrites every path to index.html
 // (vercel.json); static files under /public are served before the rewrite.
-import { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
+import { runViewTransition } from './motion.js';
+
+const NAV_ORDER = ['/', '/work', '/about'];
+/** forward = deeper, or further right in the nav; back = the opposite. */
+function direction(from, to) {
+  const depth = (p) => (p === '/' ? 0 : p.split('/').length - 1);
+  if (depth(to) !== depth(from)) return depth(to) > depth(from) ? 'forward' : 'back';
+  const top = (p) => '/' + (p.split('/')[1] ?? '');
+  const a = NAV_ORDER.indexOf(top(from)), b = NAV_ORDER.indexOf(top(to));
+  if (a !== -1 && b !== -1 && a !== b) return b > a ? 'forward' : 'back';
+  return 'forward';
+}
 
 const RouterCtx = createContext({ path: '/', navigate: () => {} });
 
 export function RouterProvider({ children }) {
   const [path, setPath] = useState(() => window.location.pathname.replace(/\/+$/, '') || '/');
+  const pathRef = useRef(path);
+  pathRef.current = path;
+
+  // Every route change is a view transition: the old page exits, the new one enters,
+  // and elements that share a view-transition-name (header, nav pill, project shots) morph.
+  const go = useCallback((next, after) => {
+    const from = pathRef.current;
+    if (next === from) { after?.(); return; }
+    runViewTransition(() => {
+      flushSync(() => setPath(next));
+      after?.();
+    }, { type: 'page', dir: direction(from, next) });
+  }, []);
 
   useEffect(() => {
-    const onPop = () => setPath(window.location.pathname.replace(/\/+$/, '') || '/');
+    const onPop = () => go(window.location.pathname.replace(/\/+$/, '') || '/');
     window.addEventListener('popstate', onPop);
     return () => window.removeEventListener('popstate', onPop);
-  }, []);
+  }, [go]);
 
   const navigate = useCallback((to, { replace = false } = {}) => {
     const url = new URL(to, window.location.href);
     if (url.origin !== window.location.origin) { window.location.href = to; return; }
     const next = url.pathname.replace(/\/+$/, '') || '/';
     if (replace) window.history.replaceState({}, '', url); else window.history.pushState({}, '', url);
-    setPath(next);
-    if (url.hash) requestAnimationFrame(() => document.querySelector(url.hash)?.scrollIntoView());
-    else window.scrollTo(0, 0);
-  }, []);
+    go(next, () => {
+      if (url.hash) document.querySelector(url.hash)?.scrollIntoView();
+      else window.scrollTo({ top: 0, behavior: 'instant' });
+    });
+  }, [go]);
 
   return <RouterCtx.Provider value={{ path, navigate }}>{children}</RouterCtx.Provider>;
 }

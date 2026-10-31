@@ -1,7 +1,7 @@
 // Inner-page header (Work, About, case studies, 404): ML mark + name on the left,
 // nav pill + theme toggle on the right. Below 768px it collapses to theme + menu
 // buttons and a menu sheet (same pattern as the home page's mobile header).
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { IconMenu2, IconX, IconSun, IconSnowflake } from '@tabler/icons-react';
 import { Link, useRouter } from './router.jsx';
 import { useSite, ThemeToggle, LINKS } from './site.jsx';
@@ -50,21 +50,54 @@ export function MenuSheet({ open, onClose }) {
   );
 }
 
-export default function SiteHeader() {
+/**
+ * Primary nav pill (home + inner pages). The active tab's background is a separate
+ * indicator under the labels, so on route change it slides (view transition
+ * `nav-pill`) while each label stays put and just changes colour.
+ */
+export function PrimaryNav({ className = '', onTheme }) {
   const { path } = useRouter();
+  const { theme, setTheme } = useSite();
+  const navRef = useRef(null);
+  const [pill, setPill] = useState(null);
+  useLayoutEffect(() => {
+    const measure = () => {
+      const a = navRef.current?.querySelector('.nav__item[aria-current="page"]');
+      setPill(a ? { left: a.offsetLeft, top: a.offsetTop, width: a.offsetWidth, height: a.offsetHeight } : null);
+    };
+    measure();
+    document.fonts?.ready.then(measure);
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, [path]);
+  return (
+    <nav ref={navRef} className={`nav ${className}`} aria-label="Primary">
+      {pill && <span className="nav__pill" aria-hidden="true" style={pill} />}
+      {NAV.map((n) => (
+        <Link
+          key={n.to}
+          className="nav__item"
+          to={n.to}
+          aria-current={isCurrent(path, n.to) ? 'page' : undefined}
+          style={{ viewTransitionName: `nav-${n.label.toLowerCase()}` }}
+        >
+          {n.label}
+        </Link>
+      ))}
+      <ThemeToggle theme={theme} setTheme={onTheme ?? setTheme} />
+    </nav>
+  );
+}
+
+export default function SiteHeader() {
   const { theme, setTheme } = useSite();
   const [menu, setMenu] = useState(false);
   return (
     <header className="site-header">
       <Link to="/" className="site-header__brand" aria-label="Macie Linne — home"><span className="mark">ML</span>Macie Linne</Link>
-      <nav className="nav nav--inline" aria-label="Primary">
-        {NAV.map((n) => (
-          <Link key={n.to} className="nav__item" to={n.to} aria-current={isCurrent(path, n.to) ? 'page' : undefined}>{n.label}</Link>
-        ))}
-        <ThemeToggle theme={theme} setTheme={setTheme} />
-      </nav>
+      <PrimaryNav className="nav--inline" />
       <div className="site-header__mobile">
-        <button type="button" className="m-iconbtn" aria-label={theme === 'summer' ? 'Switch to winter theme' : 'Switch to summer theme'} onClick={() => setTheme(theme === 'summer' ? 'winter' : 'summer')}>
+        <button type="button" className="m-iconbtn m-iconbtn--theme" aria-label={theme === 'summer' ? 'Switch to winter theme' : 'Switch to summer theme'} onClick={() => setTheme(theme === 'summer' ? 'winter' : 'summer')}>
           {theme === 'summer' ? <IconSun size={18} stroke={2} /> : <IconSnowflake size={18} stroke={2} />}
         </button>
         <button type="button" className="m-iconbtn" aria-label="Open menu" aria-expanded={menu} onClick={() => setMenu(true)}><IconMenu2 size={18} stroke={2} /></button>
