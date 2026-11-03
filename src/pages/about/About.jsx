@@ -7,6 +7,7 @@ import {
   IconExternalLink, IconDownload, IconCopy, IconCheck, IconArrowRight,
 } from '@tabler/icons-react';
 import SiteHeader from '../../site/SiteHeader.jsx';
+import SiteFooter from '../../site/SiteFooter.jsx';
 import { useSite, LINKS } from '../../site/site.jsx';
 import './about.css';
 
@@ -247,6 +248,7 @@ export default function About() {
           </div>
         </section>
       </main>
+      <SiteFooter />
     </div>
   );
 }

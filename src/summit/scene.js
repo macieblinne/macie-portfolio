@@ -1,13 +1,13 @@
 // Scene assembly shared by the Canvas painter and the SVG renderer (pure).
 import { makeProjector, dialGeometry, DEG } from './project.js';
-import { toMap, zAt } from './contours.js';
+import { toMap, zAt, featherAt } from './contours.js';
 import { THEMES, lerpColor, STEM, STAGE } from './theme.js';
 
 /** Seat the pins on the terrain: map coords + elevation. */
 export function seatPins(g, stops) {
   return stops.map((s) => {
     const [xm, ym] = toMap(g, s.lat, s.lon);
-    return { ...s, xm, ym, zm: zAt(g, s.lat, s.lon) };
+    return { ...s, xm, ym, zm: zAt(g, s.lat, s.lon), lift: featherAt(g, xm, ym) };
   });
 }
 
@@ -37,7 +37,7 @@ export function makeScene(g, rings, pins, { k = 1, origin = [STAGE.x, STAGE.y] }
 
   function projectPins(phi) {
     return pins.map((p) => {
-      const [gx, gy] = proj.project(p.xm, p.ym, p.zm, phi, 1);
+      const [gx, gy] = proj.project(p.xm, p.ym, p.zm, phi, p.lift ?? 1);
       const stem = (STEM[p.id] ?? 100) * k;
       return { ...p, gx, gy, stem, px: gx, py: gy - stem };
     });

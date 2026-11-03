@@ -111,7 +111,7 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
       if (!plate || !pl) return;
       plate.classList.toggle('plate--left', pl.side === 'left');
       // crowded (small screens): a label with no clear space waits for hover/focus; the active one always shows
-      plate.classList.toggle('plate--tucked', i !== activeIndex && pl.hit > 60);
+      plate.classList.toggle('plate--tucked', pl.hit > (i === activeIndex ? 400 : 60));
       plate.style.transform = `translate3d(${pl.x - p.gx}px, ${pl.y - p.gy}px, 0)`;
     });
     if (hereRef.current && placed.here) {

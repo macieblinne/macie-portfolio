@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { parseGrid, buildContours } from './contours.js';
 import { seatPins } from './scene.js';
 
-const CACHE_VERSION = 'v3';
+const CACHE_VERSION = 'v5'; // bump when contour geometry changes
 const memo = new Map();
 
 function readCache(key) {

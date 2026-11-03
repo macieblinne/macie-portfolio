@@ -97,7 +97,6 @@ export function CardBody({ stop, index, total, onStep, compact = false }) {
             {c.tag && <span className="card__tag">{c.tag}</span>}
           </p>
           <h2 className="card__headline">{c.headline}</h2>
-          {c.meta && <p className="card__meta">{c.meta[0]}<i aria-hidden="true" />{c.meta[1]}</p>}
         </header>
 
         {c.impact && (

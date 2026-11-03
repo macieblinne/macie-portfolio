@@ -29,6 +29,17 @@ export function parseGrid(grid) {
   };
 }
 
+/** Circular footprint radius (metres): the shorter half-side, so the model fits the round dial at any azimuth. */
+export function footprintRadius(g, scale = 0.98) {
+  return (Math.min(g.widthM, g.heightM) / 2) * scale;
+}
+
+/** Rim feather for a map point — the same lift factor the contours use, so pins sit on the drawn surface. */
+export function featherAt(g, xm, ym) {
+  const [lo, hi] = g.render.rimFeather || [0.72, 1.0];
+  return feather(Math.hypot(xm, ym) / footprintRadius(g), lo, hi);
+}
+
 /** Map-space (metres east/north of grid centre) for a lat/lon. */
 export function toMap(g, lat, lon) {
   return [(lon - g.lonMid) * g.mPerDegLon, (lat - g.latMid) * g.mPerDegLat];
@@ -259,7 +270,8 @@ export function buildContours(g, opts = {}) {
   const [lo, hi] = g.render.rimFeather || [0.72, 1.0];
   const rx = g.widthM / 2, ry = g.heightM / 2;
   // Footprint clip: the dial disc in map space (slightly inside the grid rectangle).
-  const clipPoly = ellipsePoly(rx * (opts.clipScale ?? 0.98), ry * (opts.clipScale ?? 0.98));
+  const R = footprintRadius(g, opts.clipScale ?? 0.98);
+  const clipPoly = ellipsePoly(R, R, 96);
 
   const rings = [];
   const step = g.contourStep * (everyOther ? 2 : 1);
@@ -293,7 +305,7 @@ export function buildContours(g, opts = {}) {
       const f = new Float32Array(pts.length / 2);
       let sum = 0;
       for (let i = 0; i < f.length; i++) {
-        const r = Math.hypot(pts[i * 2] / rx, pts[i * 2 + 1] / ry);
+        const r = Math.hypot(pts[i * 2], pts[i * 2 + 1]) / R;
         f[i] = feather(r, lo, hi);
         sum += f[i];
       }

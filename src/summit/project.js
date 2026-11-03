@@ -38,7 +38,8 @@ export function clampAzimuth(phi, base, clampRad) {
 
 /** Dial geometry in design px for a projector (ellipse matching the grid at ground level). */
 export function dialGeometry(g, proj) {
-  const rx = (g.widthM / 2) * proj.S * 1.04;
+  // dial ring sits just outside the circular footprint (contours.js footprintRadius)
+  const rx = (Math.min(g.widthM, g.heightM) / 2) * 0.98 * proj.S * 1.05;
   const ry = rx * proj.SQ;
   return { cx: proj.CX, cy: proj.CY, rx, ry };
 }

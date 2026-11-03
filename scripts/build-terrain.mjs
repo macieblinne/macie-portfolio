@@ -23,7 +23,7 @@ for (const theme of ['summer', 'winter']) {
   const pins = seatPins(g, cfg.stops);
   const svg = renderSvg({
     g, rings, pins, theme,
-    activeIndex: 1,
+    activeIndex: 0, // the page opens at Welcome
     lifts: cfg.lifts ?? [],
     k: 1,
     origin: [STAGE.x, STAGE.y],

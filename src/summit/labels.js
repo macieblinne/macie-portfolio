@@ -15,7 +15,7 @@ function outside(r, bounds) {
   return r.w * r.h - inside;
 }
 
-const OFFSETS = [0, -1, 1, -2, 2, -3, 3, -4, 4, -5];
+const OFFSETS = [0, -1, 1, -2, 2, -3, 3, -4, 4, -5, 5, -6];
 const OVERLAP_W = 60; // any real overlap outweighs every layout preference
 
 /**

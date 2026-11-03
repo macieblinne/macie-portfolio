@@ -27,14 +27,14 @@ function useMedia(q) {
 const hero = {
   name: 'Howdy, I’m Macie!',
   tag: 'Curious about everything & intentional about what I create',
-  meta: 'Product Designer · 7+ years building 0→1 · Healthcare, Biotech, Enterprise',
+  role: 'Senior Product Designer',
 };
 
 /* ------------------------------------------------------------------------ */
 function DesktopHome({ theme, setTheme }) {
   const terrain = useTerrain(theme, pinsConfig);
   const stops = pinsConfig[theme].stops;
-  const [active, setActive] = useState(1); // "01 active" is the resting state in Figma
+  const [active, setActive] = useState(0); // every visit starts at the Welcome / trailhead stop
   const prev = useRef(undefined);
   const [fitState, setFit] = useState({ k: 1, top: STAGE.y, left: 0 });
   const { k, top, left } = fitState;
@@ -96,8 +96,8 @@ function DesktopHome({ theme, setTheme }) {
       <header className="home__header" ref={headerRef}>
         <a className="mark" href="/" aria-label="Macie Linne — home">ML</a>
         <h1 className="home__name">{hero.name}</h1>
+        <p className="home__role">{hero.role}</p>
         <p className="home__tag">{hero.tag}</p>
-        <p className="home__meta">{hero.meta}</p>
         <p className="home__hint">{hint}</p>
       </header>
 
@@ -141,7 +141,7 @@ function DesktopHome({ theme, setTheme }) {
 function MobileHome({ theme, setTheme }) {
   const [menu, setMenu] = useState(false);
   const stops = pinsConfig[theme].stops;
-  const [active, setActive] = useState(1);
+  const [active, setActive] = useState(0); // start at Welcome
   const [svg, setSvg] = useState({});
   const file = pinsConfig[theme].terrain.replace('.json', '.svg');
 
@@ -168,8 +168,8 @@ function MobileHome({ theme, setTheme }) {
 
       <section>
         <h1 className="m-name">{hero.name}</h1>
+        <p className="m-role">{hero.role}</p>
         <p className="m-tag">{hero.tag}</p>
-        <p className="m-meta">{hero.meta}</p>
       </section>
 
       <figure className="m-thumb" aria-label="Contour map of the route">
