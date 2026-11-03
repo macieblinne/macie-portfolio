@@ -30,6 +30,20 @@ const hero = {
   role: 'Senior Product Designer',
 };
 
+/** "Finding the clearest route through hard problems." with the map's route drawn under the phrase. */
+function RouteTagline({ small = false }) {
+  return (
+    <p className={`home__tagline${small ? ' home__tagline--sm' : ''}`}>
+      Finding the{' '}
+      <span className="home__route-word">
+        clearest route
+        <span className="home__route" aria-hidden="true"><i className="home__route-ring" /><i className="home__route-trail" /><i className="home__route-dot" /></span>
+      </span>{' '}
+      through hard problems.
+    </p>
+  );
+}
+
 /* ------------------------------------------------------------------------ */
 function DesktopHome({ theme, setTheme }) {
   const terrain = useTerrain(theme, pinsConfig);
@@ -37,7 +51,7 @@ function DesktopHome({ theme, setTheme }) {
   const [active, setActive] = useState(0); // every visit starts at the Welcome / trailhead stop
   const prev = useRef(undefined);
   const [fitState, setFit] = useState({ k: 1, top: STAGE.y, left: 0 });
-  const { k, top, left } = fitState;
+  const { k, top, left, dialX, dialY, mapBottom } = fitState;
   const mainRef = useRef(null);
   const headerRef = useRef(null);
   const envelope = useMemo(() => (terrain ? sceneEnvelope(terrain.g, terrain.rings, terrain.pins) : null), [terrain]);
@@ -50,16 +64,18 @@ function DesktopHome({ theme, setTheme }) {
       const vh = window.innerHeight;
       const headerBottom = headerRef.current ? headerRef.current.getBoundingClientRect().bottom : 270;
       const env = envelope ?? { top: 30, bottom: 690 };
-      const clearTop = headerBottom + 14;        // gap under the hint line
+      const clearTop = headerBottom + 18;        // gap under the tagline route
       const span = env.bottom - env.top;         // model height at k = 1
       const freeW = vw - 33 - 420 - 24;         // room left of the card
       const kW = freeW / STAGE.w;
-      const kH = (vh - 16 - clearTop) / span;
+      const kH = (vh - 44 - clearTop) / span;   // 44: room for the hint under the map
       const kk = Math.max(0.5, Math.min(1.1, kW, kH));
       // centre the dial in the free column so the gap is shared on both sides
       const cx = (terrain?.g.render.center[0] ?? 470) - STAGE.x;
       const lft = Math.max(0, freeW / 2 - cx * kk);
-      setFit({ k: kk, top: clearTop - env.top * kk, left: lft });
+      const tp = clearTop - env.top * kk;
+      const cy = (terrain?.g.render.center[1] ?? 610) - STAGE.y;
+      setFit({ k: kk, top: tp, left: lft, dialX: lft + cx * kk, dialY: tp + cy * kk, mapBottom: tp + env.bottom * kk });
     };
     fit();
     window.addEventListener('resize', fit);
@@ -95,12 +111,9 @@ function DesktopHome({ theme, setTheme }) {
     <main className="home" ref={mainRef}>
       <header className="home__header" ref={headerRef}>
         <a className="mark" href="/" aria-label="Macie Linne — home"><img src="/avatar.jpg" alt="" width="40" height="40" /></a>
+        <p className="home__kicker">{hero.role}</p>
         <h1 className="home__name">{hero.name}</h1>
-        <p className="home__sign">
-          <span className="home__sign-role">{hero.role}</span>
-          <span className="home__sign-tag">{hero.tag}</span>
-        </p>
-        <p className="home__hint">{hint}</p>
+        <RouteTagline />
       </header>
 
       <PrimaryNav onTheme={switchTheme} />
@@ -121,13 +134,17 @@ function DesktopHome({ theme, setTheme }) {
         ) : (
           <div className="stage" style={{ width: STAGE.w * k, height: STAGE.h * k, top, left }} aria-busy="true" />
         )}
-        <div className="stage__stickers" style={{ position: 'absolute', top: 'auto', bottom: 28 }}>
-          <span className="sticker sticker--tilt-l">{place}</span>
-          <a className="sticker sticker--chartreuse sticker--tilt-r sticker--link" href={LINKS.email}>Let’s talk ↗</a>
-        </div>
+        {dialX != null && (
+          <p className="home__hint home__hint--map" style={{ left: dialX, top: mapBottom + 4 }}>{hint}</p>
+        )}
       </div>
 
-      <DetailCard stops={stops} activeIndex={active} onSelect={select} />
+      <DetailCard stops={stops} activeIndex={active} onSelect={select} centerY={dialY} />
+
+      <div className="home__stickers">
+        <span className="sticker sticker--tilt-l">{place}</span>
+        <a className="sticker sticker--chartreuse sticker--tilt-r sticker--link" href={LINKS.email}>Let’s talk ↗</a>
+      </div>
 
       <footer className="home__footer">
         <a href={LINKS.email}>macieblinne@gmail.com</a>
@@ -169,11 +186,9 @@ function MobileHome({ theme, setTheme }) {
       </header>
 
       <section>
+        <p className="home__kicker">{hero.role}</p>
         <h1 className="m-name">{hero.name}</h1>
-        <p className="home__sign home__sign--stack">
-          <span className="home__sign-role">{hero.role}</span>
-          <span className="home__sign-tag">{hero.tag}</span>
-        </p>
+        <RouteTagline small />
       </section>
 
       <figure className="m-thumb" aria-label="Contour map of the route">

@@ -474,3 +474,28 @@ button { background: none; border: 0; cursor: pointer; color: inherit; }
 .m-stop__card .card .card__art[data-kind="welcome"] { height: 130px; }
 .m-stop__card .card .card__body { padding: 18px 18px 20px; }
 .m-stop__card .card .card__foot .m-cta { width: 100%; }
+
+/* ---- header: kicker → greeting → tagline with the route under "clearest route" ---- */
+.home__kicker {
+  margin-top: 28px; font: 500 13px / 1 var(--ml-font-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-dim);
+}
+.home__kicker + .home__name, .home__kicker + .m-name { margin-top: 12px; }
+.home__tagline { margin-top: 20px; padding-bottom: 26px; font-size: 30px; font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; color: var(--fg-muted); }
+.home__route-word { position: relative; color: var(--fg); white-space: nowrap; }
+.home__route { position: absolute; left: -1px; right: -6px; top: calc(100% + 6px); height: 12px; display: flex; align-items: center; pointer-events: none; }
+.home__route-ring { flex: none; width: 8px; height: 8px; border-radius: 50%; border: 2px solid var(--fg); }
+.home__route-trail {
+  flex: 1; height: 4px; margin: 0 4px;
+  background: radial-gradient(circle, var(--ml-orange-500) 1.6px, transparent 1.8px) 0 50% / 8px 4px repeat-x;
+}
+.home__route-dot { flex: none; width: 12px; height: 12px; border-radius: 50%; background: var(--ml-orange-500); }
+.home__tagline--sm { margin-top: 12px; font-size: 20px; padding-bottom: 20px; }
+/* hint sits under the map, centred on the dial */
+.home__hint--map { position: absolute; z-index: 2; margin: 0; translate: -50% 0; white-space: nowrap; }
+/* stickers live bottom-right, under the card */
+.home__stickers { position: absolute; right: 33px; bottom: 64px; z-index: 3; display: flex; gap: 14px; align-items: center; }
+/* when the tagline wraps, leave room between lines for the route under the phrase */
+.home__tagline--sm { line-height: 1.85; padding-bottom: 6px; }
+@media (max-width: 1100px) { .home__tagline { line-height: 1.7; } }
+.home__tagline--sm { line-height: 2.1; }
+.home__tagline--sm .home__route { top: calc(100% + 3px); }

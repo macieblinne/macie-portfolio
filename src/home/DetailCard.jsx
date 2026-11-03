@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { IconArrowLeft, IconArrowRight } from '@tabler/icons-react';
 import { STOP_CONTENT, LINKS } from './stops.js';
 import { vt } from '../site/motion.js';
@@ -68,7 +68,22 @@ export function CardBody({ stop, index, total, onStep, compact = false }) {
 }
 
 /** Desktop detail card: out 360 ms, in 640 ms with a staggered content cascade (motion.css). */
-export default function DetailCard({ stops, activeIndex, onSelect, children }) {
+export default function DetailCard({ stops, activeIndex, onSelect, children, centerY }) {
+  // centre the card on the map's dial; clamp below the nav and above the stickers
+  const slotRef = useRef(null);
+  const [top, setTop] = useState(null);
+  useLayoutEffect(() => {
+    const el = slotRef.current;
+    if (!el || centerY == null) return undefined;
+    const place = () => {
+      const h = el.offsetHeight;
+      setTop(Math.round(Math.max(110, Math.min(centerY - h / 2, window.innerHeight - h - 110))));
+    };
+    place();
+    const ro = new ResizeObserver(place); ro.observe(el);
+    window.addEventListener('resize', place);
+    return () => { ro.disconnect(); window.removeEventListener('resize', place); };
+  }, [centerY]);
   const [shown, setShown] = useState(activeIndex);
   const [leaving, setLeaving] = useState(false);
 
@@ -82,7 +97,7 @@ export default function DetailCard({ stops, activeIndex, onSelect, children }) {
   const onStep = (d) => onSelect(Math.max(0, Math.min(stops.length - 1, activeIndex + d)));
   const stop = stops[shown];
   return (
-    <div className="card-slot">
+    <div className="card-slot" ref={slotRef} style={top != null ? { top } : undefined}>
       <article key={stop.id} className={`card${leaving ? ' card--out' : ''}`} aria-live="polite">
         <CardBody stop={stop} index={shown} total={stops.length} onStep={onStep} />
       </article>
