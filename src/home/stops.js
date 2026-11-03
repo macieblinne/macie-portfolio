@@ -1,6 +1,6 @@
 // Detail-card content per route stop (Figma "Spec — Detail cards" + Concept 09 frames).
 export const LINKS = {
-  email: 'mailto:macie@macielinne.design',
+  email: 'mailto:macieblinne@gmail.com',
   linkedin: 'https://www.linkedin.com/in/macielinne/',
   resume: '/resume.pdf',
   site: 'macielinne.design',

@@ -50,8 +50,8 @@ export function ThemeToggle({ theme, setTheme }) {
 }
 
 export const LINKS = {
-  email: 'mailto:macie@macielinne.design',
-  emailLabel: 'macie@macielinne.design',
+  email: 'mailto:macieblinne@gmail.com',
+  emailLabel: 'macieblinne@gmail.com',
   linkedin: 'https://www.linkedin.com/in/macielinne/',
   resume: '/resume.pdf',
   site: 'macielinne.design',

@@ -127,7 +127,7 @@ function DesktopHome({ theme, setTheme }) {
 
       <DetailCard stops={stops} activeIndex={active} onSelect={select}>
         <footer className="home__footer">
-          <a href={LINKS.email}>{theme === 'winter' ? 'macie@macielinne.design' : LINKS.site}</a>
+          <a href={LINKS.email}>macieblinne@gmail.com</a>
           <a href={LINKS.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
           <a href={LINKS.resume}>Resume</a>
         </footer>
@@ -213,7 +213,7 @@ function MobileHome({ theme, setTheme }) {
       </div>
 
       <footer className="m-footer">
-        <a href={LINKS.email}>macie@macielinne.design</a>
+        <a href={LINKS.email}>macieblinne@gmail.com</a>
         <a href={LINKS.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
         <a href={LINKS.resume}>Resume</a>
       </footer>
