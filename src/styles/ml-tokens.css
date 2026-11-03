@@ -4,6 +4,24 @@
    Themes: [data-theme="summer"] (dark, default) · [data-theme="winter"] (light)
    ========================================================================== */
 
+/* Geist Mono, self-hosted (public/fonts) */
+@font-face {
+  font-family: "Geist Mono"; font-style: normal; font-weight: 400; font-display: swap;
+  src: url("/fonts/GeistMono-Regular.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Geist Mono"; font-style: normal; font-weight: 500; font-display: swap;
+  src: url("/fonts/GeistMono-Medium.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Geist Mono"; font-style: normal; font-weight: 600; font-display: swap;
+  src: url("/fonts/GeistMono-SemiBold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Geist Mono"; font-style: normal; font-weight: 700; font-display: swap;
+  src: url("/fonts/GeistMono-Bold.woff2") format("woff2");
+}
+
 /* -------- 1. Primitives (never used directly in components) -------------- */
 :root {
   /* Palette */
@@ -26,7 +44,7 @@
 
   /* Type families (only these three) */
   --ml-font-display: "Bricolage Grotesque", system-ui, sans-serif;
-  --ml-font-mono: "Space Mono", ui-monospace, monospace;
+  --ml-font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
   --ml-font-badge: "Unbounded", system-ui, sans-serif;
 
   /* Type scale (px → rem @16) · min 12px anywhere */

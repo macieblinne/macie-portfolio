@@ -174,7 +174,6 @@ html[data-loading] .nav { animation-play-state: paused !important; }
 .stage--loading .stage__route { opacity: 0; }
 .stage .plate { transition: opacity 700ms var(--ml-ease-out), filter var(--ml-dur-fast); }
 .stage .here { transition: opacity 700ms var(--ml-ease-out) 300ms; }
-.here--moving { transition: transform var(--ml-dur-route) var(--ml-ease-emph), opacity 700ms var(--ml-ease-out) !important; }
 .compass { transition: opacity 900ms var(--ml-ease-out) 400ms; }
 .stage .compass--hidden { opacity: 0; transition-duration: var(--ml-dur-fast); transition-delay: 0s; }
 .stage--loading .compass { opacity: 0; }
@@ -184,6 +183,9 @@ html[data-loading] .nav { animation-play-state: paused !important; }
   animation: route-draw var(--ml-dur-route) var(--ml-ease-emph) 120ms forwards;
 }
 @keyframes route-draw { to { stroke-dashoffset: 0; } }
+/* going back: the orange retracts along the route, revealing the dotted line beneath */
+.route-fresh--back { stroke-dashoffset: 0; animation-name: route-undraw; animation-delay: 0ms; }
+@keyframes route-undraw { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -1; } }
 @media (prefers-reduced-motion: reduce) { .route-fresh { animation: none; stroke-dashoffset: 0; } }
 .nav__item[aria-current="page"]:hover { background: transparent; }
 .stop { transition: opacity 700ms var(--ml-ease-out); }

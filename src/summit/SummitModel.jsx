@@ -10,6 +10,7 @@ import { placeCompass } from './compass.js';
 import { useRouter } from '../site/router.jsx';
 
 const DRAW_IN_MS = 2600; // = --ml-dur-contours
+const GLIDE_MS = 900;     // = --ml-dur-route
 
 /**
  * Live, draggable contour mountain. Desktop / fine-pointer only.
@@ -22,8 +23,11 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
   const routeDoneRef = useRef(null);
   const routeAheadRef = useRef(null);
   const routeFreshRef = useRef(null);
-  const freshRef = useRef(-1);
+  const freshRef = useRef(null);
   const [freshKey, setFreshKey] = useState(0);
+  const glideRef = useRef(null);
+  const lastOffRef = useRef({ dx: 36, dy: 0 });
+  const renderedRef = useRef(null);
   const liftsRef = useRef(null);
   const stopRefs = useRef([]);
   const plateRefs = useRef([]);
@@ -115,19 +119,50 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
       plate.style.transform = `translate3d(${pl.x - p.gx}px, ${pl.y - p.gy}px, 0)`;
     });
     if (hereRef.current && placed.here) {
-      hereRef.current.style.transform = `translate3d(${placed.here.x + 4 - (sizes.here.dx ?? 0)}px, ${placed.here.y + 4 - (sizes.here.dy ?? 0)}px, 0)`;
+      // offset of the sticker from its pin; a glide blends from the previous pin + its offset,
+      // both re-projected every frame, so the sticker stays seated while the dial turns
+      const a = P[activeIndex];
+      const off = { dx: placed.here.x - a.gx, dy: placed.here.y - a.py };
+      // the solver may flip the sticker to the pin's other side mid-turn: blend that too
+      const last = lastOffRef.current;
+      if (renderedRef.current && Math.hypot(off.dx - last.dx, off.dy - last.dy) > 24 && !prefersReducedMotion()) {
+        const g0 = glideRef.current;
+        const left = g0 ? (g0.dur ?? GLIDE_MS) - (performance.now() - g0.t0) : 0;
+        glideRef.current = { from: activeIndex, off: { dx: renderedRef.current.x - a.gx, dy: renderedRef.current.y - a.py }, t0: performance.now(), dur: Math.max(380, left) };
+      }
+      let hx = placed.here.x, hy = placed.here.y;
+      const gl = glideRef.current;
+      if (gl && P[gl.from]) {
+        const t = Math.min(1, (performance.now() - gl.t0) / (gl.dur ?? GLIDE_MS));
+        const e = 1 - Math.pow(1 - t, 4);
+        const fx = P[gl.from].gx + gl.off.dx, fy = P[gl.from].py + gl.off.dy;
+        hx = fx + (hx - fx) * e; hy = fy + (hy - fy) * e;
+        if (t < 1) invalidateRef.current?.(); else glideRef.current = null;
+      }
+      lastOffRef.current = off;
+      renderedRef.current = { x: hx, y: hy };
+      hereRef.current.style.transform = `translate3d(${hx + 4 - (sizes.here.dx ?? 0)}px, ${hy + 4 - (sizes.here.dy ?? 0)}px, 0)`;
       hereRef.current.classList.toggle('here--left', placed.here.side === 'left');
       hereRef.current.classList.toggle('here--hidden', placed.here.hit > 60);
     }
     // route
     const seg = (a, b) => `M${a.gx} ${a.gy}L${b.gx} ${b.gy}`;
     let done = '', ahead = '';
-    const fresh = freshRef.current; // index of the segment currently drawing on, or -1
+    // fresh = { from, to, dir } — the segments animating right now (forward draws, back retracts)
+    const fresh = freshRef.current;
+    const inFresh = (i) => fresh && i >= fresh.from && i < fresh.to;
+    let freshD = '';
     for (let i = 0; i < P.length - 1; i++) {
-      if (i === fresh) continue;
-      if (activeIndex > i) done += seg(P[i], P[i + 1]); else ahead += seg(P[i], P[i + 1]);
+      if (inFresh(i)) freshD += seg(P[i], P[i + 1]);
+      if (activeIndex > i) { if (!inFresh(i)) done += seg(P[i], P[i + 1]); }
+      else ahead += seg(P[i], P[i + 1]); // when retracting, the dotted line shows underneath
     }
-    if (routeFreshRef.current && fresh >= 0 && P[fresh + 1]) routeFreshRef.current.setAttribute('d', seg(P[fresh], P[fresh + 1]));
+    // forward draw runs start → end; retract runs end → start, so walk the path backwards
+    if (fresh?.dir === 'back') {
+      freshD = '';
+      for (let i = fresh.to - 1; i >= fresh.from; i--) freshD += seg(P[i + 1], P[i]);
+    }
+    routeFreshRef.current?.setAttribute('d', freshD || 'M0 0');
     routeDoneRef.current?.setAttribute('d', done || 'M0 0');
     routeAheadRef.current?.setAttribute('d', ahead || 'M0 0');
     // lifts (winter)
@@ -156,7 +191,8 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
   }, [scene, theme, width, height, activeIndex, lifts, k, loaded, pinK]);
 
   const invalidateRef = useRef(null);
-  const { faceTo, invalidate } = useDial({ baseAzimuth, onFrame, elementRef: stageRef });
+  const { phi: phiRef, faceTo, invalidate } = useDial({ baseAzimuth, onFrame, elementRef: stageRef });
+  const phiNow = () => phiRef.current;
   invalidateRef.current = invalidate;
 
   // measure label boxes (plates keep their size while rotating; re-measure on content/font changes)
@@ -198,13 +234,24 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
   // advancing along the route: the completed segment draws on, "You are here" glides over
   useEffect(() => {
     if (prevActive === undefined || prevActive === activeIndex) return undefined;
-    const here = hereRef.current;
-    here?.classList.add('here--moving');
-    if (activeIndex > prevActive) { freshRef.current = activeIndex - 1; setFreshKey((n) => n + 1); }
+    const reduced = prefersReducedMotion();
+    if (!reduced) {
+      const r = renderedRef.current, P0 = scene.projectPins(phiNow());
+      const from = P0[activeIndex];
+      glideRef.current = r && from
+        ? { from: activeIndex, off: { dx: r.x - from.gx, dy: r.y - from.py }, t0: performance.now(), relFrom: prevActive }
+        : { from: prevActive, off: lastOffRef.current, t0: performance.now() };
+      // seat the start on the previous pin so it travels with the dial while the new stop is chosen
+      if (r && P0[prevActive]) glideRef.current = { from: prevActive, off: { dx: r.x - P0[prevActive].gx, dy: r.y - P0[prevActive].py }, t0: performance.now() };
+    }
+    // every segment between the two stops animates: draws forward, or retracts when going back
+    const forward = activeIndex > prevActive;
+    freshRef.current = reduced ? null : { from: Math.min(prevActive, activeIndex), to: Math.max(prevActive, activeIndex), dir: forward ? 'fwd' : 'back' };
+    setFreshKey((n) => n + 1);
     invalidateRef.current?.();
-    const t = setTimeout(() => { here?.classList.remove('here--moving'); freshRef.current = -1; invalidateRef.current?.(); }, 1150);
-    return () => clearTimeout(t);
-  }, [activeIndex, prevActive]);
+    const t = setTimeout(() => { freshRef.current = null; invalidateRef.current?.(); }, 1150);
+    return () => { clearTimeout(t); freshRef.current = null; };
+  }, [activeIndex, prevActive, scene]);
 
   // face the active pin on change
   useEffect(() => {
@@ -231,7 +278,7 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
           <g ref={liftsRef} />
           <path ref={routeAheadRef} className="route-ahead" d="M0 0" />
           <path ref={routeDoneRef} className="route-done" d="M0 0" />
-          {freshKey > 0 && <path key={freshKey} ref={routeFreshRef} className="route-fresh" pathLength="1" d="M0 0" />}
+          {freshKey > 0 && <path key={freshKey} ref={routeFreshRef} className={`route-fresh${freshRef.current?.dir === 'back' ? ' route-fresh--back' : ''}`} pathLength="1" d="M0 0" />}
         </svg>
         {['N', 'E', 'S', 'W'].map((l, i) => (
           <span key={l} ref={(el) => (compassRefs.current[i] = el)} className="compass" aria-hidden="true">{l}</span>
