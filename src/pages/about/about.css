@@ -395,3 +395,8 @@
 @media (prefers-reduced-motion: reduce) {
   .ab-badge img, .ab-btn, .ab-letstalk, .ab-btn--chartreuse svg { transition: none; }
 }
+
+/* "Let's talk" sticker beside the title */
+.ab-hero__titlerow { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 28px; }
+.ab-talk { margin-top: 10px; }
+@media (max-width: 767px) { .ab-talk { margin-top: 0; } }

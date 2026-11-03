@@ -12,6 +12,7 @@ function Art({ art, title, slug }) {
       {art.kind === 'welcome' && <p className="card__howdy">{art.title}</p>}
       {(art.sticker || art.stickerTl) && <span className="sticker sticker--chartreuse sticker--tilt-l card__art-sticker-tl">{art.sticker || art.stickerTl}</span>}
       {art.stickerBr && <span className="sticker sticker--tilt-r card__art-sticker-br">{art.stickerBr}</span>}
+      {art.stickerTr && <span className="sticker sticker--tilt-r card__art-sticker-tr">{art.stickerTr}</span>}
     </div>
   );
 }
@@ -26,7 +27,7 @@ function stopLabel(stop) {
  * Image-led card (Figma "Detail card · C · Image-led"):
  * art → you-are-here line → headline → impact / sentence → one button + arrows.
  */
-export function CardBody({ stop, index, total, onStep, compact = false }) {
+export function CardBody({ stop, index, total, onStep, compact = false, badge }) {
   const c = STOP_CONTENT[stop.id];
   const cta = c.cta;
   const label = stopLabel(stop);
@@ -39,7 +40,7 @@ export function CardBody({ stop, index, total, onStep, compact = false }) {
     <>
       <Art
         // trailhead/summit stickers name the place on the current theme's route
-        art={stop.n || !c.art.stickerBr ? c.art : { ...c.art, stickerBr: stop.sub }}
+        art={stop.id === 'trailhead' && badge ? { ...c.art, stickerTr: badge } : stop.n || !c.art.stickerBr ? c.art : { ...c.art, stickerBr: stop.sub }}
         title={c.title}
         slug={stop.id}
       />
@@ -68,7 +69,7 @@ export function CardBody({ stop, index, total, onStep, compact = false }) {
 }
 
 /** Desktop detail card: out 360 ms, in 640 ms with a staggered content cascade (motion.css). */
-export default function DetailCard({ stops, activeIndex, onSelect, children, centerY }) {
+export default function DetailCard({ stops, activeIndex, onSelect, children, centerY, badge }) {
   // centre the card on the map's dial; clamp below the nav and above the stickers
   const slotRef = useRef(null);
   const [top, setTop] = useState(null);
@@ -99,7 +100,7 @@ export default function DetailCard({ stops, activeIndex, onSelect, children, cen
   return (
     <div className="card-slot" ref={slotRef} style={top != null ? { top } : undefined}>
       <article key={stop.id} className={`card${leaving ? ' card--out' : ''}`} aria-live="polite">
-        <CardBody stop={stop} index={shown} total={stops.length} onStep={onStep} />
+        <CardBody stop={stop} index={shown} total={stops.length} onStep={onStep} badge={badge} />
       </article>
       {children}
     </div>

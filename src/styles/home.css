@@ -499,3 +499,6 @@ button { background: none; border: 0; cursor: pointer; color: inherit; }
 @media (max-width: 1100px) { .home__tagline { line-height: 1.7; } }
 .home__tagline--sm { line-height: 2.1; }
 .home__tagline--sm .home__route { top: calc(100% + 3px); }
+
+.card .card__art-sticker-tr { position: absolute; right: 14px; top: 16px; }
+.m-stop__card .card .card__art-sticker-tr { font-size: 10px; padding: 7px 11px; }

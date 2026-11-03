@@ -110,7 +110,10 @@ export default function About() {
               <span className="ab-label__disc" aria-hidden="true"><IconTent size={11} stroke={2} /></span>
               <span>Basecamp · Boulder Field · 12,760 ft</span>
             </p>
-            <h1 className="ab-hero__title" id="ab-title">About</h1>
+            <div className="ab-hero__titlerow">
+              <h1 className="ab-hero__title" id="ab-title">About</h1>
+              <a className="sticker sticker--chartreuse sticker--tilt-r sticker--link ab-talk" href={LINKS.email}>Let’s talk ↗</a>
+            </div>
             <p className="ab-hero__lede">Whether I'm on a 14,000 ft summit or 14 px deep in Figma, I'm reachable from both.</p>
             <p className="ab-hero__meta">
               <span>🏔️ Boulder, Colorado</span>

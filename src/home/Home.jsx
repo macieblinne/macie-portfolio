@@ -34,7 +34,7 @@ const hero = {
 function RouteTagline({ small = false }) {
   return (
     <p className={`home__tagline${small ? ' home__tagline--sm' : ''}`}>
-      Finding the{' '}
+      I love finding the{' '}
       <span className="home__route-word">
         clearest route
         <span className="home__route" aria-hidden="true"><i className="home__route-ring" /><i className="home__route-trail" /><i className="home__route-dot" /></span>
@@ -104,7 +104,7 @@ function DesktopHome({ theme, setTheme }) {
     setTheme(t);
   };
 
-  const hint = theme === 'winter' ? 'Start at the base · drag to rotate' : 'Start at the trailhead · drag to rotate';
+  const hint = theme === 'winter' ? 'Start at Mary Jane Base · drag to rotate' : 'Start at the Boulder Field · drag to rotate';
   const place = theme === 'winter' ? 'WINTER PARK' : 'BOULDER, CO · 5,430 FT';
 
   return (
@@ -139,12 +139,8 @@ function DesktopHome({ theme, setTheme }) {
         )}
       </div>
 
-      <DetailCard stops={stops} activeIndex={active} onSelect={select} centerY={dialY} />
+      <DetailCard stops={stops} activeIndex={active} onSelect={select} centerY={dialY} badge={place} />
 
-      <div className="home__stickers">
-        <span className="sticker sticker--tilt-l">{place}</span>
-        <a className="sticker sticker--chartreuse sticker--tilt-r sticker--link" href={LINKS.email}>Let’s talk ↗</a>
-      </div>
 
       <footer className="home__footer">
         <a href={LINKS.email}>macieblinne@gmail.com</a>
@@ -217,7 +213,7 @@ function MobileHome({ theme, setTheme }) {
               {state === 'active' && (
                 <div className="m-stop__card">
                   <article className="card">
-                    <CardBody stop={s} index={i} total={stops.length} onStep={(d) => setActive(Math.max(0, Math.min(stops.length - 1, i + d)))} compact />
+                    <CardBody badge={theme === 'winter' ? 'WINTER PARK' : 'BOULDER, CO · 5,430 FT'} stop={s} index={i} total={stops.length} onStep={(d) => setActive(Math.max(0, Math.min(stops.length - 1, i + d)))} compact />
                   </article>
                 </div>
               )}
@@ -226,10 +222,6 @@ function MobileHome({ theme, setTheme }) {
         })}
       </section>
 
-      <div className="m-stickers">
-        <span className="sticker sticker--tilt-l">{theme === 'winter' ? 'WINTER PARK' : 'BOULDER, CO · 5,430 FT'}</span>
-        <a className="sticker sticker--chartreuse sticker--tilt-r sticker--link" href={LINKS.email}>Let’s talk ↗</a>
-      </div>
 
       <footer className="m-footer">
         <a href={LINKS.email}>macieblinne@gmail.com</a>
