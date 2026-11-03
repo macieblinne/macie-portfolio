@@ -40,9 +40,10 @@ button { background: none; border: 0; cursor: pointer; color: inherit; }
 .sticker--tilt-r { rotate: 2deg; }
 
 .mark {
-  /* avatar, as on the production site: 40px circle, hairline light border */
+  /* avatar, as on the production site (same centre crop of self.jpg) */
   width: 40px; height: 40px; flex: none; border-radius: 50%; overflow: hidden;
-  border: 1px solid #EDF1F7; box-shadow: 0 1px 2px rgb(0 0 0 / 0.08);
+  /* same white outline + shadow as the stickers */
+  box-shadow: 0 0 0 var(--ml-stroke-sticker) var(--ml-white), var(--ml-shadow-sticker);
   background: var(--bg-ground); display: block;
 }
 .mark img { width: 100%; height: 100%; object-fit: cover; display: block; }
