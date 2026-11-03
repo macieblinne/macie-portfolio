@@ -94,7 +94,7 @@ function DesktopHome({ theme, setTheme }) {
   return (
     <main className="home" ref={mainRef}>
       <header className="home__header" ref={headerRef}>
-        <a className="mark" href="/" aria-label="Macie Linne — home">ML</a>
+        <a className="mark" href="/" aria-label="Macie Linne — home"><img src="/avatar.jpg" alt="" width="40" height="40" /></a>
         <h1 className="home__name">{hero.name}</h1>
         <p className="home__role">{hero.role}</p>
         <p className="home__tag">{hero.tag}</p>
@@ -156,7 +156,7 @@ function MobileHome({ theme, setTheme }) {
   return (
     <main className="m-home">
       <header className="m-header">
-        <a className="m-header__brand" href="/"><span className="mark">ML</span>Macie Linne</a>
+        <a className="m-header__brand" href="/"><span className="mark"><img src="/avatar.jpg" alt="" width="40" height="40" /></span>Macie Linne</a>
         <div className="m-header__actions">
           <button type="button" className="m-iconbtn m-iconbtn--theme" aria-label={theme === 'summer' ? 'Switch to winter theme' : 'Switch to summer theme'} onClick={() => setTheme(theme === 'summer' ? 'winter' : 'summer')}>
             {theme === 'summer' ? <IconSun size={18} stroke={2} /> : <IconSnowflake size={18} stroke={2} />}

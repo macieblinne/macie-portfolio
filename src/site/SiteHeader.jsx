@@ -31,7 +31,7 @@ export function MenuSheet({ open, onClose }) {
   return (
     <div className="menu-sheet" role="dialog" aria-modal="true" aria-label="Menu">
       <div className="menu-sheet__top">
-        <Link to="/" className="site-header__brand" onClick={onClose}><span className="mark">ML</span>Macie Linne</Link>
+        <Link to="/" className="site-header__brand" onClick={onClose}><span className="mark"><img src="/avatar.jpg" alt="" width="40" height="40" /></span>Macie Linne</Link>
         <button type="button" className="m-iconbtn" aria-label="Close menu" onClick={onClose} autoFocus><IconX size={18} stroke={2} /></button>
       </div>
       <nav className="menu-sheet__nav" aria-label="Primary">
@@ -92,7 +92,7 @@ export default function SiteHeader() {
   const [menu, setMenu] = useState(false);
   return (
     <header className="site-header">
-      <Link to="/" className="site-header__brand" aria-label="Macie Linne — home"><span className="mark">ML</span>Macie Linne</Link>
+      <Link to="/" className="site-header__brand" aria-label="Macie Linne — home"><span className="mark"><img src="/avatar.jpg" alt="" width="40" height="40" /></span>Macie Linne</Link>
       <PrimaryNav className="nav--inline" />
       <div className="site-header__mobile">
         <button type="button" className="m-iconbtn m-iconbtn--theme" aria-label={theme === 'summer' ? 'Switch to winter theme' : 'Switch to summer theme'} onClick={() => setTheme(theme === 'summer' ? 'winter' : 'summer')}>
