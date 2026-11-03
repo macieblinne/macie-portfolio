@@ -6,6 +6,7 @@ import { useDial, prefersReducedMotion } from './useDial.js';
 import { STAGE } from './theme.js';
 import { DEG } from './project.js';
 import { placeLabels } from './labels.js';
+import { placeCompass } from './compass.js';
 import { useRouter } from '../site/router.jsx';
 
 const DRAW_IN_MS = 2600; // = --ml-dur-contours
@@ -57,7 +58,8 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
     if (!startRef.current && !holding) startRef.current = t0;
     if (holding) invalidateRef.current?.();
     const drawIn = holding ? 0 : reduced ? 1 : Math.min(1, (t0 - startRef.current) / DRAW_IN_MS);
-        paintTerrain(ctx, scene, phi, theme, { dpr, width, height, drawIn, everyOther: everyOther.current });
+        const rings = scene.projectRings(phi);
+    paintTerrain(ctx, scene, phi, theme, { dpr, width, height, drawIn, everyOther: everyOther.current, rings });
     if (drawIn < 1) invalidateRef.current?.();
     else if (!loaded) setLoaded(true);
 
@@ -71,8 +73,23 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
       el.style.setProperty('--stem', `${p.stem}px`);
     });
 
-    // labels: collision-aware placement against every label, pin head and stem
     const sizes = sizesRef.current;
+
+    // compass letters: walk outward from the rim until clear of terrain, pins and page UI
+    const pinHeads = P.map((p, i) => { const r = (i === activeIndex ? 32 : 26) * pinK; return { x: p.gx - r, y: p.py - 2 * r, w: 2 * r, h: 2 * r }; });
+    const letters = placeCompass(
+      scene.compass(phi), scene.dial, rings,
+      [...(sizes.obstacles ?? []), ...pinHeads],
+      { x: 4, y: 4, w: width - 8, h: height - 8 }, k,
+    );
+    letters.forEach((c, i) => {
+      const el = compassRefs.current[i];
+      if (!el) return;
+      el.style.transform = `translate3d(${c.x}px, ${c.y}px, 0)`;
+      el.classList.toggle('compass--hidden', !c.visible);
+    });
+
+    // labels: collision-aware placement against every label, pin head, stem and compass letter
     const pinGeo = P.map((p, i) => {
       const r = (i === activeIndex ? 32 : 26) * pinK;
       return { x: p.gx, yc: p.py - r, r, gy: p.gy };
@@ -86,7 +103,7 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
     // the sticker is decoration: it goes last and steps aside if the route is too crowded
     if (act) labels.push({ key: 'here', pin: activeIndex, w: sizes.here.w, h: sizes.here.h, kind: 'sticker' });
     const bounds = { x: 8, y: -60 * k, w: width - 16, h: height + 60 * k };
-    const placed = placeLabels(pinGeo, labels, prevPlacement.current, bounds, k, sizes.obstacles ?? []);
+    const placed = placeLabels(pinGeo, labels, prevPlacement.current, bounds, k, [...(sizes.obstacles ?? []), ...letters.filter((c) => c.visible).map((c) => c.box)]);
     prevPlacement.current = placed;
     P.forEach((p, i) => {
       const plate = plateRefs.current[i];
@@ -131,11 +148,6 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
       }
       liftsRef.current.innerHTML = html;
     }
-    // compass letters
-    scene.compass(phi).forEach((c, i) => {
-      const el = compassRefs.current[i];
-      if (el) el.style.transform = `translate3d(${c.x}px, ${c.y}px, 0)`;
-    });
 
     // perf degrade: every-other level while slow
     const ft = performance.now() - t0;

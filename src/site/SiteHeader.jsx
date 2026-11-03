@@ -19,7 +19,6 @@ export function isCurrent(path, to) {
 /** Full-screen menu sheet for phones; shared by the home page's mobile header. */
 export function MenuSheet({ open, onClose }) {
   const { path } = useRouter();
-  const { openNotes } = useSite();
   useEffect(() => {
     if (!open) return;
     const onKey = (e) => e.key === 'Escape' && onClose();
@@ -39,7 +38,6 @@ export function MenuSheet({ open, onClose }) {
         {NAV.map((n) => (
           <Link key={n.to} to={n.to} onClick={onClose} aria-current={isCurrent(path, n.to) ? 'page' : undefined}>{n.label}</Link>
         ))}
-        <button type="button" onClick={() => { onClose(); openNotes(); }}>Field notes · AI</button>
       </nav>
       <div className="menu-sheet__foot">
         <a href={LINKS.email}>{LINKS.emailLabel}</a>

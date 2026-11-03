@@ -50,7 +50,7 @@ export function makeScene(g, rings, pins, { k = 1, origin = [STAGE.x, STAGE.y] }
     return dirs.map(([l, x, y]) => {
       const c = Math.cos(phi), s = Math.sin(phi);
       const xr = x * c + y * s, yr = x * s - y * c;
-      return { label: l, x: dial.cx + xr * (dial.rx + 52 * k), y: dial.cy + yr * (dial.ry + 56 * k) };
+      return { label: l, ux: xr, uy: yr, x: dial.cx + xr * (dial.rx + 52 * k), y: dial.cy + yr * (dial.ry + 56 * k) };
     });
   }
 

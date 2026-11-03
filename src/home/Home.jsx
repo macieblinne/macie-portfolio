@@ -9,7 +9,6 @@ import { sceneEnvelope } from '../summit/scene.js';
 import { LINKS, MOBILE_ROWS } from './stops.js';
 import { useSite, ThemeToggle } from '../site/site.jsx';
 import { MenuSheet, PrimaryNav } from '../site/SiteHeader.jsx';
-import { IconNotes } from '@tabler/icons-react';
 import { IconTent, IconFlag, IconChevronRight } from '@tabler/icons-react';
 
 const LIVE_QUERY = '(pointer: fine) and (min-width: 768px)';
@@ -123,7 +122,6 @@ function DesktopHome({ theme, setTheme }) {
         <div className="stage__stickers" style={{ position: 'absolute', top: 'auto', bottom: 28 }}>
           <span className="sticker sticker--tilt-l">{place}</span>
           <span className="sticker sticker--chartreuse sticker--tilt-r">0→1 SPECIALIST</span>
-          <NotesSticker />
         </div>
       </div>
 
@@ -140,15 +138,6 @@ function DesktopHome({ theme, setTheme }) {
 }
 
 /* ------------------------------------------------------------------------ */
-function NotesSticker() {
-  const { openNotes } = useSite();
-  return (
-    <button type="button" className="sticker sticker--notes sticker--tilt-l" onClick={openNotes} aria-haspopup="dialog">
-      <IconNotes size={14} stroke={2.2} aria-hidden="true" /> FIELD NOTES · AI
-    </button>
-  );
-}
-
 function MobileHome({ theme, setTheme }) {
   const [menu, setMenu] = useState(false);
   const stops = pinsConfig[theme].stops;
@@ -221,7 +210,6 @@ function MobileHome({ theme, setTheme }) {
       <div className="m-stickers">
         <span className="sticker sticker--tilt-l">{theme === 'winter' ? 'WINTER PARK' : 'BOULDER, CO · 5,430 FT'}</span>
         <span className="sticker sticker--chartreuse sticker--tilt-r">0→1 SPECIALIST</span>
-        <NotesSticker />
       </div>
 
       <footer className="m-footer">

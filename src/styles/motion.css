@@ -108,10 +108,15 @@ html[data-loading] .nav { animation-play-state: paused !important; }
 
   /* home: detail card slides in, then its contents cascade (every card swap too) */
   .card-slot { animation: slide-in-l var(--ml-dur-reveal) var(--ml-ease-emph) 650ms both; }
-  .card:not(.card--out) > .card__head,
+  .card:not(.card--out) > .card__here,
   .card:not(.card--out) > .card__art,
   .card:not(.card--out) > .card__body > * { animation: rise-in var(--ml-dur-card-in) var(--ml-ease-out) both; }
-  .card:not(.card--out) > .card__head { animation-delay: 60ms; }
+  .card:not(.card--out) > .card__here { animation-delay: 60ms; }
+  /* impact stats count up visually: each stat rises in after the divider */
+  .card:not(.card--out) .card__stat { animation: rise-in var(--ml-dur-card-in) var(--ml-ease-spring) both; }
+  .card:not(.card--out) .card__stat:nth-child(1) { animation-delay: 380ms; }
+  .card:not(.card--out) .card__stat:nth-child(2) { animation-delay: 450ms; }
+  .card:not(.card--out) .card__stat:nth-child(3) { animation-delay: 520ms; }
   .card:not(.card--out) > .card__art { animation-delay: 120ms; }
   .card:not(.card--out) > .card__body > :nth-child(1) { animation-delay: 200ms; }
   .card:not(.card--out) > .card__body > :nth-child(2) { animation-delay: 270ms; }
@@ -171,6 +176,7 @@ html[data-loading] .nav { animation-play-state: paused !important; }
 .stage .here { transition: opacity 700ms var(--ml-ease-out) 300ms; }
 .here--moving { transition: transform var(--ml-dur-route) var(--ml-ease-emph), opacity 700ms var(--ml-ease-out) !important; }
 .compass { transition: opacity 900ms var(--ml-ease-out) 400ms; }
+.stage .compass--hidden { opacity: 0; transition-duration: var(--ml-dur-fast); transition-delay: 0s; }
 .stage--loading .compass { opacity: 0; }
 .route-fresh {
   fill: none; stroke: var(--route-done); stroke-width: var(--ml-stroke-route-done); stroke-linecap: round;

@@ -59,7 +59,8 @@ export function placeLabels(pins, labels, prev, bounds, k = 1, obstacles = []) {
         }
         const r = { x, y, w: L.w, h: L.h };
         let hit = 0;
-        for (const q of placed) hit += overlap(r, q);
+        const rr = { x: r.x - 4, y: r.y - 4, w: r.w + 8, h: r.h + 8 }; // keep 4px of air between labels
+        for (const q of placed) hit += overlap(rr, q);
         heads.forEach((h, i) => { if (!(L.kind === 'sticker' && i === L.pin)) hit += overlap(r, h); });
         stems.forEach((s, i) => { if (i !== L.pin) hit += overlap(r, s) * 0.4; });
         hit += outside(r, bounds) * 1.5;

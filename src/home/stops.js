@@ -8,55 +8,67 @@ export const LINKS = {
 
 export const STOP_CONTENT = {
   trailhead: {
-    badge: 'TH',
-    title: 'Trailhead',
+    title: 'Welcome',
+    tag: 'Start here',
     art: { kind: 'welcome', stickerTl: 'WELCOME', stickerBr: 'BOULDER FIELD · 12,760 FT' },
     headline: 'Welcome to the route.',
-    meta: ['Senior product designer', 'Boulder, CO · Let’s talk'],
-    block: {
+    meta: ['Senior product designer', 'Boulder, CO'],
+    steps: {
       label: 'How to hike it',
-      text: 'Two stops, then the summit. Tap a pin to open it; the route turns orange behind you. Drag the mountain to look around, or use ← → to step through.',
+      items: [
+        'Two stops, then the summit. Tap a pin to open one.',
+        'The route turns orange behind you as you go.',
+        'Drag the mountain to look around, or use ← → to step through.',
+      ],
     },
     cta: { label: 'Start the route', action: 'next' },
-    next: 'Next: 01 Keyhole',
+    next: null,
   },
   flexomics: {
-    badge: '01',
     title: 'Flexomics',
+    tag: 'Life science',
     art: { kind: 'image', src: '/flexomics-ui.png', stickerTl: '0→1', stickerBr: 'LIFE SCIENCE' },
     headline: 'From three fragmented tools to one research platform',
     meta: ['Lead product designer', '2024 — 2025'],
-    block: {
-      label: 'Impact',
+    impact: {
+      stats: [
+        { value: '12', label: 'weeks to MVP' },
+        { value: '3→1', label: 'tools unified' },
+        { value: '1M+', label: 'cells per run' },
+      ],
       text: 'Replaced hours of manual data reconstruction with one continuous research workflow, delivered in 12 weeks.',
     },
     cta: { label: 'Read the case study', href: '/work/flexomics' },
-    next: 'Next: 02 The Trough',
+    next: '02 Accio3D',
   },
   accio3d: {
-    badge: '02',
     title: 'Accio3D',
-    art: { kind: 'image', src: '/accio-ui.png', stickerTl: '0→1', stickerBr: 'MANUFACTURING' },
-    headline: 'Making 3D asset management intuitive for non-technical teams',
-    meta: ['Lead product designer', '2023 — present'],
-    block: {
-      label: 'Impact',
-      text: 'Cut asset retrieval from 15+ minutes to under 30 seconds, and let non-technical teams review 3D work on their own.',
+    tag: 'AI · Procurement',
+    art: { kind: 'image', src: '/accio-ui.png', stickerTl: '0→1', stickerBr: 'AI / PROCUREMENT' },
+    headline: 'An AI-powered procurement platform from POC to MVP',
+    meta: ['Founding designer', '13 weeks · MVP'],
+    impact: {
+      stats: [
+        { value: '13', label: 'weeks to MVP' },
+        { value: '50', label: 'screens shipped' },
+        { value: '2', label: 'apps' },
+      ],
+      text: 'Closed a seed round with the POC, then shipped a 50-screen MVP in 13 weeks.',
     },
     cta: { label: 'Read the case study', href: '/work/accio3d' },
-    next: 'Next: Summit',
+    next: 'Summit',
   },
   summit: {
-    badge: 'S',
     title: 'The Summit',
+    tag: 'Let\u2019s work together',
     art: { kind: 'photo', src: '/self.jpg', stickerTl: 'SAY HELLO!', stickerBr: 'SUMMIT · 14,259 FT' },
-    headline: 'You made it. Let’s work together.',
+    headline: 'You made it. Let\u2019s work together.',
     meta: null,
     list: {
       label: 'Good reasons to reach out',
       items: [
-        'You’re taking something from zero to one and want a designer in the room early',
-        'You’re deciding where AI belongs in your product, and where it doesn’t',
+        'You\u2019re taking something from zero to one and want a designer in the room early',
+        'You\u2019re deciding where AI belongs in your product, and where it doesn\u2019t',
         'You just want to talk shop: prototypes, design systems, or trail running',
       ],
     },

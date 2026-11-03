@@ -39,15 +39,23 @@ function Art({ art, title, slug }) {
   );
 }
 
+/** "Stop 01" / "Trailhead" / "Summit" — the first half of the you-are-here line. */
+function stopLabel(stop) {
+  if (stop.n) return `Stop ${stop.n}`;
+  return stop.id === 'trailhead' ? 'Trailhead' : 'Summit';
+}
+
+/**
+ * Card hierarchy, top to bottom:
+ *  1. where you are  — you-are-here bar: stop · place · elevation, route progress, pager
+ *  2. the project    — name + tag, the headline (dominant), role/dates as quiet meta
+ *  3. the impact     — divider, scannable stats, then the sentence at reading size
+ *  4. what to do     — one primary action, a quieter "next" link
+ */
 export function CardBody({ stop, index, total, onStep, compact = false }) {
   const c = STOP_CONTENT[stop.id];
   const cta = c.cta;
-  const ctaInner = (
-    <>
-      {cta.label}
-      {compact ? <IconArrowRight size={18} stroke={2} /> : <span className="card__cta-arrow"><IconArrowRight size={15} stroke={2} /></span>}
-    </>
-  );
+  const ctaInner = <>{cta.label}<IconArrowRight size={compact ? 18 : 16} stroke={2.2} aria-hidden="true" /></>;
   const ctaEl = cta.href
     ? <a className={compact ? 'm-cta' : 'card__cta'} href={cta.href}>{ctaInner}</a>
     : <button type="button" className={compact ? 'm-cta' : 'card__cta'} onClick={() => onStep(1)}>{ctaInner}</button>;
@@ -55,47 +63,81 @@ export function CardBody({ stop, index, total, onStep, compact = false }) {
   return (
     <>
       {!compact && (
-        <div className="card__head">
-          <div className="card__id">
-            <span className="card__badge">{c.badge}</span>
-            <span className="card__title">{c.title}</span>
+        <div className="card__here">
+          <div className="card__where">
+            <span className="card__here-label"><i className="card__here-dot" aria-hidden="true" />You are here</span>
+            <span className="card__here-place">
+              <b>{stopLabel(stop)}</b>
+              <span aria-hidden="true"> · </span>
+              {/* "Summit · 14,259 ft" already starts with the label — don't say it twice */}
+              {stop.sub.startsWith(stopLabel(stop)) ? stop.sub.slice(stopLabel(stop).length).replace(/^\s*·\s*/, '') : stop.sub}
+            </span>
           </div>
           <div className="card__pager">
+            <span className="card__progress" role="img" aria-label={`Stop ${index + 1} of ${total}`}>
+              {Array.from({ length: total }, (_, i) => (
+                <i key={i} className={i < index ? 'is-done' : i === index ? 'is-here' : ''} />
+              ))}
+            </span>
             <button type="button" className="card__pager-btn" onClick={() => onStep(-1)} disabled={index === 0} aria-label="Previous stop"><IconArrowLeft size={15} stroke={2.2} /></button>
             <button type="button" className="card__pager-btn" onClick={() => onStep(1)} disabled={index === total - 1} aria-label="Next stop"><IconArrowRight size={15} stroke={2.2} /></button>
-            <span className="card__count">{index + 1} / {total}</span>
           </div>
         </div>
       )}
-      <Art art={c.art} title={c.title} slug={stop.id} />
+      <Art
+        // trailhead/summit stickers name the place on the current theme's route
+        art={stop.n ? c.art : { ...c.art, stickerBr: stop.sub.toUpperCase() }}
+        title={c.title}
+        slug={stop.id}
+      />
       <div className="card__body">
-        <div>
+        <header className="card__project">
+          <p className="card__name">
+            <span>{c.title}</span>
+            {c.tag && <span className="card__tag">{c.tag}</span>}
+          </p>
           <h2 className="card__headline">{c.headline}</h2>
-          {c.meta && (
-            <div className="card__meta">
-              <b>{c.meta[0]}</b><i aria-hidden="true" /><span>{c.meta[1]}</span>
-            </div>
-          )}
-        </div>
-        {c.block && (
-          <div className="card__block">
-            <span className="eyebrow">{c.block.label}</span>
-            <p className="card__block-text">{c.block.text}</p>
-          </div>
+          {c.meta && <p className="card__meta">{c.meta[0]}<i aria-hidden="true" />{c.meta[1]}</p>}
+        </header>
+
+        {c.impact && (
+          <section className="card__impact" aria-label="Impact">
+            <span className="eyebrow card__eyebrow">Impact</span>
+            <dl className="card__stats">
+              {c.impact.stats.map((st) => (
+                <div key={st.label} className="card__stat"><dt>{st.label}</dt><dd>{st.value}</dd></div>
+              ))}
+            </dl>
+            <p className="card__impact-text">{c.impact.text}</p>
+          </section>
+        )}
+        {c.steps && (
+          <section className="card__impact" aria-label={c.steps.label}>
+            <span className="eyebrow card__eyebrow">{c.steps.label}</span>
+            <ol className="card__steps">
+              {c.steps.items.map((t, i) => <li key={t}><span aria-hidden="true">{i + 1}</span>{t}</li>)}
+            </ol>
+          </section>
         )}
         {c.list && (
-          <div className="card__block">
-            <span className="eyebrow">{c.list.label}</span>
+          <section className="card__impact" aria-label={c.list.label}>
+            <span className="eyebrow card__eyebrow">{c.list.label}</span>
             <ul className="card__list">
-              {c.list.items.map((t) => <li key={t}><IconCheck size={20} stroke={3} />{t}</li>)}
+              {c.list.items.map((t) => <li key={t}><IconCheck size={14} stroke={3} aria-hidden="true" />{t}</li>)}
             </ul>
-          </div>
+          </section>
         )}
+
         <div className="card__foot">
           {ctaEl}
-          {!compact && (c.next === 'links'
-            ? <span className="card__next"><a href={LINKS.linkedin} target="_blank" rel="noreferrer">LinkedIn</a> · <a href={LINKS.resume}>Resume ↓</a></span>
-            : <span className="card__next">{c.next}</span>)}
+          {!compact && c.next === 'links' && (
+            <span className="card__next"><a href={LINKS.linkedin} target="_blank" rel="noreferrer">LinkedIn</a><a href={LINKS.resume}>Resume ↓</a></span>
+          )}
+          {!compact && c.next && c.next !== 'links' && (
+            <button type="button" className="card__next card__next--step" onClick={() => onStep(1)}>
+              <span>Next</span> {c.next}<IconArrowRight size={14} stroke={2.2} aria-hidden="true" />
+            </button>
+          )}
         </div>
       </div>
     </>

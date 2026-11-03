@@ -1,7 +1,7 @@
 // Canvas 2D painter (browser only). Dial + ticks underneath, then rings ascending.
 import { themeColours, lerpColor } from './scene.js';
 
-export function paintTerrain(ctx, scene, phi, theme, { dpr = 1, width, height, drawIn = 1, everyOther = false } = {}) {
+export function paintTerrain(ctx, scene, phi, theme, { dpr = 1, width, height, drawIn = 1, everyOther = false, rings: pre } = {}) {
   const c = themeColours(theme);
   const k = scene.k;
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -30,7 +30,7 @@ export function paintTerrain(ctx, scene, phi, theme, { dpr = 1, width, height, d
   ctx.stroke();
 
   // rings
-  const rings = scene.projectRings(phi);
+  const rings = pre ?? scene.projectRings(phi);
   ctx.lineJoin = 'round';
   ctx.lineWidth = 1;
   const n = rings.length;
