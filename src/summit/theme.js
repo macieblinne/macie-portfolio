@@ -7,10 +7,10 @@ export const THEMES = {
     contourFillLo: '#2A1E19',
     contourFillHi: '#2A1E19',
     contourStroke: 'rgba(185,214,227,0.30)',
-    dialRing: 'rgba(185,214,227,0.55)',
-    dialTick: 'rgba(185,214,227,0.45)',
+    dialRing: 'rgba(124,148,97,0.75)',   // green (compass) — map contours unchanged
+    dialTick: 'rgba(124,148,97,0.6)',
     dialFill: 'rgba(42,30,25,0.6)',
-    compass: '#7FA3B5',
+    compass: '#7C9461',   // green-700 lifted for contrast on the dark ground
     routeDone: '#E57F33',
     routeAhead: '#FFFFFF',
     pinDoneBg: '#FFFFFF', pinDoneFg: '#35321F', pinDoneStem: '#E57F33',
@@ -25,10 +25,10 @@ export const THEMES = {
     contourFillLo: '#CFE0E9',
     contourFillHi: '#EAF2F6',
     contourStroke: 'rgba(47,33,28,0.45)',
-    dialRing: 'rgba(47,33,28,0.7)',
-    dialTick: 'rgba(47,33,28,0.5)',
+    dialRing: 'rgba(60,79,44,0.85)',   // --ml-green-700
+    dialTick: 'rgba(60,79,44,0.65)',
     dialFill: 'rgba(234,242,246,0.7)',
-    compass: '#2F211C',
+    compass: '#3C4F2C',   // --ml-green-700
     routeDone: '#E57F33',
     routeAhead: '#2F211C',
     pinDoneBg: '#FFFFFF', pinDoneFg: '#35321F', pinDoneStem: '#E57F33',

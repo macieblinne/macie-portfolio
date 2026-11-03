@@ -400,3 +400,7 @@
 .ab-hero__titlerow { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 28px; }
 .ab-talk { margin-top: 10px; }
 @media (max-width: 767px) { .ab-talk { margin-top: 0; } }
+
+/* location + coordinates now sit above the title, in mono */
+.ab-hero__meta--top { margin: 0 0 18px; font-family: var(--ml-font-mono); letter-spacing: 0.02em; }
+@media (max-width: 767px) { .ab-hero__meta--top { margin-bottom: 12px; } }

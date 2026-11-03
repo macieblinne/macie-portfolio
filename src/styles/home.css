@@ -142,7 +142,7 @@ button { background: none; border: 0; cursor: pointer; color: inherit; }
 
 .compass {
   position: absolute; left: 0; top: 0;
-  font: 800 26px / 1 var(--ml-font-badge); color: var(--fg-dim);
+  font: 800 26px / 1 var(--ml-font-badge); color: #7C9461;
   translate: -50% -50%; pointer-events: none;
 }
 
@@ -518,3 +518,5 @@ button { background: none; border: 0; cursor: pointer; color: inherit; }
 .m-stop__card .card .card__art[data-kind="welcome"] { height: 170px; }
 /* "You are here" always sits above the pins */
 .stage .here { z-index: 5000; }
+
+[data-theme="winter"] .compass { color: var(--ml-green-700); }
