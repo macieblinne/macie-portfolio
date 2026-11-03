@@ -502,3 +502,19 @@ button { background: none; border: 0; cursor: pointer; color: inherit; }
 
 .card .card__art-sticker-tr { position: absolute; right: 14px; top: 16px; }
 .m-stop__card .card .card__art-sticker-tr { font-size: 10px; padding: 7px 11px; }
+
+/* welcome panel: theme photo with the greeting in white over a soft scrim */
+.card .card__art[data-kind="welcome"] { height: 210px; background: var(--ml-cocoa-800); }
+.card__welcome-photo { object-position: center; }
+.card__welcome-photo--winter { display: none; }
+[data-theme="winter"] .card__welcome-photo--summer { display: none; }
+[data-theme="winter"] .card__welcome-photo--winter { display: block; }
+.card .card__art[data-kind="welcome"]::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to top, rgb(20 14 11 / 0.62), rgb(20 14 11 / 0) 58%);
+}
+.card .card__art[data-kind="welcome"] .card__howdy { z-index: 1; color: var(--ml-white); text-shadow: 0 2px 12px rgb(0 0 0 / 0.25); }
+.card .card__art[data-kind="welcome"] .sticker { z-index: 2; }
+.m-stop__card .card .card__art[data-kind="welcome"] { height: 170px; }
+/* "You are here" always sits above the pins */
+.stage .here { z-index: 5000; }

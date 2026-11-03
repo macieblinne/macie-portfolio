@@ -39,7 +39,7 @@ function RouteTagline({ small = false }) {
         clearest route
         <span className="home__route" aria-hidden="true"><i className="home__route-ring" /><i className="home__route-trail" /><i className="home__route-dot" /></span>
       </span>{' '}
-      through hard problems.
+      to the hardest problems.
     </p>
   );
 }

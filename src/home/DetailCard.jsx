@@ -9,7 +9,14 @@ function Art({ art, title, slug }) {
     <div className="card__art" data-kind={art.kind} style={art.kind === 'image' ? vt('shot', slug) : undefined}>
       {art.kind === 'image' && <img className="card__art-img" src={art.src} alt={`${title} product UI`} />}
       {art.kind === 'photo' && <img className="card__art-img card__art-img--photo" src={art.src} alt="Macie on a hike" />}
-      {art.kind === 'welcome' && <p className="card__howdy">{art.title}</p>}
+      {art.kind === 'welcome' && (
+        <>
+          {/* one photo per theme: Longs Peak sunrise (summer), Mary Jane chairlift (winter) */}
+          <img className="card__art-img card__welcome-photo card__welcome-photo--summer" src="/welcome-summer.jpg" alt="Sunrise on the Keyhole route, Longs Peak" />
+          <img className="card__art-img card__welcome-photo card__welcome-photo--winter" src="/welcome-winter.jpg" alt="Chairlift at sunset, Winter Park" />
+          <p className="card__howdy">{art.title}</p>
+        </>
+      )}
       {(art.sticker || art.stickerTl) && <span className="sticker sticker--chartreuse sticker--tilt-l card__art-sticker-tl">{art.sticker || art.stickerTl}</span>}
       {art.stickerBr && <span className="sticker sticker--tilt-r card__art-sticker-br">{art.stickerBr}</span>}
       {art.stickerTr && <span className="sticker sticker--tilt-r card__art-sticker-tr">{art.stickerTr}</span>}
