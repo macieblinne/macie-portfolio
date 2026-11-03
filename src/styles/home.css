@@ -413,3 +413,23 @@ button { background: none; border: 0; cursor: pointer; color: inherit; }
 /* phone card art: the welcome scene is short, so its place sticker sits small in the corner */
 .m-stop__card .card__art[data-kind="welcome"] .card__art-sticker-br { font-size: 10px; padding: 7px 11px; bottom: 10px; right: 10px; }
 .m-stop__card .card__art[data-kind="welcome"] .card__art-welcome { justify-content: flex-start; padding-top: 28px; }
+
+/* ---- hero: split trail sign (role segment + catchphrase segment) ---------- */
+.home__sign {
+  margin-top: 22px; display: inline-flex; align-items: stretch; align-self: flex-start;
+  border: 1px solid rgb(185 214 227 / 0.35); border-radius: 12px; overflow: hidden;
+  background: var(--bg-ground);
+}
+.home__sign-role {
+  display: flex; align-items: center; padding: 0 16px;
+  background: var(--ml-blue-300); color: var(--ml-ink-900);
+  font: 500 12px / 1 var(--ml-font-mono); letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;
+}
+.home__sign-tag { padding: 12px 22px 12px 20px; font-size: 20px; font-weight: 500; line-height: 1.25; color: var(--fg); }
+[data-theme="winter"] .home__sign { border-color: var(--line-strong); }
+[data-theme="winter"] .home__sign-role { background: var(--ml-cocoa-800); color: var(--ml-white); }
+.home__header .home__sign + .home__hint { margin-top: 26px; }
+/* phones: the two segments stack into one tag */
+.home__sign--stack { flex-direction: column; display: flex; margin-top: 16px; }
+.home__sign--stack .home__sign-role { padding: 9px 14px; }
+.home__sign--stack .home__sign-tag { padding: 11px 14px 12px; font-size: 17px; }

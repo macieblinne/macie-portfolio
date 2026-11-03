@@ -26,7 +26,7 @@ function useMedia(q) {
 
 const hero = {
   name: 'Howdy, I’m Macie!',
-  tag: 'Curious about everything & intentional about what I create',
+  tag: 'Finding the clearest route through hard problems.',
   role: 'Senior Product Designer',
 };
 
@@ -96,8 +96,10 @@ function DesktopHome({ theme, setTheme }) {
       <header className="home__header" ref={headerRef}>
         <a className="mark" href="/" aria-label="Macie Linne — home"><img src="/avatar.jpg" alt="" width="40" height="40" /></a>
         <h1 className="home__name">{hero.name}</h1>
-        <p className="home__role">{hero.role}</p>
-        <p className="home__tag">{hero.tag}</p>
+        <p className="home__sign">
+          <span className="home__sign-role">{hero.role}</span>
+          <span className="home__sign-tag">{hero.tag}</span>
+        </p>
         <p className="home__hint">{hint}</p>
       </header>
 
@@ -168,8 +170,10 @@ function MobileHome({ theme, setTheme }) {
 
       <section>
         <h1 className="m-name">{hero.name}</h1>
-        <p className="m-role">{hero.role}</p>
-        <p className="m-tag">{hero.tag}</p>
+        <p className="home__sign home__sign--stack">
+          <span className="home__sign-role">{hero.role}</span>
+          <span className="home__sign-tag">{hero.tag}</span>
+        </p>
       </section>
 
       <figure className="m-thumb" aria-label="Contour map of the route">
