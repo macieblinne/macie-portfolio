@@ -108,10 +108,8 @@ html[data-loading] .nav { animation-play-state: paused !important; }
 
   /* home: detail card slides in, then its contents cascade (every card swap too) */
   .card-slot { animation: slide-in-l var(--ml-dur-reveal) var(--ml-ease-emph) 650ms both; }
-  .card:not(.card--out) > .card__here,
   .card:not(.card--out) > .card__art,
   .card:not(.card--out) > .card__body > * { animation: rise-in var(--ml-dur-card-in) var(--ml-ease-out) both; }
-  .card:not(.card--out) > .card__here { animation-delay: 60ms; }
   /* impact stats count up visually: each stat rises in after the divider */
   .card:not(.card--out) .card__stat { animation: rise-in var(--ml-dur-card-in) var(--ml-ease-spring) both; }
   .card:not(.card--out) .card__stat:nth-child(1) { animation-delay: 380ms; }

@@ -123,17 +123,17 @@ function DesktopHome({ theme, setTheme }) {
         )}
         <div className="stage__stickers" style={{ position: 'absolute', top: 'auto', bottom: 28 }}>
           <span className="sticker sticker--tilt-l">{place}</span>
-          <span className="sticker sticker--chartreuse sticker--tilt-r">0→1 SPECIALIST</span>
+          <a className="sticker sticker--chartreuse sticker--tilt-r sticker--link" href={LINKS.email}>Let’s talk ↗</a>
         </div>
       </div>
 
-      <DetailCard stops={stops} activeIndex={active} onSelect={select}>
-        <footer className="home__footer">
-          <a href={LINKS.email}>macieblinne@gmail.com</a>
-          <a href={LINKS.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
-          <a href={LINKS.resume}>Resume</a>
-        </footer>
-      </DetailCard>
+      <DetailCard stops={stops} activeIndex={active} onSelect={select} />
+
+      <footer className="home__footer">
+        <a href={LINKS.email}>macieblinne@gmail.com</a>
+        <a href={LINKS.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
+        <a href={LINKS.resume}>Resume</a>
+      </footer>
 
     </main>
   );
@@ -213,7 +213,7 @@ function MobileHome({ theme, setTheme }) {
 
       <div className="m-stickers">
         <span className="sticker sticker--tilt-l">{theme === 'winter' ? 'WINTER PARK' : 'BOULDER, CO · 5,430 FT'}</span>
-        <span className="sticker sticker--chartreuse sticker--tilt-r">0→1 SPECIALIST</span>
+        <a className="sticker sticker--chartreuse sticker--tilt-r sticker--link" href={LINKS.email}>Let’s talk ↗</a>
       </div>
 
       <footer className="m-footer">
