@@ -120,7 +120,7 @@ const flexomics = {
       blocks: [
         { type: 'lessons', items: [
           'Organize around how people think, not how the data is stored. Two workspaces that mirror the research process did more than any single screen could.',
-          'A closer look should never cost the bigger picture. The overlay showed more about one cell, but it hid the plate around it.',
+          "Experts don't need simpler tools, they need fewer handoffs. Scientists were comfortable with complex data; what slowed them down was carrying it between three tools.",
         ] },
       ],
     },

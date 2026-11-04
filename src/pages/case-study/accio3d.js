@@ -46,8 +46,8 @@ const accio3d = {
         { type: 'note', label: 'Goal', text: 'Give the CEO a demo that sells itself.' },
         { type: 'p', text: 'I focused it on the two questions every buyer asks first.' },
         { type: 'cards', cards: [
-          { tone: 'blue', eyebrow: 'Question 1 · Can it be printed?', title: 'Printability assessment', text: 'Status at a glance. Buyers still picked materials and equipment by hand, which testing would flag.' },
-          { tone: 'dark', eyebrow: 'Question 2 · Who can make it?', title: 'Supplier matching', text: 'Qualified suppliers with capabilities, location, lead time and quality tier: enough to act on without digging.' },
+          { tone: 'blue', eyebrow: 'Question 1 · Printability assessment', title: 'Can it be printed?', text: 'Status at a glance. Buyers still picked materials and equipment by hand, which testing would flag.' },
+          { tone: 'dark', eyebrow: 'Question 2 · Supplier matching', title: 'Who can make it?', text: 'Qualified suppliers with capabilities, location, lead time and quality tier: enough to act on without digging.' },
         ] },
       ],
     },
