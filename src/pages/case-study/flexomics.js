@@ -55,7 +55,7 @@ const flexomics = {
     {
       type: 'break',
       sticker: 'Imaging ↔ Sequencing · one selection, two views',
-      image: { src: '/case-study/flexomics-hero.webp', alt: 'FLXplorer: a selected well on the plate image, with that same well’s UMAP in the side panel', width: 1711, height: 1106, scale: 1.0315 },
+      image: { src: '/case-study/flexomics-hero.webp', alt: 'FLXplorer: a selected well on the plate image, with that same well’s UMAP in the side panel', width: 1711, height: 1106, scale: 1 },
       // Coordinates are in image pixels (1711 × 1106).
       annotation: {
         ring: { cx: 772, cy: 465, r: 46 },
