@@ -13,7 +13,7 @@
   --cs-hero: var(--ml-blue-300);
   --cs-break: color-mix(in srgb, var(--ml-blue-100), var(--ml-blue-200));
   --cs-soft: var(--ml-blue-100);
-  --cs-blue: var(--ml-blue-300);
+  --cs-blue: var(--cs-hero); /* cards always match the header's blue (baby blue in summer, pale ice in winter) */
   --cs-dark: var(--bg-band-anchor);
   --cs-rule: #D3D8DA;
   --cs-shot-bg: #F6F7F5;
@@ -198,7 +198,7 @@ html[data-theme="winter"] .cs {
 .cs-option__label { font: 700 11px / normal var(--ml-font-mono); letter-spacing: 0.03em; text-transform: uppercase; }
 .cs-option__text { font-size: var(--ml-text-sm); line-height: 1.5; }
 .cs-option__x { flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: var(--cs-rule); color: var(--ml-ink-900); }
-.cs-option--chosen { background: var(--ml-blue-500); color: var(--ml-ink-900); border: 2px dashed var(--ml-ink-900); padding: 18px; }
+.cs-option--chosen { background: var(--ml-blue-300); color: var(--ml-ink-900); border: 2px dashed var(--ml-ink-900); padding: 18px; }
 .cs-option--chosen .cs-option__label { color: var(--ml-ink-900); }
 .cs-option__chip {
   flex: none; display: inline-flex; align-items: center; gap: 6px;
@@ -477,3 +477,5 @@ html[data-theme="winter"] .cs-lesson { border-top-color: var(--line); }
 /* reading progress (fixed to the top of the viewport) */
 .cs-progress { position: fixed; top: 0; left: 0; right: 0; height: 4px; z-index: 60; pointer-events: none; background: rgb(47 33 28 / 0.08); }
 .cs-progress__fill { height: 100%; background: var(--ml-green-700); transform: scaleX(0); transform-origin: left center; will-change: transform; }
+
+.cs-option__chip svg { color: var(--ml-white); stroke: var(--ml-white); }
