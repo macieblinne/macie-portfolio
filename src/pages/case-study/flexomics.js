@@ -73,12 +73,12 @@ const flexomics = {
       blocks: [
         { type: 'p', text: "The two workspaces only work if they never feel like two tools. Select a population in imaging and it's already selected in sequencing. Find a gene signal in sequencing and its cells light up in the image." },
         { type: 'p', text: 'Moving between them is one line of thinking, not a context switch.' },
-        { type: 'media', video: '/case-study/video/imaging.mp4', poster: '/case-study/video/imaging-poster.jpg', width: 1600, height: 1032, sticker: 'GIF · AUTOPLAY', caption: 'Select a well, pin it, then compare more', alt: 'Screen recording: selecting a well on the plate shows its UMAP in the side panel; the scientist pins it, then selects and pins more wells' },
+        { type: 'media', wide: true, video: '/case-study/video/imaging.mp4', poster: '/case-study/video/imaging-poster.jpg', width: 1600, height: 1032, sticker: 'GIF · AUTOPLAY', caption: 'Select a well, pin it, then compare more', alt: 'Screen recording: selecting a well on the plate shows its UMAP in the side panel; the scientist pins it, then selects and pins more wells' },
         { type: 'h3', text: 'The first version lost the map' },
         { type: 'p', text: "Our first design opened a cell's data in an overlay on top of the image. It covered the rest of the microscopy view, so scientists lost their place in the experiment. We moved the data into a full side panel instead: the image stays in view while you dig into a cell." },
-        { type: 'compare', items: [
-          { tag: 'Before', caption: 'Overlay covered the plate', src: '/case-study/flexomics-imaging-v1.webp', width: 1200, height: 776, alt: 'First version: a well’s volcano plot opens in an overlay on top of the microscopy image, hiding the plate around it' },
-          { tag: 'After', caption: 'Full panel keeps the image in view', src: '/case-study/flexomics-imaging-v2.webp', width: 1200, height: 776, alt: 'Shipped version: the well’s UMAP sits in a side panel while the full plate image stays visible', after: true },
+        { type: 'compare', wide: true, items: [
+          { tag: 'Before', caption: 'Overlay covered the plate', src: '/case-study/flexomics-imaging-v1.webp', full: '/case-study/flexomics-imaging-v1-full.webp', width: 1200, height: 776, alt: 'First version: a well’s volcano plot opens in an overlay on top of the microscopy image, hiding the plate around it' },
+          { tag: 'After', caption: 'Full panel keeps the image in view', src: '/case-study/flexomics-imaging-v2.webp', full: '/case-study/flexomics-imaging-v2-full.webp', width: 1200, height: 776, alt: 'Shipped version: the well’s UMAP sits in a side panel while the full plate image stays visible', after: true },
         ] },
       ],
     },
@@ -112,7 +112,7 @@ const flexomics = {
           { tone: 'blue', title: 'Operational impact', text: 'Three internal tools retired. FLXplorer became the main environment for exploring experiments: one session instead of three systems.' },
           { tone: 'soft', title: 'Strategic impact', text: 'It changed what Flexomics sells: from a hardware provider to an integrated single-cell platform, and the product the team demos to customers.' },
         ] },
-        { type: 'media', video: '/case-study/video/sequencing.mp4', poster: '/case-study/video/sequencing-poster.jpg', width: 2370, height: 1528, sticker: 'GIF · AUTOPLAY', caption: 'Cell → gene → cells, round trip', alt: 'Screen recording: a data point picked in sequencing highlights the corresponding cells back in the imaging view' },
+        { type: 'media', wide: true, video: '/case-study/video/sequencing.mp4', poster: '/case-study/video/sequencing-poster.jpg', width: 2370, height: 1528, sticker: 'GIF · AUTOPLAY', caption: 'Cell → gene → cells, round trip', alt: 'Screen recording: a data point picked in sequencing highlights the corresponding cells back in the imaging view' },
       ],
     },
     {

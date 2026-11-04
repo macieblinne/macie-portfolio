@@ -11,6 +11,7 @@ import SiteHeader from '../../site/SiteHeader.jsx';
 import { Link } from '../../site/router.jsx';
 import flexomics from './flexomics.js';
 import accio3d from './accio3d.js';
+import Lightbox, { Zoomable } from './Lightbox.jsx';
 import './case-study.css';
 
 const STUDIES = { flexomics, accio3d };
@@ -166,12 +167,14 @@ function Media({ block }) {
 }
 
 /** Before / after pair of still screens; the "after" card gets the chartreuse treatment. */
-function Compare({ items }) {
+function Compare({ items, wide }) {
   return (
-    <div className="cs-compare">
+    <div className={`cs-compare${wide ? ' cs-compare--wide' : ''}`}>
       {items.map((it) => (
         <figure key={it.tag} className={`cs-compare__item${it.after ? ' cs-compare__item--after' : ''}`}>
-          <img src={it.src} alt={it.alt} width={it.width} height={it.height} loading="lazy" decoding="async" />
+          <Zoomable src={it.src} full={it.full} alt={it.alt} caption={`${it.tag} · ${it.caption}`}>
+            <img src={it.src} alt={it.alt} width={it.width} height={it.height} loading="lazy" decoding="async" />
+          </Zoomable>
           <figcaption>
             <span className="cs-compare__tag">{it.tag}</span>
             <span className="cs-compare__caption">{it.caption}</span>
@@ -212,13 +215,22 @@ function Block({ block }) {
     case 'lead': return <p className="cs-lead">{block.text}</p>;
     case 'h3': return <h3 className="cs-subhead">{block.text}</h3>;
     case 'note': return <Note label={block.label} text={block.text} />;
-    case 'compare': return <Compare items={block.items} />;
+    case 'compare': return <Compare items={block.items} wide={block.wide} />;
     case 'cards': return <Cards cards={block.cards} size={block.size} />;
     case 'fork': return <Fork options={block.options} />;
     case 'media': return <Media block={block} />;
     case 'lessons': return <Lessons items={block.items} />;
     default: return null;
   }
+}
+
+/** Split a pitch's blocks into column runs and full-width (wide) blocks, keeping order. */
+function segments(blocks) {
+  const out = [{ blocks: [] }];
+  for (const b of blocks) {
+    if (b.wide) { out.push({ wide: b }, { blocks: [] }); } else out[out.length - 1].blocks.push(b);
+  }
+  return out.filter((seg, i) => seg.wide || seg.blocks.length || i === 0);
 }
 
 function Pitch({ section, n, total }) {
@@ -231,13 +243,18 @@ function Pitch({ section, n, total }) {
         <p className="cs-pitch__label">{section.label}</p>
         <p className="cs-pitch__count">{section.hook ? section.count : `Waypoint ${pad2(n)} / ${pad2(total)}`}</p>
       </header>
-      <div
-        className="cs-pitch__body"
-        style={{ '--cs-gap': section.gap ? `${section.gap}px` : undefined, '--cs-min-h': section.minHeight ? `${section.minHeight}px` : undefined }}
-      >
-        {section.title && <h2 id={id} className="cs-pitch__title">{section.title}</h2>}
-        {section.blocks.map((b, i) => <Block key={i} block={b} />)}
-      </div>
+      {segments(section.blocks).map((seg, si) => (seg.wide
+        ? <div key={si} className="cs-pitch__wide"><Block block={seg.wide} /></div>
+        : (
+          <div
+            key={si}
+            className="cs-pitch__body"
+            style={{ '--cs-gap': section.gap ? `${section.gap}px` : undefined, '--cs-min-h': si === 0 && section.minHeight ? `${section.minHeight}px` : undefined }}
+          >
+            {si === 0 && section.title && <h2 id={id} className="cs-pitch__title">{section.title}</h2>}
+            {seg.blocks.map((b, i) => <Block key={i} block={b} />)}
+          </div>
+        )))}
     </section>
   );
 }
@@ -264,9 +281,11 @@ function ImageBreak({ section }) {
   return (
     <div className="cs-break">
       <span className="cs-contour cs-contour--break" aria-hidden="true" />
-      <Shot image={section.image} className="cs-shot--break">
-        {section.annotation && <Annotation a={section.annotation} image={section.image} />}
-      </Shot>
+      <Zoomable src={section.image.src} full={section.image.full} alt={section.image.alt} caption={section.sticker} className="cs-zoom--break">
+        <Shot image={section.image} className="cs-shot--break">
+          {section.annotation && <Annotation a={section.annotation} image={section.image} />}
+        </Shot>
+      </Zoomable>
       <Sticker tone="chartreuse" rotate={1} className="cs-break__sticker">{section.sticker}</Sticker>
     </div>
   );
@@ -340,6 +359,7 @@ export default function CaseStudy({ slug }) {
         ))}
         <NextRoute next={study.next} />
       </main>
+      <Lightbox />
     </div>
   );
 }

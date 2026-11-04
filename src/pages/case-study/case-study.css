@@ -367,3 +367,70 @@ html[data-theme="winter"] .cs-lesson { border-top-color: var(--line); }
 @media (prefers-reduced-motion: reduce) {
   .cs-next__cta, .cs-next__cta svg { transition: none; }
 }
+
+/* ---- wide blocks (break out of the text column) ------------------------- */
+.cs-pitch { row-gap: 24px; }
+.cs-pitch__aside { grid-column: 1; grid-row: 1; }
+.cs-pitch__body { grid-column: 2; }
+.cs-pitch__body + .cs-pitch__body, .cs-pitch__wide + .cs-pitch__body { min-height: 0; }
+.cs-pitch__wide { grid-column: 1 / -1; margin-left: 52px; position: relative; z-index: 1; }
+.cs-compare--wide { gap: 24px; }
+.cs-compare--wide .cs-compare__item { padding: 14px 14px 16px; }
+.cs-compare--wide .cs-compare__item--after { padding: 13px 13px 15px; }
+.cs-compare--wide .cs-compare__caption { font-size: 12px; }
+
+/* ---- click to expand ---------------------------------------------------- */
+.cs-zoom {
+  position: relative; display: block; width: 100%; padding: 0; border: 0; background: none;
+  border-radius: 10px; cursor: zoom-in; color: inherit; font: inherit; text-align: inherit;
+}
+.cs-zoom img { transition: filter 0.2s ease; }
+.cs-zoom__badge {
+  position: absolute; right: 10px; bottom: 10px;
+  display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%;
+  background: var(--ml-cocoa-800); color: var(--ml-white);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.3);
+  opacity: 0; transform: scale(0.9); transition: opacity 0.18s ease, transform 0.18s ease;
+}
+.cs-zoom:hover .cs-zoom__badge, .cs-zoom:focus-visible .cs-zoom__badge { opacity: 1; transform: none; }
+.cs-zoom:hover img { filter: brightness(1.04); }
+@media (hover: none) { .cs-zoom__badge { opacity: 1; transform: none; width: 28px; height: 28px; } }
+/* the break shot positions itself against .cs-break, so its trigger stays out of layout */
+.cs-zoom.cs-zoom--break { position: static; width: auto; border-radius: 0; }
+.cs-zoom--break .cs-zoom__badge { display: none; }
+.cs-zoom--break .cs-shot { cursor: zoom-in; }
+.cs-zoom--break:focus-visible .cs-shot { outline: 3px solid var(--ml-ink-900); outline-offset: 4px; }
+
+.cs-lb {
+  position: fixed; inset: 0; z-index: 100;
+  display: grid; place-items: center; padding: 56px 72px;
+  background: rgb(26 18 15 / 0.94);
+  animation: cs-lb-in 0.18s ease;
+}
+@keyframes cs-lb-in { from { opacity: 0; } }
+.cs-lb__figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 14px; max-width: 100%; max-height: 100%; }
+.cs-lb__img { display: block; max-width: min(1600px, calc(100vw - 144px)); max-height: calc(100vh - 140px); width: auto; height: auto; border-radius: 12px; box-shadow: 0 24px 60px rgb(0 0 0 / 0.45); background: var(--ml-white); }
+.cs-lb__caption { display: flex; gap: 16px; align-items: center; font: 700 11px / 1.4 var(--ml-font-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ml-blue-200); text-align: center; }
+.cs-lb__count { color: var(--ml-chartreuse-400); }
+.cs-lb__btn {
+  position: absolute; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%;
+  border: 0; background: rgb(255 255 255 / 0.1); color: var(--ml-white); cursor: pointer;
+  transition: background 0.15s ease;
+}
+.cs-lb__btn:hover { background: rgb(255 255 255 / 0.2); }
+.cs-lb__btn:focus-visible { outline: 2px solid var(--ml-chartreuse-400); outline-offset: 2px; }
+.cs-lb__close { top: 16px; right: 16px; }
+.cs-lb__prev { left: 16px; top: 50%; translate: 0 -50%; }
+.cs-lb__next { right: 16px; top: 50%; translate: 0 -50%; }
+
+@media (max-width: 767px) {
+  .cs-pitch__aside { grid-column: 1 / -1; }
+  .cs-pitch__wide { margin-left: 0; }
+  .cs-pitch__body + .cs-pitch__body, .cs-pitch__wide + .cs-pitch__body { margin-top: 0; }
+  .cs-lb { padding: 64px 12px 72px; }
+  .cs-lb__img { max-width: calc(100vw - 24px); max-height: calc(100vh - 160px); border-radius: 8px; }
+  .cs-lb__prev, .cs-lb__next { top: auto; bottom: 16px; translate: none; }
+  .cs-lb__prev { left: calc(50% - 56px); }
+  .cs-lb__next { right: calc(50% - 56px); }
+}
+@media (prefers-reduced-motion: reduce) { .cs-lb { animation: none; } .cs-zoom__badge, .cs-zoom img { transition: none; } }
