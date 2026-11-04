@@ -31,7 +31,7 @@ const flexomics = {
       type: 'pitch', label: 'Context', title: 'One experiment, split across three tools',
       blocks: [
         { type: 'p', text: 'Single-cell experiments produce two kinds of evidence: images of cells and the genetic data behind them. At Flexomics they lived in three disconnected tools, so researchers rebuilt the connections by hand before they could ask what an experiment meant.' },
-        { type: 'p', text: 'I was the sole designer on FLXplorer, a 0→1 platform that puts the whole experiment in one place, working with a strategist, a developer and the founding team over 12 weeks.' },
+        { type: 'p', text: 'I was the lead designer on FLXplorer, a 0→1 platform that puts the whole experiment in one place, working with a strategist, a developer and the founding team over 12 weeks.' },
       ],
     },
     {

@@ -69,9 +69,43 @@ function Hero({ study, slug }) {
   );
 }
 
+/** Reading time: ~220 wpm over every visible string, plus ~10s per screenshot or recording. */
+function readMinutes(study) {
+  const words = [];
+  let shots = 0;
+  const READ = new Set(['text', 'title', 'caption', 'label', 'eyebrow', 'sticker']);
+  const walk = (v, key) => {
+    if (typeof v === 'string') { if (READ.has(key)) words.push(...v.split(/\s+/)); return; }
+    if (Array.isArray(v)) { v.forEach((x) => walk(x, key === 'items' ? 'text' : key)); return; }
+    if (v && typeof v === 'object') { if (v.src || v.video) shots += 1; Object.entries(v).forEach(([k, x]) => walk(x, k)); }
+  };
+  walk(study.sections);
+  return Math.max(1, Math.round(words.filter(Boolean).length / 220 + shots / 6));
+}
+
+/** Thin bar pinned to the top of the viewport that fills as you read. */
+function ReadingProgress() {
+  const fill = useRef(null);
+  useEffect(() => {
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+      if (fill.current) fill.current.style.transform = `scaleX(${p})`;
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => { cancelAnimationFrame(raf); window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); };
+  }, []);
+  return <div className="cs-progress" aria-hidden="true"><div ref={fill} className="cs-progress__fill" /></div>;
+}
+
 function MetaStrip({ items }) {
   return (
-    <dl className="cs-meta">
+    <dl className="cs-meta" style={{ '--cs-meta-n': items.length }}>
       {items.map((m) => (
         <div key={m.label} className="cs-meta__item">
           <dt>{m.label}</dt>
@@ -363,10 +397,11 @@ export default function CaseStudy({ slug }) {
   }
   return (
     <div className="cs" data-study={study.slug}>
+      <ReadingProgress />
       <div className="cs-top"><SiteHeader /></div>
       <main className="cs-main">
         <Hero study={study} slug={slug} />
-        <MetaStrip items={study.meta} />
+        <MetaStrip items={[{ label: 'Read time', value: `${readMinutes(study)} min` }, ...study.meta]} />
         {groups.map((g, i) => (
           <Fragment key={i}>
             {g.type === 'run' && (

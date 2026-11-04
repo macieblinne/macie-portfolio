@@ -49,6 +49,7 @@
 
 /* ---- Loading ----------------------------------------------------------- */
 .sys-load {
+  --ml-dur-contours: 1800ms; /* loading screen runs faster than the home draw-in */
   position: fixed; inset: 0; z-index: 1000;
   background: var(--bg); color: var(--fg);
   font-family: var(--ml-font-display);
@@ -72,7 +73,7 @@
 [data-theme="winter"] .sys-load__pin-shadow ellipse { fill: rgb(47 33 28 / 0.45); }
 
 /* pin drops from −120px with a 2-bounce spring, landing ≈1.0 s */
-.sys-load__pin-body { animation: sys-pin-drop 1150ms linear 1500ms both; }
+.sys-load__pin-body { animation: sys-pin-drop 1000ms linear 1000ms both; }
 .sys-load__pin-shadow ellipse { transform-box: fill-box; transform-origin: center; animation: sys-shadow 1150ms linear 1500ms both; }
 @keyframes sys-pin-drop {
   0%   { transform: translateY(-120px); opacity: 0; animation-timing-function: cubic-bezier(.55, 0, 1, .45); }

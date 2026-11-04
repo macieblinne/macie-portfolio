@@ -108,7 +108,7 @@ html[data-theme="winter"] .cs {
 .cs-hero__sticker { position: absolute; left: calc(50% + var(--cs-x)); top: var(--cs-y); }
 
 /* ---- meta strip --------------------------------------------------------- */
-.cs-meta { display: grid; grid-template-columns: repeat(4, 1fr); background: var(--bg-band-anchor); margin: 0; }
+.cs-meta { display: grid; grid-template-columns: repeat(var(--cs-meta-n, 4), 1fr); background: var(--bg-band-anchor); margin: 0; }
 .cs-meta__item { display: flex; flex-direction: column; gap: 4px; padding: 22px 28px; min-width: 0; }
 .cs-meta__item + .cs-meta__item { border-left: 1px solid rgb(255 255 255 / 0.12); }
 .cs-meta dt { font: 700 10px / normal var(--ml-font-mono); letter-spacing: 0.03em; text-transform: uppercase; color: var(--ml-blue-500); }
@@ -316,7 +316,7 @@ html[data-theme="winter"] .cs-lesson { border-top-color: var(--line); }
 
   .cs-meta { grid-template-columns: 1fr 1fr; }
   .cs-meta__item { padding: 16px var(--cs-pad); }
-  .cs-meta__item:nth-child(3) { border-left: 0; }
+  .cs-meta__item:nth-child(odd) { border-left: 0; }
   .cs-meta__item:nth-child(n+3) { border-top: 1px solid rgb(255 255 255 / 0.12); }
 
   .cs-run { padding: 40px var(--cs-pad); }
@@ -473,3 +473,7 @@ html[data-theme="winter"] .cs-lesson { border-top-color: var(--line); }
 /* the route ends in a pin under the last waypoint */
 .cs-pitch--last .cs-pitch__rail { bottom: 30px; }
 .cs-pitch__end { position: absolute; left: 6px; bottom: 4px; display: grid; place-items: center; color: var(--cs-ink-accent); filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.15)); }
+
+/* reading progress (fixed to the top of the viewport) */
+.cs-progress { position: fixed; top: 0; left: 0; right: 0; height: 4px; z-index: 60; pointer-events: none; background: rgb(47 33 28 / 0.08); }
+.cs-progress__fill { height: 100%; background: var(--ml-green-700); transform: scaleX(0); transform-origin: left center; will-change: transform; }

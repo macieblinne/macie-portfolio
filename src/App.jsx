@@ -41,7 +41,7 @@ function Shell() {
     if (!loading) return;
     const t0 = performance.now();
     (document.fonts?.ready ?? Promise.resolve()).then(() => {
-      setTimeout(() => { setLoading(false); try { sessionStorage.setItem('ml:loaded', '1'); } catch { /* noop */ } }, Math.max(0, 3400 - (performance.now() - t0)));
+      setTimeout(() => { setLoading(false); try { sessionStorage.setItem('ml:loaded', '1'); } catch { /* noop */ } }, Math.max(0, 2400 - (performance.now() - t0)));
     });
   }, [loading]);
   // pages hold their entrance choreography while the loading screen is up (motion.css)

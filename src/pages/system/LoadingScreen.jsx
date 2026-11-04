@@ -8,7 +8,7 @@ import { useSite } from '../../site/site.jsx';
 import SystemTerrain from './SystemTerrain.jsx';
 import './system.css';
 
-const DRAW_MS = 2600; // = --ml-dur-contours
+const DRAW_MS = 1800; // = .sys-load --ml-dur-contours
 const easeOut = (x) => 1 - Math.pow(1 - x, 3);
 
 function reducedMotion() {

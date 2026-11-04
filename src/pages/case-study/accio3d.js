@@ -36,7 +36,7 @@ const accio3d = {
       type: 'pitch', label: 'Context', title: 'Days of phone calls, replaced by one session',
       blocks: [
         { type: 'p', text: 'Accio3D lets a buyer upload a part, have AI check whether it can be 3D printed, get matched with qualified suppliers and place an order, all in one session.' },
-        { type: 'p', text: "I was the sole designer across two phases: a proof of concept the CEO used to raise the seed round, then the MVP. I worked with a project manager, a strategist, a team of developers and the client's stakeholders." },
+        { type: 'p', text: "As senior product designer, I led design across two phases: a proof of concept the CEO used to raise the seed round, then the MVP. I worked with a project manager, a strategist, a team of developers and the client's stakeholders." },
       ],
     },
     {
