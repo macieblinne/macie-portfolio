@@ -406,3 +406,21 @@
 @media (max-width: 767px) { .ab-hero__meta--top { margin-bottom: 12px; } }
 /* same treatment as the home kicker (SENIOR PRODUCT DESIGNER) */
 .ab-hero__meta--top { font: 500 13px / 1.4 var(--ml-font-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-dim); }
+
+/* ---- Beyond the pixels: Kilimanjaro takes the spotlight ---------------- */
+.ab-log { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); align-items: stretch; }
+.ab-log__card { justify-content: center; gap: 16px; }
+.ab-log__body { font-size: var(--ml-text-md); }
+.ab-kili { min-height: 420px; box-shadow: var(--ml-shadow-card); }
+.ab-kili::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to top, rgb(20 14 11 / 0.82) 0%, rgb(20 14 11 / 0.35) 38%, rgb(20 14 11 / 0) 62%); }
+.ab-kili__sticker { position: absolute; z-index: 2; left: 24px; top: 24px; }
+.ab-kili__plate { z-index: 1; left: 32px; right: 32px; bottom: 28px; padding: 0; border: 0; border-radius: 0; background: none; gap: 10px; }
+.ab-kili__title { width: auto; max-width: 560px; font-size: 40px; line-height: 1.02; letter-spacing: -0.02em; text-wrap: balance; text-shadow: 0 2px 18px rgb(0 0 0 / 0.3); }
+.ab-kili__sub { font: 500 13px / 1 var(--ml-font-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ml-chartreuse-400); }
+@media (max-width: 1199px) { .ab-log { grid-template-columns: minmax(0, 1fr); } .ab-kili { min-height: 0; aspect-ratio: 16 / 10; } }
+@media (max-width: 767px) {
+  .ab-kili { aspect-ratio: 4 / 5; }
+  .ab-kili__plate { left: 20px; right: 20px; bottom: 20px; }
+  .ab-kili__title { font-size: 28px; }
+  .ab-kili__sticker { left: 16px; top: 16px; }
+}

@@ -20,13 +20,6 @@ const VALUES = [
   { n: '04', title: 'Systems', body: 'Every design decision has a ripple effect.' },
 ];
 
-const HOBBIES = [
-  { emoji: '🏃', label: 'Trail running' },
-  { emoji: '🏂', label: 'Snowboarding' },
-  { emoji: '🎒', label: 'Backpacking' },
-  { emoji: '🐺', label: 'One opinionated husky' },
-];
-
 const AI_TOOLS = [
   ['Claude', 'ChatGPT', 'Figma'],
   ['Cursor', 'Vercel'],
@@ -165,23 +158,18 @@ export default function About() {
 
         {/* ---- Basecamp log --------------------------------------------- */}
         <section className="ab-section" aria-labelledby="ab-log">
-          <SectionLabel id="ab-log" icon={<IconMountain size={11} stroke={2} />}>Basecamp log · beyond the pixels</SectionLabel>
+          <SectionLabel id="ab-log" icon={<IconMountain size={11} stroke={2} />}>Beyond the pixels</SectionLabel>
           <div className="ab-log">
             <div className="ab-card ab-log__card">
               <h3 className="ab-log__title">When I'm not designing, I'm usually in the mountains.</h3>
-              <p className="ab-log__body">I spend every weekend trail running, snowboarding, and backpacking through Colorado's high country. It's my reset button and where I think most clearly. Most of those miles are shared with my husky, who has stronger opinions than most stakeholders I've worked with.</p>
-              <p className="ab-log__body">I also care about making design more accessible as a career path. I mentor junior designers when I can, because that kind of support made a big difference for me early on.</p>
-              <ul className="ab-chips">
-                {HOBBIES.map((h) => (
-                  <li key={h.label} className="ab-chip"><span className="ab-chip__emoji" aria-hidden="true">{h.emoji}</span>{h.label}</li>
-                ))}
-              </ul>
+              <p className="ab-log__body">Most weekends I'm trail running, snowboarding or backpacking Colorado's high country, usually with my husky, who has stronger opinions than most stakeholders. It's where I think most clearly.</p>
+              <p className="ab-log__body">I also mentor junior designers, because someone did that for me.</p>
             </div>
             <figure className="ab-kili">
               <img className="ab-kili__img" src="/about/kilimanjaro.jpg" width="1201" height="1600" loading="lazy" alt="Sunrise over a sea of clouds from the snowy summit of Mt. Kilimanjaro" />
+              <span className="sticker sticker--chartreuse sticker--tilt-l ab-kili__sticker">💍 Ask me about it</span>
               <figcaption className="ab-kili__plate">
-                <span className="ab-kili__eyebrow">ASK ME ABOUT</span>
-                <span className="ab-kili__title">Getting married at the summit of Mt. Kilimanjaro.</span>
+                <span className="ab-kili__title">I got married at the summit of Mt.&nbsp;Kilimanjaro.</span>
                 <span className="ab-kili__sub">19,341 ft · yes, really</span>
               </figcaption>
             </figure>
