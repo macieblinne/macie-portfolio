@@ -86,7 +86,6 @@ const accio3d = {
       text: 'The demo did its job: the CEO could walk investors through it without a pitch deck. The MVP was greenlit.',
       stats: [
         { value: '2', label: 'phases' },
-        { value: '3-day', label: 'Blueprint' },
         { value: '71→46', label: 'MVP views' },
         { value: '2', label: 'apps' },
       ],
