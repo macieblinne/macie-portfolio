@@ -16,7 +16,7 @@ const flexomics = {
   },
   meta: [
     { label: 'Company', value: 'Flexomics' },
-    { label: 'Role', value: 'Lead Product Designer (sole)' },
+    { label: 'Role', value: 'Lead Product Designer' },
     { label: 'Timeline', value: '12 weeks · MVP' },
     { label: 'Team', value: 'Strategist · Developer · Founders' },
   ],
