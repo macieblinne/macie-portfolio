@@ -523,12 +523,12 @@ button { background: none; border: 0; cursor: pointer; color: inherit; }
 
 /* ==== home accent: green instead of orange (route, active pin, you-are-here, dots) ==== */
 .home, .m-home {
-  --home-green: #7C9461; --home-green-fg: var(--ml-ink-900);
+  --home-green: var(--ml-chartreuse-400); --home-green-fg: var(--ml-ink-900);
   --ml-orange-500: var(--home-green);        /* every direct orange use inside the home page */
   --accent: var(--home-green);
   --route-done: var(--home-green);
   --pin-done-stem: var(--home-green);
   --pin-active-bg: var(--home-green); --pin-active-fg: var(--home-green-fg);
 }
-[data-theme="winter"] .home, [data-theme="winter"] .m-home { --home-green: var(--ml-green-700); --home-green-fg: var(--ml-white); }
+[data-theme="winter"] .home, [data-theme="winter"] .m-home { --home-green: var(--ml-chartreuse-400); --home-green-fg: var(--ml-ink-900); }
 .home .sticker--orange, .m-home .sticker--orange { color: var(--home-green-fg); }
