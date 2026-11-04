@@ -1,7 +1,9 @@
 // Case-study page (/work/flexomics, /work/accio3d) — built from Figma
 // "Work — Case study · Flexomics · Alt" (5383:8227) and "· Accio3D · Alt" (5406:7911).
 // One component, two data files. Section types: pitch | break | milestone.
-// Pitch block types: p | quote | lead | cards | fork | media | lessons.
+// Pitch block types: p | quote | lead | h3 | note | cards | fork | media | compare | lessons.
+// A pitch with `hook: true` is an unnumbered opener (custom waypoint/label/count, no title).
+// A break may carry an `annotation` (ring, box, dotted path, labels) in image-pixel coordinates.
 import { Fragment, useEffect, useRef } from 'react';
 import { vt } from '../../site/motion.js';
 import { IconArrowLeft, IconArrowRight, IconCheck, IconFlag, IconX } from '@tabler/icons-react';
@@ -22,9 +24,10 @@ function Sticker({ tone = 'white', rotate = 0, className = '', style, children }
   );
 }
 
-function Shot({ image, className = '', eager = false }) {
+function Shot({ image, className = '', eager = false, children }) {
   return (
     <div className={`cs-shot ${className}`}>
+      {children}
       <img
         className="cs-shot__img"
         src={image.src}
@@ -162,6 +165,33 @@ function Media({ block }) {
   );
 }
 
+/** Before / after pair of still screens; the "after" card gets the chartreuse treatment. */
+function Compare({ items }) {
+  return (
+    <div className="cs-compare">
+      {items.map((it) => (
+        <figure key={it.tag} className={`cs-compare__item${it.after ? ' cs-compare__item--after' : ''}`}>
+          <img src={it.src} alt={it.alt} width={it.width} height={it.height} loading="lazy" decoding="async" />
+          <figcaption>
+            <span className="cs-compare__tag">{it.tag}</span>
+            <span className="cs-compare__caption">{it.caption}</span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  );
+}
+
+/** Field note: a principle or something we heard, set in mono on a pale-green card. */
+function Note({ label, text }) {
+  return (
+    <aside className="cs-note">
+      <p className="cs-note__label">{label}</p>
+      <p className="cs-note__text">{text}</p>
+    </aside>
+  );
+}
+
 function Lessons({ items }) {
   return (
     <ol className="cs-lessons">
@@ -180,6 +210,9 @@ function Block({ block }) {
     case 'p': return <p className="cs-p">{block.text}</p>;
     case 'quote': return <blockquote className="cs-quote"><p>{block.text}</p></blockquote>;
     case 'lead': return <p className="cs-lead">{block.text}</p>;
+    case 'h3': return <h3 className="cs-subhead">{block.text}</h3>;
+    case 'note': return <Note label={block.label} text={block.text} />;
+    case 'compare': return <Compare items={block.items} />;
     case 'cards': return <Cards cards={block.cards} size={block.size} />;
     case 'fork': return <Fork options={block.options} />;
     case 'media': return <Media block={block} />;
@@ -189,23 +222,41 @@ function Block({ block }) {
 }
 
 function Pitch({ section, n, total }) {
-  const id = `cs-wp-${pad2(n)}`;
+  const id = `cs-wp-${section.hook ? section.waypoint : pad2(n)}`;
   return (
-    <section className="cs-pitch" aria-labelledby={id}>
+    <section className={`cs-pitch${section.hook ? ' cs-pitch--hook' : ''}`} {...(section.title ? { 'aria-labelledby': id } : { 'aria-label': section.label })}>
       <div className="cs-pitch__rail" aria-hidden="true" />
       <header className="cs-pitch__aside">
-        <span className="cs-waypoint" aria-hidden="true">{pad2(n)}</span>
+        <span className="cs-waypoint" aria-hidden="true">{section.hook ? section.waypoint : pad2(n)}</span>
         <p className="cs-pitch__label">{section.label}</p>
-        <p className="cs-pitch__count">Waypoint {pad2(n)} / {pad2(total)}</p>
+        <p className="cs-pitch__count">{section.hook ? section.count : `Waypoint ${pad2(n)} / ${pad2(total)}`}</p>
       </header>
       <div
         className="cs-pitch__body"
         style={{ '--cs-gap': section.gap ? `${section.gap}px` : undefined, '--cs-min-h': section.minHeight ? `${section.minHeight}px` : undefined }}
       >
-        <h2 id={id} className="cs-pitch__title">{section.title}</h2>
+        {section.title && <h2 id={id} className="cs-pitch__title">{section.title}</h2>}
         {section.blocks.map((b, i) => <Block key={i} block={b} />)}
       </div>
     </section>
+  );
+}
+
+/** Overlay drawn in the screenshot's own pixel space, so it stays glued to the UI as the shot scales. */
+function Annotation({ a, image }) {
+  const { width: W, height: H } = image;
+  return (
+    <div className="cs-annot" style={{ '--cs-shot-scale': image.scale ?? 1, aspectRatio: `${W} / ${H}` }} aria-hidden="true">
+      <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none">
+        <path className="cs-annot__route" d={a.path} />
+        <circle className="cs-annot__line" cx={a.ring.cx} cy={a.ring.cy} r={a.ring.r} />
+        <rect className="cs-annot__line" x={a.box.x} y={a.box.y} width={a.box.w} height={a.box.h} rx={a.box.r} />
+        <circle className="cs-annot__dot" cx={a.dot.cx} cy={a.dot.cy} r="9" />
+      </svg>
+      {a.labels.map((l) => (
+        <span key={l.text} className="cs-annot__label" style={{ left: `${(l.x / W) * 100}%`, top: `${(l.y / H) * 100}%` }}>{l.text}</span>
+      ))}
+    </div>
   );
 }
 
@@ -213,7 +264,9 @@ function ImageBreak({ section }) {
   return (
     <div className="cs-break">
       <span className="cs-contour cs-contour--break" aria-hidden="true" />
-      <Shot image={section.image} className="cs-shot--break" />
+      <Shot image={section.image} className="cs-shot--break">
+        {section.annotation && <Annotation a={section.annotation} image={section.image} />}
+      </Shot>
       <Sticker tone="chartreuse" rotate={1} className="cs-break__sticker">{section.sticker}</Sticker>
     </div>
   );
@@ -259,7 +312,7 @@ function NextRoute({ next }) {
 export default function CaseStudy({ slug }) {
   const study = STUDIES[slug];
   if (!study) return null;
-  const total = study.sections.filter((s) => s.type === 'pitch').length;
+  const total = study.sections.filter((s) => s.type === 'pitch' && !s.hook).length;
   let n = 0;
   // Consecutive pitches share one "run" (48px in/out padding → 96px between bands).
   const groups = [];
@@ -278,7 +331,7 @@ export default function CaseStudy({ slug }) {
           <Fragment key={i}>
             {g.type === 'run' && (
               <div className="cs-run">
-                {g.items.map((s) => { n += 1; return <Pitch key={s.title} section={s} n={n} total={total} />; })}
+                {g.items.map((s) => { if (!s.hook) n += 1; return <Pitch key={s.title ?? s.label} section={s} n={n} total={total} />; })}
               </div>
             )}
             {g.type === 'break' && <ImageBreak section={g} />}

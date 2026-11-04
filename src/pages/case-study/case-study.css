@@ -17,6 +17,9 @@
   --cs-dark: var(--bg-band-anchor);
   --cs-rule: #D3D8DA;
   --cs-shot-bg: #F6F7F5;
+  /* accent text on paper: chartreuse is unreadable on light surfaces, so ink accents use deep green */
+  --cs-ink-accent: var(--ml-green-700);
+  --cs-note-bg: #E9EFE3;
   /* contour line colours (drawn through alpha masks) */
   --cs-contour-hero: rgb(53 50 31 / 0.2);
   --cs-contour-break: rgb(53 50 31 / 0.16);
@@ -139,8 +142,26 @@ html[data-theme="winter"] .cs {
 .cs-pitch__title { font-size: var(--ml-text-3xl); font-weight: 800; line-height: 1; letter-spacing: -0.02em; color: var(--fg); }
 .cs-p { font-size: var(--ml-text-lg); line-height: 1.58; color: var(--fg-muted); }
 .cs-quote { margin: 0; }
-.cs-quote p { font-size: var(--ml-text-4xl); font-weight: 800; line-height: 1.04; letter-spacing: -0.02em; color: var(--accent); }
+.cs-quote p { font-size: var(--ml-text-4xl); font-weight: 800; line-height: 1.04; letter-spacing: -0.02em; color: var(--cs-ink-accent); }
 .cs-lead { font-size: var(--ml-text-2xl); font-weight: 600; line-height: 1.34; color: var(--fg); }
+
+/* subhead inside a pitch (e.g. an iteration beat) */
+.cs-subhead { margin-top: 12px; font-size: var(--ml-text-xl); font-weight: 800; line-height: 1.2; letter-spacing: -0.01em; color: var(--fg); }
+
+/* field note (principle / what we heard) */
+.cs-note { display: flex; flex-direction: column; gap: 14px; padding: 32px; border-radius: var(--ml-radius-xl); background: var(--cs-note-bg); }
+.cs-note__label { font: 700 11px / normal var(--ml-font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--cs-ink-accent); }
+.cs-note__text { font: 500 26px / 1.4 var(--ml-font-mono); letter-spacing: -0.01em; color: var(--ml-cocoa-800); }
+
+/* before / after */
+.cs-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.cs-compare__item { margin: 0; display: flex; flex-direction: column; gap: 12px; padding: 12px 12px 14px; border-radius: var(--ml-radius-xl); background: var(--ml-white); border: 1px solid var(--line); }
+.cs-compare__item--after { border: 2px solid var(--ml-chartreuse-400); padding: 11px 11px 13px; }
+.cs-compare__item img { display: block; width: 100%; height: auto; border-radius: 10px; }
+.cs-compare figcaption { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.cs-compare__tag { flex: none; padding: 4px 10px; border-radius: var(--ml-radius-pill); background: #ECEBE3; color: var(--ml-cocoa-800); font: 700 10px / normal var(--ml-font-mono); letter-spacing: 0.08em; text-transform: uppercase; }
+.cs-compare__item--after .cs-compare__tag { background: var(--ml-chartreuse-400); }
+.cs-compare__caption { font: 400 11px / 1.4 var(--ml-font-mono); color: var(--fg-muted); }
 
 /* cards */
 .cs-cards { display: flex; gap: 16px; align-items: flex-start; }
@@ -200,7 +221,7 @@ html[data-theme="winter"] .cs {
 /* lessons */
 .cs-lessons { display: flex; flex-direction: column; gap: 18px; list-style: none; margin: 0; padding: 0; }
 .cs-lesson { display: flex; gap: 16px; align-items: flex-start; padding: 14px 0; border-top: 1px solid var(--cs-rule); }
-.cs-lesson__n { flex: none; font: 800 14px / normal var(--ml-font-badge); color: var(--accent); }
+.cs-lesson__n { flex: none; font: 800 14px / normal var(--ml-font-badge); color: var(--cs-ink-accent); }
 .cs-lesson p { font-size: var(--ml-text-lg); font-weight: 600; line-height: 1.45; color: var(--fg); }
 html[data-theme="winter"] .cs-lesson { border-top-color: var(--line); }
 
@@ -208,6 +229,21 @@ html[data-theme="winter"] .cs-lesson { border-top-color: var(--line); }
 .cs-break { position: relative; height: 560px; overflow: hidden; background: var(--cs-break); }
 .cs-shot--break { left: calc(50% - 440px); top: 74px; width: 900px; height: 563px; rotate: 2deg; }
 .cs-break__sticker { position: absolute; left: var(--cs-pad); top: 36px; z-index: 2; }
+
+/* annotation over a break screenshot (image-pixel coordinates via viewBox) */
+.cs-annot { position: absolute; left: 0; top: 0; z-index: 1; width: calc(100% * var(--cs-shot-scale, 1)); pointer-events: none; }
+.cs-annot svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 1px 3px rgb(0 0 0 / 0.35)); }
+.cs-annot svg * { vector-effect: non-scaling-stroke; fill: none; stroke: var(--ml-chartreuse-400); }
+.cs-annot__line { stroke-width: 3px; }
+.cs-annot__route { stroke-width: 4px; stroke-linecap: round; stroke-dasharray: 0.5 10; }
+.cs-annot svg .cs-annot__dot { fill: var(--ml-chartreuse-400); stroke: var(--ml-cocoa-800); stroke-width: 2px; }
+.cs-annot__label {
+  position: absolute; white-space: nowrap;
+  padding: 5px 10px; border-radius: var(--ml-radius-pill);
+  background: var(--ml-chartreuse-400); border: 1.5px solid var(--ml-cocoa-800); color: var(--ml-cocoa-800);
+  font: 700 10px / normal var(--ml-font-mono); letter-spacing: 0.08em; text-transform: uppercase;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.25);
+}
 
 /* ---- milestone band ----------------------------------------------------- */
 .cs-milestone {
@@ -293,6 +329,11 @@ html[data-theme="winter"] .cs-lesson { border-top-color: var(--line); }
   .cs-p { font-size: 16px; line-height: 1.55; }
   .cs-quote p { font-size: 28px; }
   .cs-lead { font-size: 20px; }
+  .cs-note { padding: 22px; gap: 10px; }
+  .cs-note__text { font-size: 18px; }
+  .cs-subhead { font-size: 20px; }
+  .cs-compare { grid-template-columns: 1fr; gap: 12px; }
+  .cs-annot__label { display: none; }
   .cs-cards { flex-direction: column; gap: 12px; align-items: stretch; }
   .cs-card { padding: 20px; }
   .cs-card__title { font-size: 24px; }
