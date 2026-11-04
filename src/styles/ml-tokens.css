@@ -35,7 +35,10 @@
   --ml-cocoa-900: #231915;  /* night · dark page background */
   --ml-ink-900: #35321F;    /* ink · body text on light */
   --ml-ink-600: #6A6650;    /* mute · secondary text on light */
-  --ml-orange-500: #E57F33; /* orange · route completed, active pin, accents */
+  /* Accent: the palette is green · brown · blue · white. Orange was retired —
+     --ml-orange-500 is kept as an alias so existing components pick up the
+     accent (chartreuse) without a rename. */
+  --ml-orange-500: var(--ml-chartreuse-400);
   --ml-chartreuse-400: #C9CC52; /* chartreuse · focus ring, stickers, ML mark */
   --ml-green-700: #3C4F2C;  /* dark green · accent band, patches */
   --ml-paper-100: #F4F6F7;  /* paper · cards inside drawer */
