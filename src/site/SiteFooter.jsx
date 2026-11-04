@@ -8,7 +8,7 @@ export default function SiteFooter() {
       <nav className="site-footer__links" aria-label="Contact">
         <a href={LINKS.email}>{LINKS.emailLabel}</a>
         <a href={LINKS.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
-        <a href={LINKS.resume}>Resume</a>
+        <a href={LINKS.resume} target="_blank" rel="noreferrer">Resume</a>
       </nav>
     </footer>
   );

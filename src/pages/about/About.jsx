@@ -135,7 +135,7 @@ export default function About() {
                 LinkedIn <IconExternalLink size={15} stroke={2} aria-hidden="true" />
                 <span className="sr-only">(opens in a new tab)</span>
               </a>
-              <a className="ab-btn ab-btn--outline" href={LINKS.resume} download>
+              <a className="ab-btn ab-btn--outline" href={LINKS.resume} target="_blank" rel="noreferrer">
                 Resume <IconDownload size={15} stroke={2} aria-hidden="true" />
               </a>
             </div>
@@ -228,7 +228,7 @@ export default function About() {
               <div className="ab-summit__row">
                 <CopyEmail />
                 <a className="ab-summit__link" href={LINKS.linkedin} target="_blank" rel="noreferrer">LinkedIn<span className="sr-only"> (opens in a new tab)</span></a>
-                <a className="ab-summit__link" href={LINKS.resume} download>Resume</a>
+                <a className="ab-summit__link" href={LINKS.resume} target="_blank" rel="noreferrer">Resume</a>
               </div>
             </div>
           </div>

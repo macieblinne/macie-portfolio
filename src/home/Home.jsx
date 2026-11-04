@@ -145,7 +145,7 @@ function DesktopHome({ theme, setTheme }) {
       <footer className="home__footer">
         <a href={LINKS.email}>macieblinne@gmail.com</a>
         <a href={LINKS.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
-        <a href={LINKS.resume}>Resume</a>
+        <a href={LINKS.resume} target="_blank" rel="noreferrer">Resume</a>
       </footer>
 
     </main>
@@ -226,7 +226,7 @@ function MobileHome({ theme, setTheme }) {
       <footer className="m-footer">
         <a href={LINKS.email}>macieblinne@gmail.com</a>
         <a href={LINKS.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
-        <a href={LINKS.resume}>Resume</a>
+        <a href={LINKS.resume} target="_blank" rel="noreferrer">Resume</a>
       </footer>
     </main>
   );

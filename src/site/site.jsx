@@ -53,6 +53,6 @@ export const LINKS = {
   email: 'mailto:macieblinne@gmail.com',
   emailLabel: 'macieblinne@gmail.com',
   linkedin: 'https://www.linkedin.com/in/macielinne/',
-  resume: '/resume.pdf',
+  resume: 'https://drive.google.com/file/d/18RwrD40HIoAH-8A2pi2zbzpjL-0hyQ6o/view',
   site: 'macielinne.design',
 };

@@ -42,7 +42,7 @@ export function MenuSheet({ open, onClose }) {
       <div className="menu-sheet__foot">
         <a href={LINKS.email}>{LINKS.emailLabel}</a>
         <a href={LINKS.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
-        <a href={LINKS.resume}>Resume</a>
+        <a href={LINKS.resume} target="_blank" rel="noreferrer">Resume</a>
       </div>
     </div>
   );
