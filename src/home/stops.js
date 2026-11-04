@@ -16,15 +16,15 @@ export const STOP_CONTENT = {
   flexomics: {
     title: 'Flexomics',
     art: { kind: 'image', src: '/flexomics-ui.png', stickerTl: '0\u21921', stickerBr: 'Life science' },
-    headline: 'From three fragmented tools to one research platform',
-    impact: 'Replaced hours of manual data reconstruction with one continuous research workflow.',
+    headline: 'Hours of cross-referencing, now two clicks',
+    impact: 'Turned three disconnected research tools into one platform, shipped in 12 weeks.',
     cta: { label: 'Read the case study', href: '/work/flexomics' },
   },
   accio3d: {
     title: 'Accio3D',
     art: { kind: 'image', src: '/accio-ui.png', stickerTl: '0\u21921', stickerBr: 'AI / Procurement' },
     headline: 'An AI-powered procurement platform from POC to MVP',
-    impact: 'Closed a seed round with the POC, then shipped a 50-screen MVP in 13 weeks.',
+    impact: 'Designed the POC the CEO used to close a seed round, then scoped the MVP.',
     cta: { label: 'Read the case study', href: '/work/accio3d' },
   },
   summit: {
