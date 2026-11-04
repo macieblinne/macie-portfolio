@@ -317,7 +317,7 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
           );
         })}
         <div ref={hereRef} className="here" aria-hidden="true">
-          <span className="sticker here__sticker"><i className="here__pulse" aria-hidden="true" />YOU ARE HERE</span>
+          <span className="sticker here__sticker">YOU ARE HERE</span>
         </div>
       </div>
     </div>
