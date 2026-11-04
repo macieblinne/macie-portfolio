@@ -47,8 +47,8 @@ const flexomics = {
       blocks: [
         { type: 'p', text: 'I split the platform into two workspaces that mirror the research process, both reading from one shared dataset.' },
         { type: 'cards', cards: [
-          { tone: 'dark', eyebrow: 'Workspace 1 · Start wide', title: 'Imaging', text: 'Explore thousands of cells visually and find the populations worth a closer look.' },
-          { tone: 'dark', eyebrow: 'Workspace 2 · Go deep', title: 'Sequencing', text: 'See the same cells through gene expression, across the whole population.' },
+          { tone: 'blue', eyebrow: 'Workspace 1 · Start wide', title: 'Imaging', text: 'Explore thousands of cells visually and find the populations worth a closer look.' },
+          { tone: 'blue', eyebrow: 'Workspace 2 · Go deep', title: 'Sequencing', text: 'See the same cells through gene expression, across the whole population.' },
         ] },
       ],
     },
@@ -109,8 +109,8 @@ const flexomics = {
       blocks: [
         { type: 'p', text: 'Hours of cross-referencing across three systems became two clicks.' },
         { type: 'cards', size: 'sm', cards: [
-          { tone: 'dark', title: 'Operational impact', text: 'Three internal tools retired. FLXplorer became the main environment for exploring experiments: one session instead of three systems.' },
-          { tone: 'dark', title: 'Strategic impact', text: 'It changed what Flexomics sells: from a hardware provider to an integrated single-cell platform, and the product the team demos to customers.' },
+          { tone: 'blue', title: 'Operational impact', text: 'Three internal tools retired. FLXplorer became the main environment for exploring experiments: one session instead of three systems.' },
+          { tone: 'blue', title: 'Strategic impact', text: 'It changed what Flexomics sells: from a hardware provider to an integrated single-cell platform, and the product the team demos to customers.' },
         ] },
         { type: 'media', wide: true, video: '/case-study/video/sequencing.mp4', poster: '/case-study/video/sequencing-poster.jpg', width: 2370, height: 1528, sticker: 'GIF · AUTOPLAY', caption: 'Cell → gene → cells, round trip', alt: 'Screen recording: a data point picked in sequencing highlights the corresponding cells back in the imaging view' },
       ],

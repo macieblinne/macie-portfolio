@@ -198,12 +198,12 @@ html[data-theme="winter"] .cs {
 .cs-option__label { font: 700 11px / normal var(--ml-font-mono); letter-spacing: 0.03em; text-transform: uppercase; }
 .cs-option__text { font-size: var(--ml-text-sm); line-height: 1.5; }
 .cs-option__x { flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: var(--cs-rule); color: var(--ml-ink-900); }
-.cs-option--chosen { background: var(--cs-dark); color: var(--ml-blue-300); border: 2px dashed var(--ml-chartreuse-400); padding: 18px; }
-.cs-option--chosen .cs-option__label { color: var(--ml-chartreuse-400); }
+.cs-option--chosen { background: var(--ml-blue-500); color: var(--ml-ink-900); border: 2px dashed var(--ml-ink-900); padding: 18px; }
+.cs-option--chosen .cs-option__label { color: var(--ml-ink-900); }
 .cs-option__chip {
   flex: none; display: inline-flex; align-items: center; gap: 6px;
   padding: 3px 8px; border-radius: var(--ml-radius-pill);
-  background: var(--ml-chartreuse-400); color: var(--ml-ink-900);
+  background: var(--ml-ink-900); color: var(--ml-white);
   font: 700 10px / normal var(--ml-font-mono); letter-spacing: 0.02em; text-transform: uppercase;
 }
 
