@@ -542,5 +542,9 @@ button { background: none; border: 0; cursor: pointer; color: inherit; }
 [data-theme="winter"] .here__sticker { background: var(--ml-cocoa-800); color: var(--ml-chartreuse-400); box-shadow: 0 0 0 var(--ml-stroke-sticker) var(--ml-white), var(--ml-shadow-sticker); }
 .here__pulse { position: relative; flex: none; width: 9px; height: 9px; border-radius: 50%; background: var(--ml-chartreuse-400); box-shadow: 0 0 0 1.5px var(--ml-cocoa-800); }
 [data-theme="winter"] .here__pulse { box-shadow: none; }
-.here__pulse::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: var(--ml-chartreuse-400); animation: here-pulse 1.8s var(--ml-ease-out) infinite; }
-@media (prefers-reduced-motion: reduce) { .here__pulse::after { animation: none; } }
+.here__pulse { animation: here-breathe 2.5s ease-in-out infinite; }
+.here__pulse { box-shadow: 0 0 6px rgb(201 204 82 / 0.6), 0 0 0 1.5px var(--ml-cocoa-800); }
+[data-theme="winter"] .here__pulse { box-shadow: 0 0 6px rgb(201 204 82 / 0.6); }
+/* soft breathing glow, as on the production site's location dot */
+@keyframes here-breathe { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+@media (prefers-reduced-motion: reduce) { .here__pulse { animation: none; } }
