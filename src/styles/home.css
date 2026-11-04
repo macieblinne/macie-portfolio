@@ -532,3 +532,15 @@ button { background: none; border: 0; cursor: pointer; color: inherit; }
 }
 [data-theme="winter"] .home, [data-theme="winter"] .m-home { --home-green: var(--ml-chartreuse-400); --home-green-fg: var(--ml-ink-900); }
 .home .sticker--orange, .m-home .sticker--orange { color: var(--home-green-fg); }
+
+/* "clearest route" underline: dark trail + chartreuse summit in light mode */
+[data-theme="winter"] .home__route-trail { background-image: radial-gradient(circle, var(--ml-cocoa-800) 1.6px, transparent 1.8px); }
+[data-theme="winter"] .home__route-dot { box-shadow: 0 0 0 2px var(--ml-cocoa-800); }
+
+/* "You are here": inverted sticker (white on dark, espresso on light) + live pulse */
+.here__sticker { gap: 8px; background: var(--ml-white); color: var(--ml-ink-900); }
+[data-theme="winter"] .here__sticker { background: var(--ml-cocoa-800); color: var(--ml-chartreuse-400); box-shadow: 0 0 0 var(--ml-stroke-sticker) var(--ml-white), var(--ml-shadow-sticker); }
+.here__pulse { position: relative; flex: none; width: 9px; height: 9px; border-radius: 50%; background: var(--ml-chartreuse-400); box-shadow: 0 0 0 1.5px var(--ml-cocoa-800); }
+[data-theme="winter"] .here__pulse { box-shadow: none; }
+.here__pulse::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: var(--ml-chartreuse-400); animation: here-pulse 1.8s var(--ml-ease-out) infinite; }
+@media (prefers-reduced-motion: reduce) { .here__pulse::after { animation: none; } }
