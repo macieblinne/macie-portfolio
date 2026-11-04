@@ -373,7 +373,12 @@ html[data-theme="winter"] .cs-lesson { border-top-color: var(--line); }
 .cs-pitch__aside { grid-column: 1; grid-row: 1; }
 .cs-pitch__body { grid-column: 2; }
 .cs-pitch__body + .cs-pitch__body, .cs-pitch__wide + .cs-pitch__body { min-height: 0; }
-.cs-pitch__wide { grid-column: 1 / -1; margin-left: 52px; position: relative; z-index: 1; }
+.cs-pitch__wide { grid-column: 2 / -1; position: relative; z-index: 1; }
+/* a third, flexible column lets wide blocks keep the text's left edge and extend into the right margin */
+@media (min-width: 1024px) {
+  .cs-pitch { grid-template-columns: minmax(196px, 318px) minmax(0, 774px) minmax(0, 1fr); }
+  .cs-pitch__wide { max-width: 1040px; }
+}
 .cs-compare--wide { gap: 24px; }
 .cs-compare--wide .cs-compare__item { padding: 14px 14px 16px; }
 .cs-compare--wide .cs-compare__item--after { padding: 13px 13px 15px; }
@@ -425,7 +430,6 @@ html[data-theme="winter"] .cs-lesson { border-top-color: var(--line); }
 
 @media (max-width: 767px) {
   .cs-pitch__aside { grid-column: 1 / -1; }
-  .cs-pitch__wide { margin-left: 0; }
   .cs-pitch__body + .cs-pitch__body, .cs-pitch__wide + .cs-pitch__body { margin-top: 0; }
   .cs-lb { padding: 64px 12px 72px; }
   .cs-lb__img { max-width: calc(100vw - 24px); max-height: calc(100vh - 160px); border-radius: 8px; }
