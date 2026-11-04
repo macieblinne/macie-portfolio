@@ -242,9 +242,19 @@
 /* ==========================================================================
    Company stickers
    ========================================================================== */
+.ab-companies { display: grid; grid-template-columns: minmax(260px, 300px) minmax(0, 1fr); gap: 24px; align-items: stretch; }
+.ab-quote {
+  position: relative; margin: 0; display: flex; flex-direction: column; justify-content: space-between; gap: 20px;
+  padding: 28px 28px 26px; border-radius: 20px;
+  background: var(--ml-white); color: var(--ml-ink-900); box-shadow: var(--ab-card-shadow);
+}
+.ab-quote__mark { display: block; height: 40px; margin: -6px 0 -4px; font: 800 72px / 1 var(--ml-font-display); color: var(--ml-green-700); }
+.ab-quote__text { margin: 0; }
+.ab-quote__text p { font-size: var(--ml-text-base); font-weight: 500; line-height: 1.55; color: var(--ml-ink-900); }
+.ab-quote__by { font: 700 11px / 16px var(--ml-font-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ml-green-700); padding-top: 14px; border-top: 1px dashed var(--ab-outline-line); }
 .ab-stickers {
   position: relative;
-  aspect-ratio: 1344 / 380;
+  aspect-ratio: 1068 / 380;
   border-radius: 20px;
   background: var(--ab-stickers-bg);
   border: 1px dashed var(--ab-stickers-line);
@@ -323,6 +333,7 @@
 
 /* ≤ 1023: the sticker wall becomes a wrapped pile */
 @media (max-width: 1023px) {
+  .ab-companies { grid-template-columns: 1fr; gap: 16px; }
   .ab-stickers {
     aspect-ratio: auto;
     padding: 20px 8px 28px;

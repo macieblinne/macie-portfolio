@@ -39,7 +39,9 @@ const BADGES = [
   { id: 'zeiss', name: 'ZEISS', kind: 'Life science', x: 673.6, y: 214.9, w: 198, h: 158.5 },
   { id: 'rba', name: 'RBA', kind: 'Supply chain', x: 832.1, y: 190.6, w: 176, h: 204 },
 ];
-const STICKERS_W = 1344;
+// Badges keep their Figma layout, re-anchored to a tighter frame so the wall sits beside the quote.
+const STICKERS_DX = 159.5 - 24;
+const STICKERS_W = 1344 - 2 * STICKERS_DX;
 const STICKERS_H = 380;
 const pct = (v, of) => `${((v / of) * 100).toFixed(3)}%`;
 
@@ -200,18 +202,27 @@ export default function About() {
         {/* ---- Companies ------------------------------------------------- */}
         <section className="ab-section" aria-labelledby="ab-companies">
           <SectionLabel id="ab-companies" icon={<IconAward size={11} stroke={2} />}>Some companies I'm lucky to work with</SectionLabel>
+          <div className="ab-companies">
+          <figure className="ab-quote">
+            <span className="ab-quote__mark" aria-hidden="true">“</span>
+            <blockquote className="ab-quote__text">
+              <p>I have had the rare privilege of watching Macie grow from an intern into one of the most well-rounded senior designers I have worked with in over 15 years in the field. I can say without hesitation that she is the designer I trust most when the stakes are highest.</p>
+            </blockquote>
+            <figcaption className="ab-quote__by">Jade · Former Manager</figcaption>
+          </figure>
           <div className="ab-stickers">
             <ul className="ab-stickers__set">
               {BADGES.map((b) => (
                 <li
                   key={b.id}
                   className="ab-badge"
-                  style={{ '--x': pct(b.x, STICKERS_W), '--y': pct(b.y, STICKERS_H), '--w': pct(b.w, STICKERS_W), '--wpx': b.w }}
+                  style={{ '--x': pct(b.x - STICKERS_DX, STICKERS_W), '--y': pct(b.y, STICKERS_H), '--w': pct(b.w, STICKERS_W), '--wpx': b.w }}
                 >
                   <img src={`/about/badge-${b.id}.png`} width={b.w * 2} height={b.h * 2} loading="lazy" alt={`${b.name} — ${b.kind}`} />
                 </li>
               ))}
             </ul>
+          </div>
           </div>
         </section>
 
