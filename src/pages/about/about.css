@@ -424,3 +424,36 @@
   .ab-kili__title { font-size: 28px; }
   .ab-kili__sticker { left: 16px; top: 16px; }
 }
+
+/* ---- How I Use AI: feels like an AI surface ----------------------------- */
+@property --ab-ai-angle { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+.ab-notes {
+  border: 0; isolation: isolate; overflow: hidden;
+  background:
+    radial-gradient(600px 220px at 85% 0%, rgb(201 204 82 / 0.14), transparent 70%),
+    radial-gradient(520px 260px at 0% 100%, rgb(185 214 227 / 0.12), transparent 70%),
+    var(--bg-band-anchor);
+}
+/* rotating gradient border (chartreuse → ice → green) */
+.ab-notes::before {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 2px; z-index: -1; pointer-events: none;
+  background: conic-gradient(from var(--ab-ai-angle), var(--ml-chartreuse-400), var(--ml-blue-300), #7C9461, var(--ml-chartreuse-400));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+          mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  animation: ab-ai-spin 8s linear infinite;
+}
+/* faint dot grid, like a model canvas */
+.ab-notes::after {
+  content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0.5;
+  background-image: radial-gradient(rgb(255 255 255 / 0.08) 1px, transparent 1.2px); background-size: 18px 18px;
+  -webkit-mask-image: linear-gradient(to left, #000, transparent 70%); mask-image: linear-gradient(to left, #000, transparent 70%);
+}
+@keyframes ab-ai-spin { to { --ab-ai-angle: 360deg; } }
+.ab-notes__title { display: inline-flex; align-items: center; gap: 12px; }
+.ab-notes__spark { color: var(--ml-chartreuse-400); animation: ab-ai-twinkle 3.2s ease-in-out infinite; }
+@keyframes ab-ai-twinkle { 0%, 100% { opacity: 1; scale: 1; } 50% { opacity: 0.55; scale: 0.88; } }
+.ab-notes__body { font: 400 15px / 1.6 var(--ml-font-mono); color: var(--ml-blue-300); }
+.ab-notes__prompt { color: var(--ml-chartreuse-400); margin-right: 10px; }
+.ab-notes__caret { display: inline-block; width: 8px; height: 1.1em; margin-left: 4px; vertical-align: -0.15em; background: var(--ml-chartreuse-400); animation: ab-ai-caret 1.1s steps(1) infinite; }
+@keyframes ab-ai-caret { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .ab-notes::before, .ab-notes__spark, .ab-notes__caret { animation: none; } }

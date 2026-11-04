@@ -3,7 +3,7 @@
 // content that changes per theme is the contour badge (Longs Peak ↔ Mary Jane).
 import { useEffect, useRef, useState } from 'react';
 import {
-  IconTent, IconUser, IconMountain, IconAward, IconFlag, IconNotes,
+  IconTent, IconUser, IconMountain, IconAward, IconFlag, IconNotes, IconSparkles,
   IconExternalLink, IconDownload, IconCopy, IconCheck, IconArrowRight,
 } from '@tabler/icons-react';
 import SiteHeader from '../../site/SiteHeader.jsx';
@@ -178,11 +178,11 @@ export default function About() {
 
         {/* ---- Field notes (opens the AI drawer) ------------------------ */}
         <section className="ab-section" aria-labelledby="ab-notes">
-          <SectionLabel id="ab-notes" icon={<IconNotes size={12} stroke={2} />}>FIELD NOTES · HOW I USE AI</SectionLabel>
+          <SectionLabel id="ab-notes" icon={<IconSparkles size={12} stroke={2} />}>How I Use AI</SectionLabel>
           <div className="ab-notes">
             <div className="ab-notes__main">
-              <h3 className="ab-notes__title">How I Use AI</h3>
-              <p className="ab-notes__body">Short, dated, honest notes on how AI actually shows up in my process — what I kept, what I adjusted, what I dropped. Threaded through the work, not bolted on.</p>
+              <h3 className="ab-notes__title"><IconSparkles className="ab-notes__spark" size={28} stroke={1.75} aria-hidden="true" />How I Use AI</h3>
+              <p className="ab-notes__body"><span className="ab-notes__prompt" aria-hidden="true">›</span>Notes on how AI shows up in my process and my work<span className="ab-notes__caret" aria-hidden="true" /></p>
               <button type="button" className="ab-btn ab-btn--chartreuse ab-notes__cta" onClick={openNotes} aria-haspopup="dialog">
                 Read my notes <IconArrowRight size={16} stroke={2} aria-hidden="true" />
               </button>
