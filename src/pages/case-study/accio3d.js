@@ -46,7 +46,7 @@ const accio3d = {
         { type: 'note', label: 'Goal', text: 'Give the CEO a demo that sells itself.' },
         { type: 'p', text: 'I focused it on the two questions every buyer asks first.' },
         { type: 'cards', cards: [
-          { tone: 'blue', eyebrow: 'Question 1 · Printability assessment', title: 'Can it be printed?', text: 'Status at a glance. Buyers still picked materials and equipment by hand, which testing would flag.' },
+          { tone: 'dark', eyebrow: 'Question 1 · Printability assessment', title: 'Can it be printed?', text: 'Status at a glance. Buyers still picked materials and equipment by hand, which testing would flag.' },
           { tone: 'dark', eyebrow: 'Question 2 · Supplier matching', title: 'Who can make it?', text: 'Qualified suppliers with capabilities, location, lead time and quality tier: enough to act on without digging.' },
         ] },
       ],
@@ -104,7 +104,7 @@ const accio3d = {
         { type: 'p', text: "In the POC, buyers weren't always sure what came next. In the MVP, the purchaser app shows the whole path as five steps on every screen, so a buyer always knows where a part stands." },
         { type: 'steps', items: ['Assess printability', 'Set requirements', 'Match a supplier', 'Compare quotes', 'Order'] },
         { type: 'cards', wide: true, size: 'img', cards: [
-          { tone: 'blue', eyebrow: 'Every step', title: 'AI drafts, buyer approves', text: 'Each step opens with the AI’s work already done, like “I found 5 suppliers and recommend PrintForge Labs.” The buyer approves it, or overrides it with feedback when they disagree (“we don’t agree that it’s printable”), and every manual change is logged for the team to see.', image: { src: `${A}/step3-match.webp`, width: 1440, height: 1080, alt: 'Match supplier step: the assistant recommends PrintForge Labs from five matched suppliers, with ratings, metrics and certifications to check', caption: 'Step 3 · Match a supplier' } },
+          { tone: 'dark', eyebrow: 'Every step', title: 'AI drafts, buyer approves', text: 'Each step opens with the AI’s work already done, like “I found 5 suppliers and recommend PrintForge Labs.” The buyer approves it, or overrides it with feedback when they disagree (“we don’t agree that it’s printable”), and every manual change is logged for the team to see.', image: { src: `${A}/step3-match.webp`, width: 1440, height: 1080, alt: 'Match supplier step: the assistant recommends PrintForge Labs from five matched suppliers, with ratings, metrics and certifications to check', caption: 'Step 3 · Match a supplier' } },
           { tone: 'dark', eyebrow: 'Dashboards', title: 'An assistant that speaks first', text: 'Testers missed that the assistant was a chat, so dashboards open with it talking: a greeting, what needs attention today, and “take me to” shortcuts into the work.', image: { src: `${A}/supplier-dashboard.webp`, width: 1440, height: 1080, alt: 'Supplier dashboard: the assistant greets the supplier and suggests prompts beside win rate, revenue and job status', caption: 'Supplier dashboard' } },
         ] },
         { type: 'p', text: 'I designed the MVP across both apps, then the client took it in-house for development.' },
