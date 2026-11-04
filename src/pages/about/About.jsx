@@ -163,7 +163,7 @@ export default function About() {
             <div className="ab-card ab-log__card">
               <h3 className="ab-log__title">When I'm not designing, I'm usually in the mountains.</h3>
               <p className="ab-log__body">Most weekends I'm trail running, snowboarding or backpacking Colorado's high country, usually with my husky, who has stronger opinions than most stakeholders. It's where I think most clearly.</p>
-              <p className="ab-log__body">I also mentor junior designers, because someone did that for me.</p>
+              <p className="ab-log__body">I mentor junior designers when I can, because that kind of support made a big difference for me early on.</p>
             </div>
             <figure className="ab-kili">
               <img className="ab-kili__img" src="/about/kilimanjaro.jpg" width="1201" height="1600" loading="lazy" alt="Sunrise over a sea of clouds from the snowy summit of Mt. Kilimanjaro" />
