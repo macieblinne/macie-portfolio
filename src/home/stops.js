@@ -2,7 +2,7 @@
 export const LINKS = {
   email: 'mailto:macieblinne@gmail.com',
   linkedin: 'https://www.linkedin.com/in/macielinne/',
-  resume: 'https://drive.google.com/file/d/18RwrD40HIoAH-8A2pi2zbzpjL-0hyQ6o/view',
+  resume: 'https://drive.google.com/file/d/1Ve4QVl1QBh6avwGhkHbyNn-OSABqwMTB/view',
   site: 'macielinne.design',
 };
 
