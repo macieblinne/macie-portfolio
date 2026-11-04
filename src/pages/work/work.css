@@ -123,11 +123,6 @@
   flex: none; width: 16px; height: 16px; border-radius: 50%;
   background: var(--ml-orange-500); border: 3px solid var(--ml-white);
 }
-/* dotted route stub running down the right edge of band 02 */
-.wk-band--right .wk-band__inner::after {
-  content: ''; position: absolute; top: 0; bottom: 0; right: 62px; z-index: 1;
-  border-left: 1.5px dashed rgb(255 255 255 / 0.35);
-}
 
 /* ---- copy column ------------------------------------------------------- */
 .wk-band__copy {
