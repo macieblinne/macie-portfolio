@@ -6,7 +6,7 @@
 // A break may carry an `annotation` (ring, box, dotted path, labels) in image-pixel coordinates.
 import { Fragment, useEffect, useRef } from 'react';
 import { vt } from '../../site/motion.js';
-import { IconArrowLeft, IconArrowRight, IconCheck, IconFlag, IconX } from '@tabler/icons-react';
+import { IconArrowLeft, IconArrowRight, IconCheck, IconFlag, IconMapPinFilled, IconX } from '@tabler/icons-react';
 import SiteHeader from '../../site/SiteHeader.jsx';
 import { Link } from '../../site/router.jsx';
 import flexomics from './flexomics.js';
@@ -253,11 +253,12 @@ function segments(blocks) {
   return out.filter((seg, i) => seg.wide || seg.blocks.length || i === 0);
 }
 
-function Pitch({ section, n, total }) {
+function Pitch({ section, n, total, last }) {
   const id = `cs-wp-${section.hook ? section.waypoint : pad2(n)}`;
   return (
-    <section className={`cs-pitch${section.hook ? ' cs-pitch--hook' : ''}`} {...(section.title ? { 'aria-labelledby': id } : { 'aria-label': section.label })}>
+    <section className={`cs-pitch${section.hook ? ' cs-pitch--hook' : ''}${last ? ' cs-pitch--last' : ''}`} {...(section.title ? { 'aria-labelledby': id } : { 'aria-label': section.label })}>
       <div className="cs-pitch__rail" aria-hidden="true" />
+      {last && <span className="cs-pitch__end" aria-hidden="true"><IconMapPinFilled size={24} /></span>}
       <header className="cs-pitch__aside">
         <span className="cs-waypoint" aria-hidden="true">{section.hook ? section.waypoint : pad2(n)}</span>
         <p className="cs-pitch__label">{section.label}</p>
@@ -370,7 +371,7 @@ export default function CaseStudy({ slug }) {
           <Fragment key={i}>
             {g.type === 'run' && (
               <div className="cs-run">
-                {g.items.map((s) => { if (!s.hook) n += 1; return <Pitch key={s.title ?? s.label} section={s} n={n} total={total} />; })}
+                {g.items.map((s) => { if (!s.hook) n += 1; return <Pitch key={s.title ?? s.label} section={s} n={n} total={total} last={!s.hook && n === total} />; })}
               </div>
             )}
             {g.type === 'break' && <ImageBreak section={g} />}

@@ -221,7 +221,7 @@ html[data-theme="winter"] .cs {
 /* lessons */
 .cs-lessons { display: flex; flex-direction: column; gap: 18px; list-style: none; margin: 0; padding: 0; }
 .cs-lesson { display: flex; gap: 16px; align-items: flex-start; padding: 14px 0; border-top: 1px solid var(--cs-rule); }
-.cs-lesson__n { flex: none; font: 800 14px / normal var(--ml-font-badge); color: var(--cs-ink-accent); }
+.cs-lesson__n { flex: none; min-width: 26px; font: 800 14px / normal var(--ml-font-badge); color: var(--cs-ink-accent); }
 .cs-lesson p { font-size: var(--ml-text-lg); font-weight: 600; line-height: 1.45; color: var(--fg); }
 html[data-theme="winter"] .cs-lesson { border-top-color: var(--line); }
 
@@ -469,3 +469,7 @@ html[data-theme="winter"] .cs-lesson { border-top-color: var(--line); }
   .cs-steps__item { flex-direction: row; text-align: left; padding: 0; }
   .cs-cards--img .cs-card { padding: 12px 12px 22px; }
 }
+
+/* the route ends in a pin under the last waypoint */
+.cs-pitch--last .cs-pitch__rail { bottom: 30px; }
+.cs-pitch__end { position: absolute; left: 6px; bottom: 4px; display: grid; place-items: center; color: var(--cs-ink-accent); filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.15)); }
