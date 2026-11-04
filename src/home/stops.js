@@ -23,8 +23,8 @@ export const STOP_CONTENT = {
   accio3d: {
     title: 'Accio3D',
     art: { kind: 'image', src: '/accio-ui.png', stickerTl: '0\u21921', stickerBr: 'AI / Procurement' },
-    headline: 'An AI-powered procurement platform from POC to MVP',
-    impact: 'Designed the POC the CEO used to close a seed round, then scoped the MVP.',
+    headline: 'An AI marketplace for parts nobody makes anymore',
+    impact: 'Designed the POC the CEO used to close a seed round, then a lean MVP.',
     cta: { label: 'Read the case study', href: '/work/accio3d' },
   },
   summit: {

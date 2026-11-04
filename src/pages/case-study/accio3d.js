@@ -1,12 +1,15 @@
-// Accio3D case study — copy from Figma "Work — Case study · Accio3D · Alt" (5406:7911).
+// Accio3D case study — copy from Figma "Work — Case study · Accio3D · v2 (story rewrite)" (5624:11452).
 // Rendered by CaseStudy.jsx; block types are documented there.
+// Story strength: AI product design — the AI does the upfront work, the buyer validates.
 import { LINKS } from '../../site/site.jsx';
+
+const A = '/case-study/accio';
 
 const accio3d = {
   slug: 'accio3d',
   name: 'Accio3D',
-  title: 'An AI-powered procurement platform from POC to MVP',
-  titleWidth: 640,
+  title: 'An AI marketplace for parts nobody makes anymore',
+  titleWidth: 700,
   titleTop: 176,
   titleSize: 72,
   hero: {
@@ -19,79 +22,101 @@ const accio3d = {
   meta: [
     { label: 'Company', value: 'Accio3D' },
     { label: 'Role', value: 'Senior Product Designer' },
-    { label: 'Timeline', value: '2 phases · 13-week MVP' },
-    { label: 'Scope', value: 'Blueprint · POC · 50 screens' },
+    { label: 'Timeline', value: '2 phases · POC → MVP design' },
+    { label: 'Team', value: 'PM · Strategist · Developers · Client' },
   ],
   sections: [
     {
-      type: 'pitch', label: 'Context', title: 'The situation', minHeight: 272,
+      type: 'pitch', hook: true, waypoint: '00', label: 'The moment', count: 'Trailhead',
       blocks: [
-        { type: 'p', text: 'Accio3D is a marketplace for end-of-life industrial parts. When a critical component fails and the original supplier no longer exists, procurement teams are left searching manually: phone calls, spreadsheets, days of coordination.' },
-        { type: 'p', text: 'Accio3D replaces that process: upload a part, AI assesses the printability of the part and matches qualified suppliers, quotes come back, an order gets placed. All in one session.' },
+        { type: 'lead', text: 'When a critical industrial part fails and its maker no longer exists, procurement teams start from zero: phone calls, spreadsheets and days of coordination while equipment sits idle.' },
       ],
     },
     {
-      type: 'pitch', label: 'Phase 1 · Blueprint + POC', title: 'Making the value visible', minHeight: 400,
+      type: 'pitch', label: 'Context', title: 'Days of phone calls, replaced by one session',
       blocks: [
-        { type: 'p', text: 'The POC had one job: show investors something they could follow without explanation. Two design decisions carried the most weight.' },
+        { type: 'p', text: 'Accio3D lets a buyer upload a part, have AI check whether it can be 3D printed, get matched with qualified suppliers and place an order, all in one session.' },
+        { type: 'p', text: "I was the sole designer across two phases: a proof of concept the CEO used to raise the seed round, then the MVP. I worked with a project manager, a strategist, a team of developers and the client's stakeholders." },
+      ],
+    },
+    {
+      type: 'pitch', label: 'Phase 1 · POC', title: 'A demo investors could follow without a pitch',
+      blocks: [
+        { type: 'p', text: "The POC was a tool for the CEO: something she could put in front of investors and stakeholders and let the product make the case. My test for every screen: if she had to explain it, it wasn't done." },
+        { type: 'note', label: 'Goal', text: 'Give the CEO a demo that sells itself.' },
+        { type: 'p', text: 'I focused it on the two questions every buyer asks first.' },
         { type: 'cards', cards: [
-          { tone: 'blue', eyebrow: 'Decision 1', title: 'Printability assessment', text: 'Buyers see printability status at a glance. The path forward still required manual material and equipment input — a friction point that became central to how the screen evolved in Phase 2.' },
-          { tone: 'dark', eyebrow: 'Decision 2', title: 'Supplier matching', text: 'Qualified suppliers surfaced with the context buyers need to evaluate them immediately: capabilities, geography, lead time, quality tier. Enough to act on, without any digging.' },
+          { tone: 'blue', eyebrow: 'Question 1 · Can it be printed?', title: 'Printability assessment', text: 'Status at a glance. Buyers still picked materials and equipment by hand, which testing would flag.' },
+          { tone: 'dark', eyebrow: 'Question 2 · Who can make it?', title: 'Supplier matching', text: 'Qualified suppliers with capabilities, location, lead time and quality tier: enough to act on without digging.' },
         ] },
       ],
     },
     {
       type: 'break',
-      sticker: 'Printability assessment · recommendations by default',
-      image: { src: '/accio-cs/Hero.svg', alt: 'Accio3D dashboard with AI recommendations surfaced by default', width: 1440, height: 1080, scale: 1 },
+      sticker: 'Dashboard · one place to ask the AI directly',
+      image: { src: `${A}/dashboard.webp`, alt: 'Accio3D dashboard: the assistant greets the buyer with suggested prompts, beside a global supplier map and recent notifications', width: 1440, height: 1080, scale: 1 },
     },
     {
-      type: 'pitch', label: 'Phase 1 · User validation', title: 'Testing the workflow with real users',
+      type: 'pitch', label: 'Phase 1 · Validation', title: "Users trusted the flow. They didn't want to do the AI's job.",
       blocks: [
-        { type: 'p', text: 'Before the seed round closed, the client brought me back to gather user feedback and implement changes. The most important signal: the core workflow held up. Users followed it and were excited about seeing themselves using it. But one thing was clear. The Printability Assessment required too many manual selections and overrides. These were busy people coming for quick answers, not more work.' },
-        { type: 'quote', text: '“Shift the burden from the user to the system.”' },
-        { type: 'p', text: "That feedback directly shaped Phase 2: AI recommendations surfaced by default rather than asking buyers to drive them. When I returned for Phase 2, I wasn't starting from assumptions. I knew exactly what to protect and what to fix." },
+        { type: 'p', text: "Before the seed round closed, I walked procurement specialists through the POC and watched where they stalled. The core workflow held: they followed it without help. But three things kept coming up. The printability step asked for too many manual selections. The next step in the workflow wasn't obvious. And most didn't realize the assistant was something they could talk to." },
+        { type: 'note', label: 'What we heard', text: 'Buyers came for a quick answer, not more work.' },
+        { type: 'p', text: 'Together, those became the principle behind everything that followed:' },
+        { type: 'note', label: 'Principle', text: 'The AI does the upfront work. The buyer validates.' },
+        { type: 'compare', wide: true, items: [
+          { tag: 'Before', caption: 'Buyers configured every option', src: `${A}/printability-poc.webp`, width: 1440, height: 1080, alt: 'POC printability screen: the buyer reviews printability and picks material and equipment from a long list by hand' },
+          { tag: 'After', caption: 'AI recommends, buyer confirms', src: `${A}/step1-printability.webp`, width: 1440, height: 1080, alt: 'MVP printability step: the AI’s printability score and recommended material, technology and equipment arrive pre-selected for the buyer to confirm', after: true },
+        ] },
+      ],
+    },
+    {
+      type: 'pitch', label: 'Key decision', title: "Where the AI shows up, and where it doesn't",
+      blocks: [
+        { type: 'p', text: "The pressure was to make the product entirely AI-forward, with the model on display on every screen. I held to the principle instead: a procurement specialist doesn't need to watch the model work. They need its work done, ready to check." },
+        { type: 'fork', options: [
+          { label: 'Option 1 · AI everywhere', text: 'Confidence scores, reasoning panels and live matching on every screen. Impressive in a demo, noise for a buyer.' },
+          { label: 'Option 2 · AI works, buyer validates', text: 'The AI does the upfront work (assessing printability, recommending materials, matching suppliers) and the buyer reviews, adjusts and approves.', chosen: true },
+        ] },
+        { type: 'p', text: "The same split shaped the MVP: printability checks based on a part's specs shipped first, while analysis of its 3D shape, which needed training data that didn't exist yet, became a separate research track." },
       ],
     },
     {
       type: 'milestone',
       title: 'Seed round closed.',
-      text: 'The technology showed what was possible. The design empowered our stakeholder to sell it. A full MVP was greenlit.',
+      text: 'The demo did its job: the CEO could walk investors through it without a pitch deck. The MVP was greenlit.',
       stats: [
-        { value: '1', label: 'POC' },
-        { value: '13', label: 'weeks' },
-        { value: '50', label: 'screens' },
+        { value: '2', label: 'phases' },
+        { value: '3-day', label: 'Blueprint' },
+        { value: '71→46', label: 'MVP views' },
         { value: '2', label: 'apps' },
       ],
     },
     {
-      type: 'pitch', label: 'Phase 2 · Blueprint + MVP', title: 'From proof to production', minHeight: 400,
+      type: 'pitch', label: 'Phase 2 · Blueprint', title: 'From full roadmap to lean MVP',
       blocks: [
-        { type: 'p', text: 'Working alongside the strategist leading the Blueprint sessions, I contributed user flow work and brought firsthand Phase 1 context directly into the scope discussions. The result: 50 screens across two applications in 13 weeks.' },
-        { type: 'cards', cards: [
-          { tone: 'blue', eyebrow: 'App 1', title: 'The Purchaser App', text: 'A single continuous path. Upload a part, review the assessment, send requests to suppliers, compare bids, place an order. No tool switching. No dead ends.' },
-          { tone: 'dark', eyebrow: 'App 2', title: 'The Supplier App', text: 'Kept intentionally lean. Receive RFQs, submit quotes, track orders through production. Fast and reliable over feature-complete.' },
-        ] },
+        { type: 'p', text: 'Phase 2 started with a three-day Solution Blueprint with the client. Our strategist led the sessions; I built the workflow and screen flow maps. We roadmapped the entire platform first: every role on both sides of the marketplace, from onboarding and sourcing to ordering and fulfillment.' },
+        { type: 'p', text: 'Then we cut to fit the budget and timeline. With priorities ranked Money > Features > Time, the MVP got one job: a buyer could order a part from start to finish across the purchaser and supplier apps. Everything else moved to the roadmap, and 71 planned views became 46.' },
+        { type: 'note', label: 'MVP goal', text: 'Order one part, end to end, across both apps.' },
       ],
     },
     {
-      type: 'pitch', label: 'Key decision · restraint', title: 'The hardest call', minHeight: 605,
+      type: 'pitch', label: 'Phase 2 · MVP design', title: 'One path from part to order',
       blocks: [
-        { type: 'p', text: "There was real pressure to surface AI everywhere. Every screen felt like an opportunity to show what the technology could do. The design position I held was the opposite. A procurement specialist doesn't need to see the AI working. They need an answer." },
-        { type: 'fork', options: [
-          { label: 'Option 1 · AI everywhere', text: 'Put the model on every screen: confidence scores, reasoning panels, live matching. Impressive in a demo; noise for a buyer who came for an answer.' },
-          { label: 'Option 2 · Show the answer', text: 'Surface AI clearly, in the right moments, without explanation. Recommendations by default; the machinery stays backstage.', chosen: true },
+        { type: 'p', text: "In the POC, buyers weren't always sure what came next. In the MVP, the purchaser app shows the whole path as five steps on every screen, so a buyer always knows where a part stands." },
+        { type: 'steps', items: ['Assess printability', 'Set requirements', 'Match a supplier', 'Compare quotes', 'Order'] },
+        { type: 'cards', wide: true, size: 'img', cards: [
+          { tone: 'blue', eyebrow: 'Every step', title: 'AI drafts, buyer approves', text: 'Each step opens with the AI’s work already done, like “I found 5 suppliers and recommend PrintForge Labs.” The buyer approves it, or overrides it with feedback when they disagree (“we don’t agree that it’s printable”), and every manual change is logged for the team to see.', image: { src: `${A}/step3-match.webp`, width: 1440, height: 1080, alt: 'Match supplier step: the assistant recommends PrintForge Labs from five matched suppliers, with ratings, metrics and certifications to check', caption: 'Step 3 · Match a supplier' } },
+          { tone: 'dark', eyebrow: 'Dashboards', title: 'An assistant that speaks first', text: 'Testers missed that the assistant was a chat, so dashboards open with it talking: a greeting, what needs attention today, and “take me to” shortcuts into the work.', image: { src: `${A}/supplier-dashboard.webp`, width: 1440, height: 1080, alt: 'Supplier dashboard: the assistant greets the supplier and suggests prompts beside win rate, revenue and job status', caption: 'Supplier dashboard' } },
         ] },
-        { type: 'p', text: "That meant deliberate choices about where AI surfaced and how. The hardest part wasn't designing the AI interfaces. It was making the case for restraint when the appetite for more was real." },
+        { type: 'p', text: 'I designed the MVP across both apps, then the client took it in-house for development.' },
       ],
     },
     {
-      type: 'pitch', label: 'Lessons', title: 'What I took away', minHeight: 389,
+      type: 'pitch', label: 'Lessons', title: 'What I took away',
       blocks: [
         { type: 'lessons', items: [
-          "Knowing what the AI could do was the easy part. The real work was deciding what a buyer needed to see and what they didn't.",
-          'Advocating for restraint under pressure and making the reasoning visible to a client is as important as the design work itself.',
-          'Working across both phases gave me the chance to see what my own design decisions actually unlocked.',
+          "The AI is only as useful as the moment it shows up in. Deciding where it didn't belong was most of the design work.",
+          'Watching buyers stall on one screen settled the AI debate faster than any argument could.',
         ] },
       ],
     },

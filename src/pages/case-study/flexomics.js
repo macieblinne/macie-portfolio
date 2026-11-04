@@ -119,15 +119,15 @@ const flexomics = {
       type: 'pitch', label: 'Lessons', title: 'What building from zero taught me',
       blocks: [
         { type: 'lessons', items: [
-          'In a 0→1 product, the structure is the design. Getting the architecture right decided whether this technology became a product or stayed an experiment.',
-          'Cutting scope is a design skill. Making my reasoning visible is what got the founders to agree.',
+          'Organize around how people think, not how the data is stored. Two workspaces that mirror the research process did more than any single screen could.',
+          'A closer look should never cost the bigger picture. The overlay showed more about one cell, but it hid the plate around it.',
         ] },
       ],
     },
   ],
   next: {
     eyebrow: 'Next route · 02 The Trough',
-    title: 'An AI-powered procurement platform from POC to MVP',
+    title: 'An AI marketplace for parts nobody makes anymore',
     ghost: '02',
     cta: 'Continue on',
     to: '/work/accio3d',

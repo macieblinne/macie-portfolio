@@ -84,9 +84,14 @@ function MetaStrip({ items }) {
 
 function Cards({ cards, size }) {
   return (
-    <div className={`cs-cards${size === 'sm' ? ' cs-cards--sm' : ''}`}>
+    <div className={`cs-cards${size === 'sm' ? ' cs-cards--sm' : ''}${size === 'img' ? ' cs-cards--img' : ''}`}>
       {cards.map((c) => (
         <div key={c.title} className={`cs-card cs-card--${c.tone}`}>
+          {c.image && (
+            <Zoomable src={c.image.src} full={c.image.full} alt={c.image.alt} caption={c.image.caption ?? c.title} className="cs-card__shot">
+              <img src={c.image.src} alt={c.image.alt} width={c.image.width} height={c.image.height} loading="lazy" decoding="async" />
+            </Zoomable>
+          )}
           {c.eyebrow && <p className="cs-card__eyebrow">{c.eyebrow}</p>}
           <h3 className="cs-card__title">{c.title}</h3>
           <p className="cs-card__text">{c.text}</p>
@@ -195,6 +200,20 @@ function Note({ label, text }) {
   );
 }
 
+/** Route-style stepper: numbered waypoints on a dotted line (mirrors a product's step tracker). */
+function Steps({ items }) {
+  return (
+    <ol className="cs-steps" style={{ '--cs-steps': items.length }}>
+      {items.map((t, i) => (
+        <li key={t} className="cs-steps__item">
+          <span className="cs-steps__dot" aria-hidden="true">{pad2(i + 1)}</span>
+          <span className="cs-steps__label">{t}</span>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
 function Lessons({ items }) {
   return (
     <ol className="cs-lessons">
@@ -216,6 +235,7 @@ function Block({ block }) {
     case 'h3': return <h3 className="cs-subhead">{block.text}</h3>;
     case 'note': return <Note label={block.label} text={block.text} />;
     case 'compare': return <Compare items={block.items} wide={block.wide} />;
+    case 'steps': return <Steps items={block.items} />;
     case 'cards': return <Cards cards={block.cards} size={block.size} />;
     case 'fork': return <Fork options={block.options} />;
     case 'media': return <Media block={block} />;

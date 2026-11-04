@@ -438,3 +438,34 @@ html[data-theme="winter"] .cs-lesson { border-top-color: var(--line); }
   .cs-lb__next { right: calc(50% - 56px); }
 }
 @media (prefers-reduced-motion: reduce) { .cs-lb { animation: none; } .cs-zoom__badge, .cs-zoom img { transition: none; } }
+
+/* ---- stepper (route-style) ---------------------------------------------- */
+.cs-steps { position: relative; display: grid; grid-template-columns: repeat(var(--cs-steps), 1fr); list-style: none; margin: 8px 0; padding: 0; }
+.cs-steps::before {
+  content: ""; position: absolute; top: 17px; height: 2px;
+  left: calc(100% / var(--cs-steps) / 2); right: calc(100% / var(--cs-steps) / 2);
+  background: repeating-linear-gradient(to right, var(--line-strong) 0 2px, transparent 2px 9px);
+}
+.cs-steps__item { position: relative; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; min-width: 0; padding: 0 4px; }
+.cs-steps__dot {
+  display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%;
+  background: var(--ml-chartreuse-400); color: var(--ml-cocoa-800);
+  box-shadow: 0 0 0 3px var(--cs-page);
+  font: 800 11px / 1 var(--ml-font-badge);
+}
+.cs-steps__label { font: 700 11px / 1.35 var(--ml-font-mono); letter-spacing: 0.04em; text-transform: uppercase; color: var(--fg-muted); }
+
+/* ---- cards that lead with a screenshot ---------------------------------- */
+.cs-cards--img { align-items: stretch; gap: 24px; }
+.cs-cards--img .cs-card { gap: 10px; padding: 16px 16px 26px; }
+.cs-cards--img .cs-card__eyebrow { margin-top: 10px; padding: 0 8px; }
+.cs-cards--img .cs-card__title, .cs-cards--img .cs-card__text { padding: 0 8px; }
+.cs-cards--img .cs-card__title { white-space: normal; font-size: var(--ml-text-2xl); }
+.cs-card__shot img { display: block; width: 100%; height: auto; border-radius: 10px; }
+
+@media (max-width: 767px) {
+  .cs-steps { grid-template-columns: 1fr; gap: 14px; margin: 4px 0; }
+  .cs-steps::before { left: 17px; right: auto; top: 18px; bottom: 18px; width: 2px; height: auto; background: repeating-linear-gradient(to bottom, var(--line-strong) 0 2px, transparent 2px 9px); }
+  .cs-steps__item { flex-direction: row; text-align: left; padding: 0; }
+  .cs-cards--img .cs-card { padding: 12px 12px 22px; }
+}
