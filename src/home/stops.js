@@ -32,7 +32,7 @@ export const STOP_CONTENT = {
     art: { kind: 'photo', src: '/self.jpg', stickerTl: 'Say hello!' },
     headline: 'You made it. Let\u2019s work together.',
     body: 'Taking something from zero to one, or figuring out where AI belongs in your product? I\u2019d love to hear about it.',
-    cta: { label: 'Start a conversation', href: LINKS.email },
+    cta: { label: 'Drop me a line', href: LINKS.email, icon: 'mail' },
   },
 };
 

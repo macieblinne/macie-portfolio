@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { IconArrowLeft, IconArrowRight } from '@tabler/icons-react';
+import { IconArrowLeft, IconArrowRight, IconMail } from '@tabler/icons-react';
 import { STOP_CONTENT, LINKS } from './stops.js';
 import { vt } from '../site/motion.js';
 
@@ -39,7 +39,8 @@ export function CardBody({ stop, index, total, onStep, compact = false, badge })
   const cta = c.cta;
   const label = stopLabel(stop);
   const place = stop.sub.startsWith(label) ? stop.sub.slice(label.length).replace(/^\s*·\s*/, '') : stop.sub;
-  const ctaInner = <>{cta.label}<IconArrowRight size={16} stroke={2.2} aria-hidden="true" /></>;
+  const CtaIcon = cta.icon === 'mail' ? IconMail : IconArrowRight;
+  const ctaInner = <>{cta.label}<CtaIcon size={cta.icon === 'mail' ? 18 : 16} stroke={2} aria-hidden="true" /></>;
   const ctaEl = cta.href
     ? <a className={compact ? 'm-cta' : 'card__cta'} href={cta.href}>{ctaInner}</a>
     : <button type="button" className={compact ? 'm-cta' : 'card__cta'} onClick={() => onStep(1)}>{ctaInner}</button>;
