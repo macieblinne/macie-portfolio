@@ -1,6 +1,7 @@
 // Inner-page header (Work, About, case studies, 404): ML mark + name on the left,
 // nav pill + theme toggle on the right. Below 768px it collapses to theme + menu
 // buttons and a menu sheet (same pattern as the home page's mobile header).
+import { createPortal } from 'react-dom';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { IconMenu2, IconX, IconSun, IconSnowflake } from '@tabler/icons-react';
 import { Link, useRouter } from './router.jsx';
@@ -28,7 +29,8 @@ export function MenuSheet({ open, onClose }) {
     return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = prevOverflow; };
   }, [open, onClose]);
   if (!open) return null;
-  return (
+  // Portal to <body>: headers animate in with transforms, which would otherwise trap a fixed sheet inside them.
+  return createPortal(
     <div className="menu-sheet" role="dialog" aria-modal="true" aria-label="Menu">
       <div className="menu-sheet__top">
         <Link to="/" className="site-header__brand" onClick={onClose}><span className="mark"><img src="/avatar.jpg" alt="" width="40" height="40" /></span>Macie Linne</Link>
@@ -44,7 +46,8 @@ export function MenuSheet({ open, onClose }) {
         <a href={LINKS.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
         <a href={LINKS.resume} target="_blank" rel="noreferrer">Resume</a>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 

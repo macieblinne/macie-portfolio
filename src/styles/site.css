@@ -58,3 +58,4 @@
 /* "Field notes · AI" sticker on the home page */
 .sticker--notes { background: var(--ml-paper-100); cursor: pointer; gap: 8px; }
 .sticker--notes:hover { translate: 0 -2px; }
+[data-theme="winter"] .menu-sheet__nav [aria-current="page"] { color: var(--ml-green-700); }
