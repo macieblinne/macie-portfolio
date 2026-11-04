@@ -164,7 +164,7 @@
   padding: 16px; border-radius: var(--ml-radius-lg);
   background: var(--wk-impact-bg);
 }
-.wk-impact__label { font: 700 10px / 15px var(--ml-font-mono); letter-spacing: 0.03em; text-transform: uppercase; }
+.wk-impact__label { font: 700 11px / 15px var(--ml-font-mono); letter-spacing: 0.03em; text-transform: uppercase; }
 .wk-impact__text { margin: 0; font: 600 var(--ml-text-md) / 1.38 var(--ml-font-display); }
 
 .wk-cta {

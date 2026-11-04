@@ -306,7 +306,7 @@ button { background: none; border: 0; cursor: pointer; color: inherit; }
 }
 .card__tag {
   padding: 4px 8px; border-radius: var(--ml-radius-pill); background: var(--bg-surface-2);
-  font: 700 10.5px / 1 var(--ml-font-mono); letter-spacing: var(--ml-tracking-eyebrow); text-transform: uppercase; color: var(--fg-on-surface-muted);
+  font: 700 11px / 1 var(--ml-font-mono); letter-spacing: var(--ml-tracking-eyebrow); text-transform: uppercase; color: var(--fg-on-surface-muted);
 }
 .card__headline { margin-top: 10px; font-size: 26px; font-weight: 800; line-height: 1.06; letter-spacing: -0.02em; color: var(--fg-on-surface); text-wrap: pretty; }
 .card__meta {
@@ -321,7 +321,7 @@ button { background: none; border: 0; cursor: pointer; color: inherit; }
 .card__stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .card__stat { display: flex; flex-direction: column-reverse; gap: 6px; padding-left: 12px; border-left: 2px solid var(--ml-orange-500); }
 .card__stat dd { font: 800 22px / 1 var(--ml-font-badge); letter-spacing: -0.02em; color: var(--fg-on-surface); }
-.card__stat dt { font: 400 10.5px / 1.25 var(--ml-font-mono); letter-spacing: 0.03em; text-transform: uppercase; color: var(--fg-on-surface-muted); }
+.card__stat dt { font: 400 11px / 1.25 var(--ml-font-mono); letter-spacing: 0.03em; text-transform: uppercase; color: var(--fg-on-surface-muted); }
 .card__impact-text { font-size: var(--ml-text-base); line-height: 1.5; color: var(--fg-on-surface); text-wrap: pretty; }
 .card__steps { list-style: none; display: flex; flex-direction: column; gap: 10px; }
 .card__steps li { display: grid; grid-template-columns: 22px 1fr; gap: 10px; align-items: start; font-size: var(--ml-text-base); line-height: 1.45; color: var(--fg-on-surface); }
@@ -409,7 +409,7 @@ button { background: none; border: 0; cursor: pointer; color: inherit; }
 .m-footer { display: flex; gap: 20px; font-size: var(--ml-text-sm); font-weight: 500; }
 
 /* phone card art: the welcome scene is short, so its place sticker sits small in the corner */
-.m-stop__card .card__art[data-kind="welcome"] .card__art-sticker-br { font-size: 10px; padding: 7px 11px; bottom: 10px; right: 10px; }
+.m-stop__card .card__art[data-kind="welcome"] .card__art-sticker-br { font-size: 11px; padding: 7px 11px; bottom: 10px; right: 10px; }
 .m-stop__card .card__art[data-kind="welcome"] .card__art-welcome { justify-content: flex-start; padding-top: 28px; }
 
 /* ---- hero: split trail sign (role segment + catchphrase segment) ---------- */
@@ -501,7 +501,7 @@ button { background: none; border: 0; cursor: pointer; color: inherit; }
 .home__tagline--sm .home__route { top: calc(100% + 3px); }
 
 .card .card__art-sticker-tr { position: absolute; right: 14px; top: 16px; }
-.m-stop__card .card .card__art-sticker-tr { font-size: 10px; padding: 7px 11px; }
+.m-stop__card .card .card__art-sticker-tr { font-size: 11px; padding: 7px 11px; }
 
 /* welcome panel: theme photo with the greeting in white over a soft scrim */
 .card .card__art[data-kind="welcome"] { height: 210px; background: var(--ml-cocoa-800); }
