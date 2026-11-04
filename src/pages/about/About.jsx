@@ -2,10 +2,7 @@
 // Theme differences are handled in about.css via [data-theme="winter"]; the only
 // content that changes per theme is the contour badge (Longs Peak ↔ Mary Jane).
 import { useEffect, useRef, useState } from 'react';
-import {
-  IconTent, IconUser, IconMountain, IconAward, IconFlag, IconNotes, IconSparkles,
-  IconExternalLink, IconDownload, IconCopy, IconCheck, IconArrowRight,
-} from '@tabler/icons-react';
+import { IconArrowRight, IconAward, IconCheck, IconCompass, IconCopy, IconDownload, IconExternalLink, IconFlag, IconMountain, IconNotes, IconSparkles, IconTent, IconUser } from '@tabler/icons-react';
 import SiteHeader from '../../site/SiteHeader.jsx';
 import SiteFooter from '../../site/SiteFooter.jsx';
 import { useSite, LINKS } from '../../site/site.jsx';
@@ -146,7 +143,7 @@ export default function About() {
 
         {/* ---- Design values -------------------------------------------- */}
         <section className="ab-section" aria-labelledby="ab-values">
-          <SectionLabel id="ab-values" num="02">Design values</SectionLabel>
+          <SectionLabel id="ab-values" icon={<IconCompass size={12} stroke={2} />}>Design values</SectionLabel>
           <ol className="ab-values">
             {VALUES.map((v) => (
               <li key={v.n} className={`ab-card ab-value ab-value--${v.n}`}>
