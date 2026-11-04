@@ -13,7 +13,8 @@
   --cs-hero: var(--ml-blue-300);
   --cs-break: color-mix(in srgb, var(--ml-blue-100), var(--ml-blue-200));
   --cs-soft: var(--ml-blue-100);
-  --cs-blue: var(--cs-hero); /* cards always match the header's blue (baby blue in summer, pale ice in winter) */
+  --cs-blue: var(--ml-blue-200); /* light card blue; body text darkens on it for contrast */
+  --cs-card-body: #4A4636;
   --cs-dark: var(--bg-band-anchor);
   --cs-rule: #D3D8DA;
   --cs-shot-bg: #F6F7F5;
@@ -40,6 +41,7 @@
   overflow-x: clip;
 }
 html[data-theme="winter"] .cs {
+  --cs-blue: var(--ml-blue-100);
   --cs-page: var(--ml-white);
   --cs-hero: var(--ml-blue-100);
   --cs-break: var(--ml-blue-200);
@@ -170,7 +172,7 @@ html[data-theme="winter"] .cs {
 .cs-card__title { font-size: 30px; font-weight: 800; line-height: 1.2; letter-spacing: -0.015em; }
 .cs-card__text { font-size: var(--ml-text-base); line-height: 1.5; }
 @media (min-width: 1280px) { .cs-card__title { white-space: nowrap; } } /* as in Figma: one-line titles */
-.cs-card--blue, .cs-card--soft { color: var(--ml-ink-600); }
+.cs-card--blue, .cs-card--soft { color: var(--cs-card-body); }
 .cs-card--blue { background: var(--cs-blue); }
 .cs-card--soft { background: var(--cs-soft); }
 .cs-card--blue .cs-card__title, .cs-card--soft .cs-card__title { color: var(--ml-ink-900); }
@@ -198,7 +200,7 @@ html[data-theme="winter"] .cs {
 .cs-option__label { font: 700 11px / normal var(--ml-font-mono); letter-spacing: 0.03em; text-transform: uppercase; }
 .cs-option__text { font-size: var(--ml-text-sm); line-height: 1.5; }
 .cs-option__x { flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: var(--cs-rule); color: var(--ml-ink-900); }
-.cs-option--chosen { background: var(--ml-blue-300); color: var(--ml-ink-900); border: 2px dashed var(--ml-ink-900); padding: 18px; }
+.cs-option--chosen { background: var(--ml-blue-200); color: var(--ml-ink-900); border: 2px dashed var(--ml-ink-900); padding: 18px; }
 .cs-option--chosen .cs-option__label { color: var(--ml-ink-900); }
 .cs-option__chip {
   flex: none; display: inline-flex; align-items: center; gap: 6px;
