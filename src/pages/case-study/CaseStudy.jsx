@@ -396,7 +396,7 @@ export default function CaseStudy({ slug }) {
     else groups.push(s.type === 'pitch' ? { type: 'run', items: [s] } : s);
   }
   return (
-    <div className="cs" data-study={study.slug}>
+    <div className="cs" data-study={study.slug} data-hero={study.heroTone ?? 'sky'}>
       <ReadingProgress />
       <div className="cs-top"><SiteHeader /></div>
       <main className="cs-main">

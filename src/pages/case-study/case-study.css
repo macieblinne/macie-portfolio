@@ -481,3 +481,10 @@ html[data-theme="winter"] .cs-lesson { border-top-color: var(--line); }
 .cs-progress__fill { height: 100%; background: var(--ml-green-700); transform: scaleX(0); transform-origin: left center; will-change: transform; }
 
 .cs-option__chip svg { color: var(--ml-white); stroke: var(--ml-white); }
+
+/* hero tone follows the project's band on the Work page (Flexomics = sky, Accio3D = cocoa) */
+.cs[data-hero="cocoa"] .cs-hero { --fg: var(--ml-white); background: var(--ml-cocoa-700); }
+.cs[data-hero="cocoa"] .cs-contour--hero { background: rgb(255 255 255 / 0.14); }
+.cs[data-hero="cocoa"] .cs-crumbs__back:hover { color: var(--ml-blue-300); }
+.cs[data-hero="cocoa"] .cs-top { --fg: var(--ml-white); --fg-muted: var(--ml-blue-300); }
+.cs[data-hero="cocoa"] .cs-hero :focus-visible { outline-color: var(--ml-chartreuse-400); }

@@ -12,6 +12,7 @@ const accio3d = {
   titleWidth: 700,
   titleTop: 176,
   titleSize: 72,
+  heroTone: 'cocoa', // matches the Accio3D band on the Work page
   hero: {
     image: { src: '/accio-cs/Hero.svg', alt: 'Accio3D dashboard: an AI assistant prompt, a global supplier map and recent quote notifications', width: 1440, height: 1080, scale: 1 },
     stickers: [
