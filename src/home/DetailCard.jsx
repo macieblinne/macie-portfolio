@@ -63,7 +63,8 @@ export function CardBody({ stop, index, total, onStep, compact = false, badge })
         {c.body && <p className="card__text">{c.body}</p>}
         <div className="card__foot">
           {ctaEl}
-          {!compact && (
+          {/* Welcome has one action — Start the journey — so no arrows there */}
+          {!compact && cta.href && (
             <div className="card__pager">
               <button type="button" className="card__pager-btn" onClick={() => onStep(-1)} disabled={index === 0} aria-label="Previous stop"><IconArrowLeft size={16} stroke={2} /></button>
               <button type="button" className="card__pager-btn" onClick={() => onStep(1)} disabled={index === total - 1} aria-label={`Next stop (${index + 1} of ${total})`}><IconArrowRight size={16} stroke={2} /></button>
