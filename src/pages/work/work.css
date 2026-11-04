@@ -252,7 +252,6 @@
   .wk-band__ghost { top: auto; bottom: -60px; }
   .wk-band--sky .wk-band__ghost, .wk-band--pine .wk-band__ghost { left: auto; right: -20px; }
   .wk-band--cocoa .wk-band__ghost { left: -30px; }
-  .wk-band--right .wk-band__inner::after { right: 63px; }
 }
 
 /* ---- phone: < 768 ------------------------------------------------------ */
@@ -274,7 +273,6 @@
     margin-bottom: -12px;
   }
   .wk-route__label { writing-mode: horizontal-tb; rotate: none; }
-  .wk-band--right .wk-band__inner::after { display: none; }
 
   .wk-band__media, .wk-band--sky .wk-band__media, .wk-band--pine .wk-band__media, .wk-band--cocoa .wk-band__media {
     margin-top: 8px; rotate: 2deg;

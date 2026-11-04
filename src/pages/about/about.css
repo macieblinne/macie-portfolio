@@ -404,3 +404,5 @@
 /* location + coordinates now sit above the title, in mono */
 .ab-hero__meta--top { margin: 0 0 18px; font-family: var(--ml-font-mono); letter-spacing: 0.02em; }
 @media (max-width: 767px) { .ab-hero__meta--top { margin-bottom: 12px; } }
+/* same treatment as the home kicker (SENIOR PRODUCT DESIGNER) */
+.ab-hero__meta--top { font: 500 13px / 1.4 var(--ml-font-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-dim); }
