@@ -178,7 +178,7 @@ export default function AboutModal() {
               <IconArrowUpRight size={16} stroke={2} aria-hidden="true" />
             </a>
             <a
-              href="https://drive.google.com/file/d/18RwrD40HIoAH-8A2pi2zbzpjL-0hyQ6o/view?usp=sharing"
+              href="https://drive.google.com/file/d/1nHpTH34iXJP_N6cSz1H2vp-CtGrWzPjW/view?usp=sharing"
               target="_blank"
               rel="noopener noreferrer"
               className={`${styles.actionBtn} ${styles.actionSecondary}`}
