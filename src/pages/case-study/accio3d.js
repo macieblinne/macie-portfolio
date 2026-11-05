@@ -1,7 +1,6 @@
 // Accio3D case study — copy from Figma "Work — Case study · Accio3D · v2 (story rewrite)" (5624:11452).
 // Rendered by CaseStudy.jsx; block types are documented there.
 // Story strength: AI product design — the AI does the upfront work, the buyer validates.
-import { LINKS } from '../../site/site.jsx';
 
 const A = '/case-study/accio';
 
@@ -122,11 +121,11 @@ const accio3d = {
     },
   ],
   next: {
-    eyebrow: "Next route · Summit · Let's work together",
-    title: "You made it. Let's talk.",
-    ghost: 'S',
+    eyebrow: 'Next route · 03 The Narrows',
+    title: 'One interface for fifty tests running at once',
+    ghost: '03',
     cta: 'Continue on',
-    to: LINKS.email,
+    to: '/work/accelerate',
   },
 };
 

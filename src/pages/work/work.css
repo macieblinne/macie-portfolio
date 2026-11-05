@@ -63,6 +63,8 @@
   --wk-soon-fg: rgb(255 255 255 / 0.75);
   --wk-ph-bg: rgb(255 255 255 / 0.08);
   --wk-ph-border: rgb(255 255 255 / 0.3);
+  --wk-cta-bg: var(--ml-white);
+  --wk-cta-fg: var(--wk-ink);
 }
 [data-theme="winter"] .wk-band--sky {
   --wk-band-bg: var(--ml-blue-100);
@@ -78,6 +80,8 @@
   --wk-soon-fg: var(--wk-ink);
   --wk-ph-bg: rgb(47 33 28 / 0.06);
   --wk-ph-border: rgb(255 255 255 / 0.3);
+  --wk-cta-bg: var(--ml-cocoa-800);
+  --wk-cta-fg: var(--ml-white);
 }
 
 /* contour excerpt (Figma vector rendered to a 1440×640 mask, tinted per theme) */

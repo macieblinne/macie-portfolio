@@ -11,10 +11,11 @@ import SiteHeader from '../../site/SiteHeader.jsx';
 import { Link } from '../../site/router.jsx';
 import flexomics from './flexomics.js';
 import accio3d from './accio3d.js';
+import accelerate from './accelerate.js';
 import Lightbox, { Zoomable } from './Lightbox.jsx';
 import './case-study.css';
 
-const STUDIES = { flexomics, accio3d };
+const STUDIES = { flexomics, accio3d, accelerate };
 const pad2 = (n) => String(n).padStart(2, '0');
 
 function Sticker({ tone = 'white', rotate = 0, className = '', style, children }) {
@@ -197,7 +198,11 @@ function Media({ block }) {
       <div className="cs-media__frame" style={{ aspectRatio: `${block.width} / ${block.height}` }}>
         {block.video
           ? <Recording block={block} />
-          : <img src={block.src} alt={block.alt} width={block.width} height={block.height} loading="lazy" decoding="async" />}
+          : (
+            <Zoomable src={block.src} full={block.full} alt={block.alt} caption={block.caption}>
+              <img src={block.src} alt={block.alt} width={block.width} height={block.height} loading="lazy" decoding="async" />
+            </Zoomable>
+          )}
         <Sticker tone="chartreuse" rotate={3} className="cs-media__sticker">{block.sticker}</Sticker>
       </div>
       <figcaption className="cs-media__caption">{block.caption}</figcaption>
