@@ -60,7 +60,7 @@ const accelerate = {
           'Organize around the real work',
           'Polish the most-used screens',
           'Show only what’s needed',
-          'Follow the lab, not the computer',
+          'Design around the lab’s workflow',
           'Complex science, simple interface',
         ] },
       ],
@@ -104,7 +104,7 @@ const accelerate = {
     {
       type: 'pitch', label: 'Repairs', title: 'One product instead of two',
       blocks: [
-        { type: 'principle', n: '04', text: 'Follow the lab, not the computer' },
+        { type: 'principle', n: '04', text: 'Design around the lab’s workflow' },
         { type: 'p', text: 'Engineers repaired machines in a dense, separate desktop tool. I brought those tools into the same product, with the same look and patterns as everything else. Engineers sign in and see repair tools; lab techs never do.' },
         { type: 'compare', wide: true, items: [
           { tag: 'Before', caption: 'A separate desktop tool', src: `${A}/legacy-service.webp`, width: 928, height: 545, alt: 'Old repair tool: a dense desktop app with a long toolbar and grey panels' },
