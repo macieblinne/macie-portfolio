@@ -41,7 +41,7 @@ const PROJECTS = [
     client: 'Accelerate Diagnostics',
     headline: 'One interface for fifty tests running at once',
     meta: ['Product designer', 'Healthcare', '72 screens'],
-    impact: 'Designed one simple interface for lab techs and engineers on an instrument running fifty tests at once.',
+    impact: 'Designed and shipped one simple interface for lab techs, trainers and engineers on an instrument running fifty tests at once.',
     route: 'The Narrows · 13,900 ft',
     sticker: 'Clinical lab',
     to: '/work/accelerate',

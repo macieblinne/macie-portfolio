@@ -1,7 +1,7 @@
 // Case-study page (/work/flexomics, /work/accio3d) — built from Figma
 // "Work — Case study · Flexomics · Alt" (5383:8227) and "· Accio3D · Alt" (5406:7911).
 // One component, two data files. Section types: pitch | break | milestone.
-// Pitch block types: p | quote | lead | h3 | note | cards | fork | media | compare | lessons | personas | principles.
+// Pitch block types: p | quote | lead | h3 | note | cards | fork | media | compare | lessons | personas | principles | principle.
 // A pitch with `hook: true` is an unnumbered opener (custom waypoint/label/count, no title).
 // A break may carry an `annotation` (ring, box, dotted path, labels) in image-pixel coordinates.
 import { Fragment, useEffect, useRef } from 'react';
@@ -320,6 +320,12 @@ function Block({ block }) {
     case 'lessons': return <Lessons items={block.items} />;
     case 'personas': return <Personas people={block.people} />;
     case 'principles': return <Principles items={block.items} />;
+    case 'principle': return (
+      <p className="cs-principle-tag">
+        <span className="cs-principle__n" aria-hidden="true">{block.n}</span>
+        <span><span className="cs-principle-tag__k">Principle {block.n}</span> {block.text}</span>
+      </p>
+    );
     default: return null;
   }
 }

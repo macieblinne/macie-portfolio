@@ -68,12 +68,9 @@ const accelerate = {
     {
       type: 'pitch', label: 'Structure', title: 'A map before the screens',
       blocks: [
-        { type: 'p', text: 'Fifty tests, three kinds of users and a repair tool moving in could easily become a maze. So before designing screens, we mapped all 72 of them into a few areas named after things a lab already understands.' },
+        { type: 'principle', n: '01', text: 'Organize around the real work' },
+        { type: 'p', text: 'Fifty tests, three kinds of users and a repair tool moving in could easily become a maze. So before designing screens, I mapped all 72 of them into a few areas named after things a lab already understands.' },
         { type: 'media', wide: true, src: `${A}/architecture.webp`, width: 2458, height: 1429, alt: 'Map of 72 screens organized into areas like Modules, Runs and Results, with the flows between them', sticker: '72 screens, one map', caption: 'Product map' },
-        { type: 'fork', options: [
-          { label: 'Option 1 · Keep two apps', text: 'Leave repairs in a separate tool. Familiar to engineers, but two products to learn and maintain.' },
-          { label: 'Option 2 · One app, two modes', text: 'Engineers sign in and see repair tools; lab techs never do. One product to learn.', chosen: true },
-        ] },
       ],
     },
     {
@@ -84,7 +81,8 @@ const accelerate = {
     {
       type: 'pitch', label: 'Dashboard', title: 'Make the screen look like the machine',
       blocks: [
-        { type: 'p', text: "The old dashboard gave every test its own card. At fifty tests, that's a wall. And labs are big, busy rooms full of machines, so Laura needed to spot a problem from across the room, not just up close. The new dashboard draws the instrument the way it sits on the bench, with each slot glowing by its status and a bright flag only where she's needed." },
+        { type: 'principle', n: '02', text: 'Polish the most-used screens' },
+        { type: 'p', text: "The old dashboard gave every test its own card. At fifty tests, that's a wall. And labs are big, busy rooms full of machines, so Laura needed to spot a problem from across the room, not just up close. I designed the dashboard to draw the instrument the way it sits on the bench, with each slot glowing by its status and a bright flag only where she's needed." },
         { type: 'compare', wide: true, items: [
           { tag: 'Before', caption: 'One card per test', src: `${A}/legacy-dashboard.webp`, width: 554, height: 360, alt: 'Old dashboard: a light web page with one card per test' },
           { tag: 'After', caption: 'The instrument, drawn as it sits on the bench', src: `${A}/dashboard.webp`, width: 1200, height: 675, alt: 'New dashboard: instrument modules drawn as hardware, with slots lit by status and flags where attention is needed', after: true },
@@ -94,7 +92,8 @@ const accelerate = {
           { tone: 'blue', eyebrow: 'Tap a flag', title: 'It says what to do', text: 'A missing step shows up with its fix one tap away.', image: { src: `${A}/run-details.webp`, width: 1200, height: 675, alt: 'Test details showing a missing step and a button to fix it', caption: 'Test details' } },
         ] },
         { type: 'h3', text: 'Starting a test' },
-        { type: 'p', text: 'Starting a test is mostly scanning. The software fills in the details and finishes by showing exactly where the sample goes.' },
+        { type: 'principle', n: '03', text: 'Show only what’s needed' },
+        { type: 'p', text: 'Starting a test is mostly scanning, so I cut it down to what the lab actually does: scan, insert, confirm. The software fills in the details and finishes by showing exactly where the sample goes.' },
         { type: 'steps', items: ['Scan patient', 'Scan supplies', 'Insert card', 'Confirm'] },
         { type: 'cards', wide: true, size: 'img', layout: 'rows-tall', cards: [
           { tone: 'blue', eyebrow: 'Scan', title: 'Scan, don’t type', text: "One scan fills in the patient's details.", image: { src: `${A}/newrun-scan.webp`, width: 807, height: 723, alt: 'New test screen: scanning a barcode fills in the patient details', caption: 'Start a test' } },
@@ -103,24 +102,15 @@ const accelerate = {
       ],
     },
     {
-      type: 'milestone',
-      title: 'Fifty tests, one screen.',
-      text: 'One structure that worked for the lab tech, the trainer and the engineer.',
-      stats: [
-        { value: '72', label: 'screens mapped' },
-        { value: '3', label: 'users' },
-        { value: '1', label: 'app' },
-      ],
-    },
-    {
       type: 'pitch', label: 'Repairs', title: 'One product instead of two',
       blocks: [
-        { type: 'p', text: 'Engineers repaired machines in a dense, separate desktop tool. We brought those tools into the same product, with the same look and patterns as everything else.' },
+        { type: 'principle', n: '04', text: 'Follow the lab, not the computer' },
+        { type: 'p', text: 'Engineers repaired machines in a dense, separate desktop tool. I brought those tools into the same product, with the same look and patterns as everything else. Engineers sign in and see repair tools; lab techs never do.' },
         { type: 'compare', wide: true, items: [
           { tag: 'Before', caption: 'A separate desktop tool', src: `${A}/legacy-service.webp`, width: 928, height: 545, alt: 'Old repair tool: a dense desktop app with a long toolbar and grey panels' },
           { tag: 'After', caption: 'Part of the same product', src: `${A}/module-overview.webp`, width: 1200, height: 675, alt: 'New module screen in the same dark interface as the dashboard', after: true },
         ] },
-        { type: 'cards', wide: true, size: 'img', cards: [
+        { type: 'cards', wide: true, size: 'img', layout: 'rows', cards: [
           { tone: 'blue', eyebrow: 'Calibrations', title: 'Work on several at once', text: 'Engineers can start a calibration on one module and keep working on another.', image: { src: `${A}/module-calibrating.webp`, width: 1200, height: 440, alt: 'Four modules each running a calibration, with time left on each', caption: 'Calibrations' } },
           { tone: 'blue', eyebrow: 'Errors', title: 'Every error has a next step', text: 'Plain-language troubleshooting and a one-tap support request.', image: { src: `${A}/run-error.webp`, width: 1200, height: 675, alt: 'Error details with troubleshooting steps and a Submit Support Request button', caption: 'Error details' } },
         ] },
@@ -129,18 +119,28 @@ const accelerate = {
     {
       type: 'pitch', label: 'Rules & results', title: 'Expert settings, simple to use',
       blocks: [
-        { type: 'p', text: 'Labs can add their own rules for how results are reported. Most found existing rule editors so confusing that they asked Accelerate to write the rules for them.' },
-        { type: 'note', label: 'Principle 05', text: "The science can be complex. The interface shouldn't be." },
+        { type: 'principle', n: '05', text: 'Complex science, simple interface' },
+        { type: 'p', text: 'Labs can add their own rules for how results are reported. Most found existing rule editors so confusing that they asked Accelerate to write the rules for them. That job usually fell to Travis during setup, so the builder had to be simple enough for him to teach in a single visit.' },
         { type: 'p', text: 'I designed the rule builder to read like a sentence, with an example beside it, so a lab can see what a rule does before it affects a patient.' },
-        { type: 'compare', wide: true, items: [
-          { tag: 'Rules', caption: 'Every rule, switchable on or off', src: `${A}/rules-list.webp`, width: 1200, height: 675, alt: 'List of lab rules, each with an on/off switch' },
-          { tag: 'Builder', caption: 'Reads like a sentence, with an example', src: `${A}/rule-builder.webp`, width: 1152, height: 779, alt: 'Rule builder laid out as For, If and Then, with an example panel beside it', after: true },
+        { type: 'cards', wide: true, size: 'img', layout: 'rows', cards: [
+          { tone: 'blue', eyebrow: 'Rules', title: 'Every rule in one place', text: 'Each lab rule can be switched on or off without touching the rest.', image: { src: `${A}/rules-list.webp`, width: 1200, height: 675, alt: 'List of lab rules, each with an on/off switch', caption: 'Rules list' } },
+          { tone: 'blue', eyebrow: 'Builder', title: 'Reads like a sentence', text: 'For this organism, if these conditions, then this action, with a live example beside it.', image: { src: `${A}/rule-builder.webp`, width: 1152, height: 779, alt: 'Rule builder laid out as For, If and Then, with an example panel beside it', caption: 'Rule builder' } },
         ] },
         { type: 'p', text: 'Results follow the same idea: the most important information first, on screen and on paper.' },
-        { type: 'compare', wide: true, items: [
-          { tag: 'Screen', caption: 'Review and approve', src: `${A}/report-screen.webp`, width: 960, height: 1150, alt: 'On-screen results with the patient, the infection and a highlighted warning at the top' },
-          { tag: 'Print', caption: 'The same layout on paper', src: `${A}/report-print.webp`, width: 945, height: 960, alt: 'Printed results report with the same layout', after: true },
+        { type: 'cards', wide: true, size: 'img', layout: 'rows-tall', cards: [
+          { tone: 'blue', eyebrow: 'On screen', title: 'Review and approve', text: 'Patient, infection and any warning sit at the top, so the answer comes first.', image: { src: `${A}/report-screen.webp`, width: 960, height: 1150, alt: 'On-screen results with the patient, the infection and a highlighted warning at the top', caption: 'Results on screen' } },
+          { tone: 'blue', eyebrow: 'On paper', title: 'The same layout, printed', text: 'Nothing to relearn between the screen and the report a clinician holds.', image: { src: `${A}/report-print.webp`, width: 945, height: 960, alt: 'Printed results report with the same layout', caption: 'Printed report' } },
         ] },
+      ],
+    },
+    {
+      type: 'milestone',
+      title: 'Designed, built and shipped.',
+      text: 'The instrument shipped with this software: one structure for the lab tech, the trainer and the engineer.',
+      stats: [
+        { value: '72', label: 'screens designed' },
+        { value: '3', label: 'users' },
+        { value: '1', label: 'app' },
       ],
     },
     {
