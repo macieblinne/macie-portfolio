@@ -323,6 +323,9 @@ html[data-theme="winter"] .cs-lesson { border-top-color: var(--line); }
 .cs-principle { display: flex; flex-direction: column; gap: 14px; padding: 18px; border-radius: 16px; background: var(--cs-note-bg); }
 .cs-principle__n { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--ml-chartreuse-400); color: var(--ml-cocoa-800); font: 800 11px / 1 var(--ml-font-badge); }
 .cs-principle p { margin: 0; font: 700 15px / 1.25 var(--ml-font-display); color: var(--fg); }
+.cs-principle { gap: 10px; }
+.cs-principle .cs-principle__n { margin-bottom: 4px; }
+.cs-principle p.cs-principle__d { font: 400 13px / 1.4 var(--ml-font-display); color: var(--fg-muted); }
 
 @media (max-width: 1279px) {
   .cs-hero__title { max-width: min(var(--cs-title-w), 48vw); font-size: min(var(--cs-title-size), max(56px, 6vw)); }

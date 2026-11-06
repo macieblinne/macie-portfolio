@@ -295,10 +295,11 @@ function Personas({ people }) {
 function Principles({ items }) {
   return (
     <ol className="cs-principles">
-      {items.map((text, i) => (
+      {items.map((it, i) => (
         <li key={i} className="cs-principle">
           <span className="cs-principle__n" aria-hidden="true">{pad2(i + 1)}</span>
-          <p>{text}</p>
+          <p>{it.title ?? it}</p>
+          {it.text && <p className="cs-principle__d">{it.text}</p>}
         </li>
       ))}
     </ol>

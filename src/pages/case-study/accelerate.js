@@ -57,18 +57,18 @@ const accelerate = {
         ] },
         { type: 'h3', text: 'The principles' },
         { type: 'principles', items: [
-          'Organize around the real work',
-          'Polish the most-used screens',
-          'Show only what’s needed',
-          'Design around the lab’s workflow',
-          'Complex science, simple interface',
+          { title: 'Specific work areas', text: 'Orders, Operating, Runs and Results, each built for its job.' },
+          { title: 'Optimize the key work areas', text: 'Focus where 80% of users spend 80% of their time.' },
+          { title: 'Simplify', text: 'Only the navigation and controls each view needs.' },
+          { title: 'Design around clinical processes', text: 'Follow how the lab works, not operating-system conventions.' },
+          { title: 'An elegant, consumer-grade experience', text: "The content may require expertise. The interface shouldn't." },
         ] },
       ],
     },
     {
       type: 'pitch', label: 'Structure', title: 'A map before the screens',
       blocks: [
-        { type: 'principle', n: '01', text: 'Organize around the real work' },
+        { type: 'principle', n: '01', text: 'Specific work areas' },
         { type: 'p', text: 'Fifty tests, three kinds of users and a repair tool moving in could easily become a maze. So before designing screens, I mapped all 72 of them into a few areas named after things a lab already understands.' },
         { type: 'media', wide: true, src: `${A}/architecture.webp`, width: 2458, height: 1429, alt: 'Map of 72 screens organized into areas like Modules, Runs and Results, with the flows between them', sticker: '72 screens, one map', caption: 'Product map' },
       ],
@@ -81,7 +81,7 @@ const accelerate = {
     {
       type: 'pitch', label: 'Dashboard', title: 'Make the screen look like the machine',
       blocks: [
-        { type: 'principle', n: '02', text: 'Polish the most-used screens' },
+        { type: 'principle', n: '02', text: 'Optimize the key work areas' },
         { type: 'p', text: "The old dashboard gave every test its own card. At fifty tests, that's a wall. And labs are big, busy rooms full of machines, so Laura needed to spot a problem from across the room, not just up close. The instrument's own slots light up to show their status, so I designed the dashboard to mirror them: each slot on screen matches the one on the bench, and a bright flag appears only where she's needed. Whether Laura looks at the machine or the screen, she sees the same thing." },
         { type: 'compare', wide: true, items: [
           { tag: 'Before', caption: 'One card per test', src: `${A}/legacy-dashboard.webp`, width: 554, height: 360, alt: 'Old dashboard: a light web page with one card per test' },
@@ -92,7 +92,7 @@ const accelerate = {
           { tone: 'blue', eyebrow: 'Tap a flag', title: 'It says what to do', text: 'A missing step shows up with its fix one tap away.', image: { src: `${A}/run-details.webp`, width: 1200, height: 675, alt: 'Test details showing a missing step and a button to fix it', caption: 'Test details' } },
         ] },
         { type: 'h3', text: 'Starting a test' },
-        { type: 'principle', n: '03', text: 'Show only what’s needed' },
+        { type: 'principle', n: '03', text: 'Simplify' },
         { type: 'p', text: 'Starting a test is mostly scanning, so I cut it down to what the lab actually does: scan, insert, confirm. The software fills in the details and finishes by showing exactly where the sample goes.' },
         { type: 'steps', items: ['Scan patient', 'Scan supplies', 'Insert card', 'Confirm'] },
         { type: 'cards', wide: true, size: 'img', layout: 'rows-tall', cards: [
@@ -104,7 +104,7 @@ const accelerate = {
     {
       type: 'pitch', label: 'Repairs', title: 'One product instead of two',
       blocks: [
-        { type: 'principle', n: '04', text: 'Design around the lab’s workflow' },
+        { type: 'principle', n: '04', text: 'Design around clinical processes' },
         { type: 'p', text: 'Engineers repaired machines in a dense, separate desktop tool. I brought those tools into the same product, with the same look and patterns as everything else. Engineers sign in and see repair tools; lab techs never do.' },
         { type: 'compare', wide: true, items: [
           { tag: 'Before', caption: 'A separate desktop tool', src: `${A}/legacy-service.webp`, width: 928, height: 545, alt: 'Old repair tool: a dense desktop app with a long toolbar and grey panels' },
@@ -119,7 +119,7 @@ const accelerate = {
     {
       type: 'pitch', label: 'Rules & results', title: 'Expert settings, simple to use',
       blocks: [
-        { type: 'principle', n: '05', text: 'Complex science, simple interface' },
+        { type: 'principle', n: '05', text: 'An elegant, consumer-grade experience' },
         { type: 'p', text: 'Labs can add their own rules for how results are reported. Most found existing rule editors so confusing that they asked Accelerate to write the rules for them. That job usually fell to Travis during setup, so the builder had to be simple enough for him to teach in a single visit.' },
         { type: 'p', text: 'I designed the rule builder to read like a sentence, with an example beside it, so a lab can see what a rule does before it affects a patient.' },
         { type: 'cards', wide: true, size: 'img', layout: 'rows', cards: [
