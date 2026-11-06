@@ -54,30 +54,22 @@
   --wk-cta-fg: var(--wk-ink);
 }
 .wk-band--pine {
-  --wk-band-bg: var(--ml-green-700);
-  --wk-band-fg: var(--ml-white);
-  --wk-contour-color: rgb(255 255 255 / 0.14);
-  --wk-ghost: rgb(255 255 255 / 0.08);
-  --wk-impact-bg: rgb(255 255 255 / 0.1);
-  --wk-soon-border: rgb(255 255 255 / 0.35);
-  --wk-soon-fg: rgb(255 255 255 / 0.75);
-  --wk-ph-bg: rgb(255 255 255 / 0.08);
-  --wk-ph-border: rgb(255 255 255 / 0.3);
-}
-[data-theme="winter"] .wk-band--sky {
-  --wk-band-bg: var(--ml-blue-100);
-  --wk-ghost: rgb(47 33 28 / 0.08);
-}
-[data-theme="winter"] .wk-band--pine {
-  --wk-band-bg: var(--ml-white);
+  /* Accelerate: pale field-note green, matches its case study hero */
+  --wk-band-bg: #E9EFE3;
   --wk-band-fg: var(--wk-ink);
   --wk-contour-color: rgb(53 50 31 / 0.14);
   --wk-ghost: rgb(47 33 28 / 0.08);
-  --wk-impact-bg: rgb(47 33 28 / 0.06);
+  --wk-impact-bg: rgb(255 255 255 / 0.75);
   --wk-soon-border: rgb(47 33 28 / 0.4);
   --wk-soon-fg: var(--wk-ink);
   --wk-ph-bg: rgb(47 33 28 / 0.06);
   --wk-ph-border: rgb(255 255 255 / 0.3);
+  --wk-cta-bg: var(--ml-cocoa-800);
+  --wk-cta-fg: var(--ml-white);
+}
+[data-theme="winter"] .wk-band--sky {
+  --wk-band-bg: var(--ml-blue-100);
+  --wk-ghost: rgb(47 33 28 / 0.08);
 }
 
 /* contour excerpt (Figma vector rendered to a 1440×640 mask, tinted per theme) */

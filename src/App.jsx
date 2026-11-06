@@ -15,6 +15,7 @@ const TITLES = {
   '/work': 'Selected work — Macie Linne',
   '/work/flexomics': 'Flexomics case study — Macie Linne',
   '/work/accio3d': 'Accio3D case study — Macie Linne',
+  '/work/accelerate': 'Accelerate Diagnostics case study — Macie Linne',
   '/about': 'About — Macie Linne',
 };
 
@@ -27,6 +28,7 @@ function Routes() {
   if (path === '/work') return <WorkIndex />;
   if (path === '/work/flexomics') return <CaseStudy slug="flexomics" />;
   if (path === '/work/accio3d') return <CaseStudy slug="accio3d" />;
+  if (path === '/work/accelerate') return <CaseStudy slug="accelerate" />;
   if (path === '/about') return <About />;
   return <NotFound />;
 }
