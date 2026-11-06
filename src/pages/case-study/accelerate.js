@@ -36,9 +36,9 @@ const accelerate = {
       ],
     },
     {
-      type: 'pitch', label: 'Context', title: 'From one test at a time to fifty',
+      type: 'pitch', label: 'Context', title: 'Three jobs for the software',
       blocks: [
-        { type: 'p', text: "Accelerate's Pheno system ran one test at a time. The new instrument runs up to fifty, and its software had to keep up. I was the product designer on the Catalyst UX team, designing that software with a strategist and the Accelerate team." },
+        { type: 'p', text: "I was the product designer on the Catalyst UX team, working with a strategist and the Accelerate team. The software had three jobs." },
         { type: 'cards', size: 'sm', cards: [
           { tone: 'blue', eyebrow: 'Scale', title: 'Fifty tests at a glance', text: 'Show every test without overwhelming the lab.' },
           { tone: 'blue', eyebrow: 'Simplify', title: 'One app, not two', text: "Bring the engineers' separate repair tool into the same product." },
