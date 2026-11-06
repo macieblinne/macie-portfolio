@@ -82,7 +82,7 @@ const accelerate = {
       type: 'pitch', label: 'Dashboard', title: 'Make the screen look like the machine',
       blocks: [
         { type: 'principle', n: '02', text: 'Polish the most-used screens' },
-        { type: 'p', text: "The old dashboard gave every test its own card. At fifty tests, that's a wall. And labs are big, busy rooms full of machines, so Laura needed to spot a problem from across the room, not just up close. I designed the dashboard to draw the instrument the way it sits on the bench, with each slot glowing by its status and a bright flag only where she's needed." },
+        { type: 'p', text: "The old dashboard gave every test its own card. At fifty tests, that's a wall. And labs are big, busy rooms full of machines, so Laura needed to spot a problem from across the room, not just up close. The instrument's own slots light up to show their status, so I designed the dashboard to mirror them: each slot on screen matches the one on the bench, and a bright flag appears only where she's needed. Whether Laura looks at the machine or the screen, she sees the same thing." },
         { type: 'compare', wide: true, items: [
           { tag: 'Before', caption: 'One card per test', src: `${A}/legacy-dashboard.webp`, width: 554, height: 360, alt: 'Old dashboard: a light web page with one card per test' },
           { tag: 'After', caption: 'The instrument, drawn as it sits on the bench', src: `${A}/dashboard.webp`, width: 1200, height: 675, alt: 'New dashboard: instrument modules drawn as hardware, with slots lit by status and flags where attention is needed', after: true },
@@ -97,7 +97,7 @@ const accelerate = {
         { type: 'steps', items: ['Scan patient', 'Scan supplies', 'Insert card', 'Confirm'] },
         { type: 'cards', wide: true, size: 'img', layout: 'rows-tall', cards: [
           { tone: 'blue', eyebrow: 'Scan', title: 'Scan, don’t type', text: "One scan fills in the patient's details.", image: { src: `${A}/newrun-scan.webp`, width: 807, height: 723, alt: 'New test screen: scanning a barcode fills in the patient details', caption: 'Start a test' } },
-          { tone: 'blue', eyebrow: 'Insert', title: 'The slot lights up', text: "The screen shows which slot to use, so there's no guessing.", image: { src: `${A}/newrun-insert.webp`, width: 807, height: 723, alt: 'Insert step: the screen highlights module D, slot 8', caption: 'Insert the card' } },
+          { tone: 'blue', eyebrow: 'Insert', title: 'The slot lights up', text: "The slot lights up on the screen and on the instrument at the same time, so there's no guessing where the card goes.", image: { src: `${A}/newrun-insert.webp`, width: 807, height: 723, alt: 'Insert step: the screen highlights module D, slot 8', caption: 'Insert the card' } },
         ] },
       ],
     },
