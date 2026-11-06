@@ -16,7 +16,7 @@ const flexomics = {
   },
   meta: [
     { label: 'Company', value: 'Flexomics' },
-    { label: 'Role', value: 'Lead Product Designer' },
+    { label: 'Role', value: 'Lead Product Designer · UX & UI' },
     { label: 'Timeline', value: '12 weeks · MVP' },
     { label: 'Team', value: 'Strategist · Developer · Founders' },
   ],
@@ -28,27 +28,32 @@ const flexomics = {
       ],
     },
     {
-      type: 'pitch', label: 'Context', title: 'One experiment, split across three tools',
+      type: 'pitch', label: 'The problem', title: 'One experiment, split across three tools',
       blocks: [
         { type: 'p', text: 'Single-cell experiments produce two kinds of evidence: images of cells and the genetic data behind them. At Flexomics they lived in three disconnected tools, so researchers rebuilt the connections by hand before they could ask what an experiment meant.' },
-        { type: 'p', text: 'I was the lead designer on FLXplorer, a 0→1 platform that puts the whole experiment in one place, working with a strategist, a developer and the founding team over 12 weeks.' },
+        { type: 'p', text: 'I was the lead designer on FLXplorer, a 0→1 platform that puts the whole experiment in one place. I owned both the UX and the visual design, working with a strategist, a developer and the founding team over 12 weeks.' },
       ],
     },
     {
-      type: 'pitch', label: 'Discovery', title: 'From the microscope to the spreadsheet',
+      type: 'pitch', label: 'In the lab', title: 'From the microscope to the spreadsheet',
       blocks: [
         { type: 'p', text: "We spent time in the lab while scientists walked us through real experiments: the slide under the microscope, the output on screen, and then the layers of spreadsheets they kept just to match well IDs between imaging and sequencing. Data volume wasn't the bottleneck. Keeping that mapping straight by hand was." },
+        { type: 'h3', text: 'Two kinds of scientists' },
+        { type: 'personas', aspect: '349 / 170', people: [
+          { name: 'Betty', role: 'Biologist', photo: '/case-study/flexomics/persona-betty.webp', goal: 'Interpret experiments and find the cells worth a closer look.', tasks: ['Exploring images', 'Filtering cells'] },
+          { name: 'Clarice', role: 'Computational scientist', photo: '/case-study/flexomics/persona-clarice.webp', goal: 'Dig into the sequencing data and take it further in code.', tasks: ['Sequencing plots', 'Exporting data'] },
+        ] },
         { type: 'note', label: 'Principle', text: "Complexity belongs in the system, not in the researcher's workflow." },
         { type: 'p', text: 'That became the rule for every decision that followed.' },
       ],
     },
     {
-      type: 'pitch', label: 'Architecture', title: 'Built around how scientists think, not how data is stored',
+      type: 'pitch', label: 'Two workspaces', title: 'Built around how scientists think, not how data is stored',
       blocks: [
         { type: 'p', text: 'I split the platform into two workspaces that mirror the research process, both reading from one shared dataset.' },
         { type: 'cards', cards: [
-          { tone: 'blue', eyebrow: 'Workspace 1 · Start wide', title: 'Imaging', text: 'Explore thousands of cells visually and find the populations worth a closer look.' },
-          { tone: 'blue', eyebrow: 'Workspace 2 · Go deep', title: 'Sequencing', text: 'See the same cells through gene expression, across the whole population.' },
+          { tone: 'blue', eyebrow: 'Workspace 1 · Start wide', title: 'Imaging', icon: 'microscope', text: 'Explore thousands of cells visually and find the populations worth a closer look.' },
+          { tone: 'blue', eyebrow: 'Workspace 2 · Go deep', title: 'Sequencing', icon: 'dna', text: 'See the same cells through gene expression, across the whole population.' },
         ] },
       ],
     },
@@ -69,7 +74,7 @@ const flexomics = {
       },
     },
     {
-      type: 'pitch', label: 'Cross-modal continuity', title: 'One selection, two views', gap: 24,
+      type: 'pitch', label: 'One selection', title: 'One selection, two views', gap: 24,
       blocks: [
         { type: 'p', text: "The two workspaces only work if they never feel like two tools. Select a population in imaging and it's already selected in sequencing. Find a gene signal in sequencing and its cells light up in the image." },
         { type: 'p', text: 'Moving between them is one line of thinking, not a context switch.' },
@@ -83,7 +88,7 @@ const flexomics = {
       ],
     },
     {
-      type: 'pitch', label: 'Key decision', title: 'The feature I cut',
+      type: 'pitch', label: 'The cut', title: 'The feature I cut',
       blocks: [
         { type: 'p', text: "Midway through, researchers asked to compare results across experiments. The need was real, but at Flexomics' dataset sizes it would have made the platform unstable inside 12 weeks." },
         { type: 'fork', options: [
@@ -105,7 +110,7 @@ const flexomics = {
       ],
     },
     {
-      type: 'pitch', label: 'Impact', title: 'From hardware company to research platform', gap: 24,
+      type: 'pitch', label: 'The payoff', title: 'From hardware company to research platform', gap: 24,
       blocks: [
         { type: 'p', text: 'Hours of cross-referencing across three systems became two clicks.' },
         { type: 'cards', size: 'sm', cards: [
@@ -116,11 +121,11 @@ const flexomics = {
       ],
     },
     {
-      type: 'pitch', label: 'Lessons', title: 'What building from zero taught me',
+      type: 'pitch', label: 'What I learned', title: 'What building from zero taught me',
       blocks: [
         { type: 'lessons', items: [
-          'Organize around how people think, not how the data is stored. Two workspaces that mirror the research process did more than any single screen could.',
-          "Experts don't need simpler tools, they need fewer handoffs. Scientists were comfortable with complex data; what slowed them down was carrying it between three tools.",
+          'Organize around how people think, not how the data is stored. Betty starts from images and Clarice from sequencing; two connected workspaces served both.',
+          'Cutting the right feature is a design decision. Balancing time, scope and budget is what got a stable MVP shipped on time.',
         ] },
       ],
     },

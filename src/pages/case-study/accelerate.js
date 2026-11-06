@@ -2,7 +2,7 @@
 // boards, personas, architecture map v17) and the designed screens in Figma
 // "Personal Development" › Accelerate Case Study (5729:7034).
 // Rendered by CaseStudy.jsx; block types are documented there.
-// Story strength: systems thinking at instrument scale: three personas, one architecture, 72 views.
+// Story strength: principle-driven decisions at instrument scale: five principles, one blueprint, 72 screens.
 import { LINKS } from '../../site/site.jsx';
 
 const A = '/case-study/accelerate';
@@ -25,7 +25,7 @@ const accelerate = {
   meta: [
     { label: 'Company', value: 'Accelerate Diagnostics' },
     { label: 'Role', value: 'Product Designer' },
-    { label: 'Timeline', value: '2022 · 72 screens' },
+    { label: 'Scope', value: '72 screens' },
     { label: 'Team', value: 'Design team · Strategist · Accelerate R&D' },
   ],
   sections: [
@@ -36,41 +36,40 @@ const accelerate = {
       ],
     },
     {
-      type: 'pitch', label: 'Context', title: 'Three jobs for the software',
+      type: 'pitch', label: 'The challenge', title: 'A new instrument, a new interface',
       blocks: [
-        { type: 'p', text: "I was the product designer on the Catalyst UX team, working with a strategist and the Accelerate team. The software had three jobs." },
-        { type: 'cards', size: 'sm', cards: [
-          { tone: 'blue', eyebrow: 'Job 01 · Scale', title: 'Fifty tests, one glance', text: 'A lab tech has to see the status of every test without reading through a wall of data.' },
-          { tone: 'blue', eyebrow: 'Job 02 · Simplify', title: 'One app, not two', text: 'Engineers used a separate repair tool. Folding it in meant one product to learn and support.' },
-          { tone: 'blue', eyebrow: 'Job 03 · Brand', title: 'A look that sells', text: 'The dashboard is the first thing buyers see, so it had to show off the instrument.' },
-        ] },
+        { type: 'p', text: "Accelerate's current system ran one test per module, and its engineers repaired machines in a separate desktop tool. The new instrument needed one interface for everyone who touches it. I was the product designer on the Catalyst UX team, working with a strategist and the Accelerate team to design it, from the lab tech's dashboard to the engineers' repair tools." },
       ],
     },
     {
-      type: 'pitch', label: 'The brief', title: 'Three users, five rules for every screen',
+      type: 'pitch', label: 'The users', title: 'Who it’s for',
       blocks: [
-        { type: 'p', text: 'Research gave us three people to design for and five principles to hold every screen to. When a decision got hard, these settled it.' },
+        { type: 'p', text: "Research with Accelerate's team defined the people who would use the instrument every day. Two of them shaped most of the screens in this story." },
         { type: 'personas', people: [
-          { name: 'Laura', role: 'Lab tech', photo: `${A}/persona-laura.webp`, goal: 'Get every test done on time, and get it right.', day: ['Watching test status', 'Loading samples', 'Reviewing results'] },
-          { name: 'Travis', role: 'Trainer', photo: `${A}/persona-travis.webp`, goal: 'Get each new lab confident with the system, fast.', day: ['Training new labs', 'Checking first runs', 'Setting lab rules'] },
-          { name: 'Sergio', role: 'Engineer', photo: `${A}/persona-sergio.webp`, goal: 'Fix machines quickly so the lab never waits.', day: ['Installing systems', 'Calibrating', 'Fixing errors'] },
+          { name: 'Laura', role: 'Lab tech', photo: `${A}/persona-laura.webp`, goal: 'Get every test done on time, and get it right.', tasks: ['Watching test status', 'Loading samples', 'Reviewing results'] },
+          { name: 'Sergio', role: 'Field Service Engineer', photo: `${A}/persona-sergio.webp`, goal: 'Fix machines quickly so the lab never waits.', tasks: ['Installing systems', 'Calibrating', 'Fixing errors'] },
         ] },
-        { type: 'h3', text: 'The principles' },
-        { type: 'principles', items: [
-          { title: 'Specific work areas', text: 'Orders, Operating, Runs and Results, each built for its job.' },
-          { title: 'Optimize the key work areas', text: 'Focus where 80% of users spend 80% of their time.' },
-          { title: 'Simplify', text: 'Only the navigation and controls each view needs.' },
-          { title: 'Design around clinical processes', text: 'Follow how the lab works, not operating-system conventions.' },
-          { title: 'An elegant, consumer-grade experience', text: "The content may require expertise. The interface shouldn't." },
-        ] },
+        { type: 'p', text: 'We also designed for Travis, the application specialist who sets up and trains each new lab.' },
       ],
     },
     {
-      type: 'pitch', label: 'Structure', title: 'A map before the screens',
+      type: 'principles-band',
+      title: 'Five principles for every screen.',
+      text: 'Every screen was held to these. When a design decision got hard, they settled it.',
+      items: [
+        { title: 'Specific work areas', text: 'Like rooms in a house: each area has one job and the tools to do it.' },
+        { title: 'Optimize the key work areas', text: 'The dashboard, where 80% of users spend 80% of their time.' },
+        { title: 'Clinical processes first', text: "Flows follow the lab's real steps, not software conventions." },
+        { title: 'Simplify', text: 'Each person sees only the tools their job needs, nothing more.' },
+        { title: 'Expert content, simple interface', text: 'Elegant and consumer-grade, even when the subject takes expertise.' },
+      ],
+    },
+    {
+      type: 'pitch', label: 'The blueprint', title: 'A blueprint before the screens',
       blocks: [
         { type: 'principle', n: '01', text: 'Specific work areas' },
-        { type: 'p', text: 'Fifty tests, three kinds of users and a repair tool moving in could easily become a maze. So before designing screens, I mapped all 72 of them into specific work areas a lab already understands: Orders, Operating, Runs and Results, plus areas for settings and repairs.' },
-        { type: 'media', wide: true, src: `${A}/architecture.webp`, width: 2458, height: 1429, alt: 'Map of 72 screens organized into areas like Modules, Runs and Results, with the flows between them', sticker: '72 screens, one map', caption: 'Product map' },
+        { type: 'p', text: "Fifty tests, three kinds of users and a repair tool moving in could easily become a maze. So before designing screens, we drew up a blueprint, the way you'd plan a house. Each work area is a room with one purpose, like Runs or Results, and holds only the tools that task needs. All 72 screens had a room before they had a design." },
+        { type: 'media', wide: true, src: `${A}/architecture.webp`, width: 2458, height: 1429, alt: 'Blueprint of 72 screens organized into work areas like Modules, Runs and Results, with the flows between them', caption: 'The blueprint · 72 screens' },
       ],
     },
     {
@@ -79,10 +78,12 @@ const accelerate = {
       image: { src: `${A}/dashboard-5.webp`, alt: 'Dashboard showing five instrument modules, each slot lit green, blue or red by status, with a flag beside the slot that needs attention', width: 1200, height: 675, scale: 1 },
     },
     {
-      type: 'pitch', label: 'Dashboard', title: 'Make the screen look like the machine',
+      type: 'pitch', label: 'At a glance', title: 'Make the screen look like the machine',
+      sticker: { photo: `${A}/persona-laura.webp`, label: 'Laura · Lab tech' },
       blocks: [
         { type: 'principle', n: '02', text: 'Optimize the key work areas' },
-        { type: 'p', text: "The old dashboard gave every test its own card. At fifty tests, that's a wall. Lab techs spend most of their day on this screen, so it got the most attention. And labs are big, busy rooms full of machines, so Laura needed to spot a problem from across the room, not just up close. The instrument's own slots light up to show their status, so I designed the dashboard to mirror them: each slot on screen matches the one on the bench, and a bright flag appears only where she's needed. Whether Laura looks at the machine or the screen, she sees the same thing." },
+        { type: 'p', text: 'The old dashboard gave every test its own card. With fifty tests running at once, Laura would have to scroll through fifty cards to find the one that needed her. Every test is a patient waiting on the right antibiotic, and Laura is usually across the room running other tests. She needed to spot a problem from a distance, the moment it happens.' },
+        { type: 'p', text: "The instrument's own slots light up to show their status, so I designed the dashboard to mirror them. Each slot on screen matches the one on the bench, and a bright flag appears only where she's needed." },
         { type: 'compare', wide: true, items: [
           { tag: 'Before', caption: 'One card per test', src: `${A}/legacy-dashboard.webp`, width: 554, height: 360, alt: 'Old dashboard: a light web page with one card per test' },
           { tag: 'After', caption: 'The instrument, drawn as it sits on the bench', src: `${A}/dashboard.webp`, width: 1200, height: 675, alt: 'New dashboard: instrument modules drawn as hardware, with slots lit by status and flags where attention is needed', after: true },
@@ -92,9 +93,9 @@ const accelerate = {
           { tone: 'blue', eyebrow: 'Tap a flag', title: 'It says what to do', text: 'A missing step shows up with its fix one tap away.', image: { src: `${A}/run-details.webp`, width: 1200, height: 675, alt: 'Test details showing a missing step and a button to fix it', caption: 'Test details' } },
         ] },
         { type: 'h3', text: 'Starting a test' },
-        { type: 'principle', n: '04', text: 'Design around clinical processes' },
-        { type: 'p', text: 'Starting a test follows the lab's real process: scan the patient, scan the supplies, insert the card, confirm. The software fills in the details and finishes by showing exactly where the sample goes.' },
-        { type: 'steps', items: ['Scan patient', 'Scan supplies', 'Insert card', 'Confirm'] },
+        { type: 'principle', n: '03', text: 'Clinical processes first' },
+        { type: 'p', text: 'Starting a test follows the steps techs already take at the bench: scan the patient, the broth lot and the test card, insert the card, then choose the organism. The software fills in the details from each scan and shows exactly which slot the card goes in.' },
+        { type: 'steps', items: ['Scan patient', 'Scan broth lot', 'Scan card', 'Insert card', 'Choose organism', 'Done'] },
         { type: 'cards', wide: true, size: 'img', layout: 'rows-tall', cards: [
           { tone: 'blue', eyebrow: 'Scan', title: 'Scan, don’t type', text: "One scan fills in the patient's details.", image: { src: `${A}/newrun-scan.webp`, width: 807, height: 723, alt: 'New test screen: scanning a barcode fills in the patient details', caption: 'Start a test' } },
           { tone: 'blue', eyebrow: 'Insert', title: 'The slot lights up', text: "The slot lights up on the screen and on the instrument at the same time, so there's no guessing where the card goes.", image: { src: `${A}/newrun-insert.webp`, width: 807, height: 723, alt: 'Insert step: the screen highlights module D, slot 8', caption: 'Insert the card' } },
@@ -102,41 +103,37 @@ const accelerate = {
       ],
     },
     {
-      type: 'pitch', label: 'Repairs', title: 'One product instead of two',
+      type: 'pitch', label: 'One app, not two', title: 'One product instead of two',
+      sticker: { photo: `${A}/persona-sergio.webp`, label: 'Sergio · engineer' },
       blocks: [
-        { type: 'principle', n: '03', text: 'Simplify' },
-        { type: 'p', text: 'Engineers repaired machines in a dense, separate desktop tool full of tabs and panels they rarely needed. I brought only the tools they use into the same product, with the same look as everything else. Engineers see repair tools when they sign in; lab techs never do, so everyone's screens stay simple.' },
+        { type: 'principle', n: '04', text: 'Simplify' },
+        { type: 'p', text: "Sergio and the other field engineers repaired machines in a dense, separate desktop tool full of tabs and panels they rarely needed. I brought only the tools they use into the same product, with the same look as everything else. Engineers see repair tools when they sign in; lab techs never do, so everyone's screens stay simple." },
         { type: 'compare', wide: true, items: [
-          { tag: 'Before', caption: 'A separate desktop tool', src: `${A}/legacy-service.webp`, width: 928, height: 545, alt: 'Old repair tool: a dense desktop app with a long toolbar and grey panels' },
-          { tag: 'After', caption: 'Part of the same product', src: `${A}/module-overview.webp`, width: 1200, height: 675, alt: 'New module screen in the same dark interface as the dashboard', after: true },
+          { tag: 'Before', caption: 'Calibrations in the old desktop tool', src: `${A}/calibrations-before.webp`, width: 1354, height: 630, alt: 'Old desktop tool: a dense grid of calibrations with a long toolbar of tabs and a grey side panel' },
+          { tag: 'After', caption: 'Calibrations in the new Modules area', src: `${A}/calibrations-after.webp`, width: 1440, height: 810, alt: 'New Modules area: a list of calibrations for Module A with the selected calibration’s results beside it', after: true },
         ] },
         { type: 'cards', wide: true, size: 'img', layout: 'rows', cards: [
-          { tone: 'blue', eyebrow: 'Calibrations', title: 'Work on several at once', text: 'Engineers can start a calibration on one module and keep working on another.', image: { src: `${A}/module-calibrating.webp`, width: 1200, height: 440, alt: 'Four modules each running a calibration, with time left on each', caption: 'Calibrations' } },
+          { tone: 'blue', eyebrow: 'Modules', title: 'One module, one place', text: 'Errors, calibrations, hardware and sensors for each module live together, instead of spread across dozens of tabs.', image: { src: `${A}/module-overview.webp`, width: 1200, height: 675, alt: 'Module overview: a side menu of errors, calibrations, hardware, bays, imager and sensors beside the module’s details', caption: 'Module overview' } },
           { tone: 'blue', eyebrow: 'Errors', title: 'Every error has a next step', text: 'Plain-language troubleshooting and a one-tap support request.', image: { src: `${A}/run-error.webp`, width: 1200, height: 675, alt: 'Error details with troubleshooting steps and a Submit Support Request button', caption: 'Error details' } },
         ] },
       ],
     },
     {
-      type: 'pitch', label: 'Rules & results', title: 'Expert settings, simple to use',
+      type: 'pitch', label: 'Expert made simple', title: 'Expert rules, consumer-grade feel',
       blocks: [
-        { type: 'principle', n: '05', text: 'An elegant, consumer-grade experience' },
-        { type: 'p', text: 'Labs can add their own rules for how results are reported. Most found existing rule editors so confusing that they asked Accelerate to write the rules for them. That job usually fell to Travis during setup, so the builder had to be simple enough for him to teach in a single visit.' },
+        { type: 'principle', n: '05', text: 'Expert content, simple interface' },
+        { type: 'p', text: "Nobody likes working in a rules engine, and they're not much fun to design either. Labs can set their own rules for how results are reported, but most found existing editors so confusing they asked Accelerate to write the rules for them. This one had to be simple enough for a lab to do it themselves." },
         { type: 'p', text: 'I designed the rule builder to read like a sentence, with an example beside it, so a lab can see what a rule does before it affects a patient.' },
         { type: 'cards', wide: true, size: 'img', layout: 'rows', cards: [
           { tone: 'blue', eyebrow: 'Rules', title: 'Every rule in one place', text: 'Each lab rule can be switched on or off without touching the rest.', image: { src: `${A}/rules-list.webp`, width: 1200, height: 675, alt: 'List of lab rules, each with an on/off switch', caption: 'Rules list' } },
-          { tone: 'blue', eyebrow: 'Builder', title: 'Reads like a sentence', text: 'For this organism, if these conditions, then this action, with a live example beside it.', image: { src: `${A}/rule-builder.webp`, width: 1152, height: 779, alt: 'Rule builder laid out as For, If and Then, with an example panel beside it', caption: 'Rule builder' } },
-        ] },
-        { type: 'p', text: 'Results follow the same idea: the most important information first, on screen and on paper.' },
-        { type: 'cards', wide: true, size: 'img', layout: 'rows-tall', cards: [
-          { tone: 'blue', eyebrow: 'On screen', title: 'Review and approve', text: 'Patient, infection and any warning sit at the top, so the answer comes first.', image: { src: `${A}/report-screen.webp`, width: 960, height: 1150, alt: 'On-screen results with the patient, the infection and a highlighted warning at the top', caption: 'Results on screen' } },
-          { tone: 'blue', eyebrow: 'On paper', title: 'The same layout, printed', text: 'Nothing to relearn between the screen and the report a clinician holds.', image: { src: `${A}/report-print.webp`, width: 945, height: 960, alt: 'Printed results report with the same layout', caption: 'Printed report' } },
+          { tone: 'blue', eyebrow: 'Builder', title: 'Reads like a sentence', text: 'Each rule is written as “For… If… Then…”, like a sentence, with an example beside it showing what it will do.', image: { src: `${A}/rule-builder.webp`, width: 1152, height: 779, alt: 'Rule builder laid out as For, If and Then, with an example panel beside it', caption: 'Rule builder' } },
         ] },
       ],
     },
     {
       type: 'milestone',
       title: 'Designed, built and shipped.',
-      text: 'The instrument shipped with this software: one structure for the lab tech, the trainer and the engineer.',
+      text: 'The instrument shipped with this software: one blueprint for the lab tech, the specialist and the engineer.',
       stats: [
         { value: '72', label: 'screens designed' },
         { value: '3', label: 'users' },
@@ -144,11 +141,11 @@ const accelerate = {
       ],
     },
     {
-      type: 'pitch', label: 'Lessons', title: 'What I took away',
+      type: 'pitch', label: 'What I learned', title: 'What I took away',
       blocks: [
         { type: 'lessons', items: [
-          'Map before you design. A clear structure kept 72 screens feeling like one product.',
-          'Design for the busiest day. A short-staffed lab needs every screen to say what to do next.',
+          'Agree on the rules before the debates start. With five shared principles, hard calls came down to what Laura and Sergio needed, not whose opinion won.',
+          'Design for the moment that matters. When a patient is waiting, the screen has to tell Laura what needs her, even from across the room.',
         ] },
       ],
     },

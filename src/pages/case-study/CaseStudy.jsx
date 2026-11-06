@@ -1,12 +1,13 @@
 // Case-study page (/work/flexomics, /work/accio3d) — built from Figma
 // "Work — Case study · Flexomics · Alt" (5383:8227) and "· Accio3D · Alt" (5406:7911).
 // One component, two data files. Section types: pitch | break | milestone.
-// Pitch block types: p | quote | lead | h3 | note | cards | fork | media | compare | lessons | personas | principles | principle.
+// Section types also include 'principles-band'. A pitch may carry a persona `sticker` ({ photo, label }).
+// Pitch block types: p | quote | lead | h3 | note | cards | fork | media | compare | steps | lessons | personas | principles | principle.
 // A pitch with `hook: true` is an unnumbered opener (custom waypoint/label/count, no title).
 // A break may carry an `annotation` (ring, box, dotted path, labels) in image-pixel coordinates.
 import { Fragment, useEffect, useRef } from 'react';
 import { vt } from '../../site/motion.js';
-import { IconArrowLeft, IconArrowRight, IconCheck, IconFlag, IconMapPinFilled, IconX } from '@tabler/icons-react';
+import { IconArrowLeft, IconArrowRight, IconCheck, IconDna, IconFlag, IconMapPinFilled, IconMicroscope, IconX } from '@tabler/icons-react';
 import SiteHeader from '../../site/SiteHeader.jsx';
 import { Link } from '../../site/router.jsx';
 import flexomics from './flexomics.js';
@@ -16,6 +17,7 @@ import Lightbox, { Zoomable } from './Lightbox.jsx';
 import './case-study.css';
 
 const STUDIES = { flexomics, accio3d, accelerate };
+const CARD_ICONS = { microscope: IconMicroscope, dna: IconDna };
 const pad2 = (n) => String(n).padStart(2, '0');
 
 function Sticker({ tone = 'white', rotate = 0, className = '', style, children }) {
@@ -129,7 +131,9 @@ function Cards({ cards, size, layout }) {
           )}
           <div className="cs-card__body">
             {c.eyebrow && <p className="cs-card__eyebrow">{c.eyebrow}</p>}
-            <h3 className="cs-card__title">{c.title}</h3>
+            {c.icon
+              ? (() => { const I = CARD_ICONS[c.icon]; return <h3 className="cs-card__title cs-card__title--icon"><span className="cs-card__icon" aria-hidden="true"><I size={22} stroke={1.75} /></span>{c.title}</h3>; })()
+              : <h3 className="cs-card__title">{c.title}</h3>}
             <p className="cs-card__text">{c.text}</p>
           </div>
         </div>
@@ -205,7 +209,7 @@ function Media({ block }) {
               <img src={block.src} alt={block.alt} width={block.width} height={block.height} loading="lazy" decoding="async" />
             </Zoomable>
           )}
-        <Sticker tone="chartreuse" rotate={3} className="cs-media__sticker">{block.sticker}</Sticker>
+        {block.sticker && <Sticker tone="chartreuse" rotate={3} className="cs-media__sticker">{block.sticker}</Sticker>}
       </div>
       <figcaption className="cs-media__caption">{block.caption}</figcaption>
     </figure>
@@ -268,27 +272,38 @@ function Lessons({ items }) {
   );
 }
 
-function Personas({ people }) {
+function Personas({ people, compact, aspect }) {
   return (
-    <ul className="cs-personas">
+    <ul className={`cs-personas${compact ? ' cs-personas--compact' : ''}`} style={{ '--cs-personas-n': people.length, '--cs-photo-ar': aspect }}>
       {people.map((p) => (
         <li key={p.name} className="cs-persona">
-          <img className="cs-persona__photo" src={p.photo} alt="" width={492} height={434} loading="lazy" decoding="async" />
+          <img className="cs-persona__photo" src={p.photo} alt="" loading="lazy" decoding="async" />
           <div className="cs-persona__id">
             <h4 className="cs-persona__name">{p.name}</h4>
             <p className="cs-persona__role">{p.role}</p>
+            {p.side && <p className={`cs-persona__side${p.supplier ? ' cs-persona__side--alt' : ''}`}>{p.side}</p>}
           </div>
           <div className="cs-persona__group">
             <p className="cs-persona__label">Goal</p>
             <p className="cs-persona__goal">{p.goal}</p>
           </div>
           <div className="cs-persona__group">
-            <p className="cs-persona__label">Most of their day</p>
-            <ul className="cs-persona__chips">{p.day.map((d) => <li key={d}>{d}</li>)}</ul>
+            <p className="cs-persona__label">Key tasks</p>
+            <ul className="cs-persona__chips">{p.tasks.map((d) => <li key={d}>{d}</li>)}</ul>
           </div>
         </li>
       ))}
     </ul>
+  );
+}
+
+/** Polaroid of the persona a section is about, pinned to the pitch's top-right corner. */
+function PersonaSticker({ sticker }) {
+  return (
+    <figure className="cs-polaroid" aria-hidden="true">
+      <img src={sticker.photo} alt="" loading="lazy" decoding="async" />
+      <figcaption>{sticker.label}</figcaption>
+    </figure>
   );
 }
 
@@ -319,7 +334,7 @@ function Block({ block }) {
     case 'fork': return <Fork options={block.options} />;
     case 'media': return <Media block={block} />;
     case 'lessons': return <Lessons items={block.items} />;
-    case 'personas': return <Personas people={block.people} />;
+    case 'personas': return <Personas people={block.people} compact={block.compact} aspect={block.aspect} />;
     case 'principles': return <Principles items={block.items} />;
     case 'principle': return (
       <p className="cs-principle-tag">
@@ -343,7 +358,7 @@ function segments(blocks) {
 function Pitch({ section, n, total, last }) {
   const id = `cs-wp-${section.hook ? section.waypoint : pad2(n)}`;
   return (
-    <section className={`cs-pitch${section.hook ? ' cs-pitch--hook' : ''}${last ? ' cs-pitch--last' : ''}`} {...(section.title ? { 'aria-labelledby': id } : { 'aria-label': section.label })}>
+    <section className={`cs-pitch${section.sticker ? ' cs-pitch--sticker' : ''}${section.hook ? ' cs-pitch--hook' : ''}${last ? ' cs-pitch--last' : ''}`} {...(section.title ? { 'aria-labelledby': id } : { 'aria-label': section.label })}>
       <div className="cs-pitch__rail" aria-hidden="true" />
       {last && <span className="cs-pitch__end" aria-hidden="true"><IconMapPinFilled size={24} /></span>}
       <header className="cs-pitch__aside">
@@ -359,6 +374,7 @@ function Pitch({ section, n, total, last }) {
             className="cs-pitch__body"
             style={{ '--cs-gap': section.gap ? `${section.gap}px` : undefined, '--cs-min-h': si === 0 && section.minHeight ? `${section.minHeight}px` : undefined }}
           >
+            {si === 0 && section.sticker && <PersonaSticker sticker={section.sticker} />}
             {si === 0 && section.title && <h2 id={id} className="cs-pitch__title">{section.title}</h2>}
             {seg.blocks.map((b, i) => <Block key={i} block={b} />)}
           </div>
@@ -423,6 +439,31 @@ function Milestone({ section }) {
   );
 }
 
+/** Espresso band of glass cards: the principles every screen was held to. */
+function PrinciplesBand({ section }) {
+  return (
+    <section className="cs-milestone cs-pband" aria-labelledby="cs-pband-title">
+      <span className="cs-contour cs-contour--milestone" aria-hidden="true" />
+      <div className="cs-pband__head">
+        <p className="cs-milestone__eyebrow">{section.eyebrow ?? 'The principles'}</p>
+        <h2 id="cs-pband-title" className="cs-milestone__title cs-pband__heading">{section.title}</h2>
+        {section.text && <p className="cs-pband__sub">{section.text}</p>}
+      </div>
+      <ol className="cs-pband__list">
+        {section.items.map((it, i) => (
+          <li key={it.title} className="cs-pband__card">
+            <div className="cs-pband__top">
+              <span className="cs-principle__n" aria-hidden="true">{pad2(i + 1)}</span>
+              <h3 className="cs-pband__title">{it.title}</h3>
+            </div>
+            <p className="cs-pband__text">{it.text}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+  );
+}
+
 function NextRoute({ next }) {
   return (
     <section className="cs-next" aria-labelledby="cs-next-title">
@@ -464,6 +505,7 @@ export default function CaseStudy({ slug }) {
             )}
             {g.type === 'break' && <ImageBreak section={g} />}
             {g.type === 'milestone' && <Milestone section={g} />}
+            {g.type === 'principles-band' && <PrinciplesBand section={g} />}
           </Fragment>
         ))}
         <NextRoute next={study.next} />

@@ -250,11 +250,70 @@ html[data-theme="winter"] .cs-lesson { border-top-color: var(--line); }
   box-shadow: 0 2px 6px rgb(0 0 0 / 0.25);
 }
 
+/* personas: compact (three across, photo on top) + buyer/supplier chip */
+.cs-personas--compact .cs-persona { padding: 12px 12px 20px; gap: 12px; }
+.cs-personas--compact .cs-persona__name { font-size: 20px; }
+.cs-personas--compact .cs-persona__goal { font-size: 14px; }
+.cs-personas--compact .cs-persona__chips { flex-direction: column; align-items: flex-start; }
+.cs-persona__side { align-self: flex-start; margin: 6px 0 0; padding: 3px 8px; border-radius: var(--ml-radius-pill); background: var(--ml-blue-100); font: 700 10px / 1.3 var(--ml-font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ml-ink-900); }
+.cs-persona__side--alt { background: var(--cs-note-bg); }
+
+/* card title with an icon disc (Flexomics workspaces) */
+.cs-card__title--icon { display: flex; align-items: center; gap: 12px; }
+.cs-card__icon { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--ml-white); color: var(--ml-ink-900); }
+
+/* persona polaroid pinned beside a section title */
+.cs-pitch--sticker { --cs-polaroid-w: 132px; }
+.cs-polaroid {
+  position: absolute; right: 0; top: 40px; z-index: 2; margin: 0;
+  width: var(--cs-polaroid-w); padding: 8px 8px 10px; border-radius: 6px;
+  background: var(--ml-white); rotate: 4deg;
+  box-shadow: 0 6px 18px rgb(0 0 0 / 0.16), 0 1px 3px rgb(0 0 0 / 0.12);
+}
+.cs-polaroid img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 2px; }
+.cs-polaroid figcaption { margin-top: 8px; text-align: center; font: 700 9.5px / 1.2 var(--ml-font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ml-ink-900); white-space: nowrap; }
+@media (max-width: 1279px) {
+  .cs-polaroid { position: relative; right: auto; top: auto; align-self: flex-end; order: -1; margin: 0 4px -8px 0; --cs-polaroid-w: 112px; }
+  .cs-polaroid figcaption { white-space: normal; }
+}
+@media (max-width: 767px) {
+  /* phone: pin it in the empty space beside the waypoint label */
+  .cs-polaroid { position: absolute; right: 2px; top: 30px; margin: 0; --cs-polaroid-w: 92px; padding: 6px 6px 8px; }
+  .cs-polaroid figcaption { margin-top: 6px; font-size: 8.5px; }
+}
+
+/* ---- principles band: espresso with smoky glass cards ------------------- */
+.cs-milestone.cs-pband { display: flex; flex-direction: column; gap: 40px; padding: 72px var(--cs-pad); background: var(--ml-cocoa-800, #2F211C); }
+.cs-pband__head { display: flex; flex-direction: column; }
+.cs-pband__heading { white-space: normal; }
+.cs-pband__sub { margin: 18px 0 0; font: 400 var(--ml-text-lg) / 1.5 var(--ml-font-display); color: rgb(255 255 255 / 0.72); }
+.cs-pband__list { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; list-style: none; margin: 0; padding: 0; }
+.cs-pband__card {
+  display: grid; grid-row: span 2; grid-template-rows: subgrid; row-gap: 18px;
+  padding: 24px; border-radius: 20px;
+  background: linear-gradient(160deg, rgb(255 255 255 / 0.10), rgb(255 255 255 / 0.04));
+  border: 1.5px solid rgb(255 255 255 / 0.14);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.22);
+}
+.cs-pband__top { display: flex; align-items: center; gap: 12px; }
+.cs-pband__top .cs-principle__n { flex: none; width: 36px; height: 36px; font-size: 11px; }
+.cs-pband__title { margin: 0; font: 700 18px / 1.2 var(--ml-font-display); color: var(--ml-white); }
+.cs-pband__text { margin: 0; font: 400 15px / 1.5 var(--ml-font-display); color: rgb(255 255 255 / 0.78); }
+@media (max-width: 1279px) { .cs-pband__list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 1023px) { .cs-pband__list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 767px) {
+  .cs-milestone.cs-pband { padding: 48px var(--cs-pad); gap: 28px; }
+  .cs-pband__list { grid-template-columns: 1fr; }
+  .cs-pband__card { row-gap: 12px; padding: 20px; }
+  .cs-personas, .cs-personas--compact { grid-template-columns: 1fr; }
+}
+
 /* ---- milestone band ----------------------------------------------------- */
 .cs-milestone {
   position: relative; overflow: hidden;
   display: grid; grid-template-columns: minmax(0, 952px) auto; align-items: start;
-  min-height: 360px; padding: 72px var(--cs-pad);
+  padding: 72px var(--cs-pad);
   background: var(--bg-band-anchor); color: var(--ml-white);
 }
 .cs-milestone > :not(.cs-contour) { position: relative; }
@@ -308,9 +367,9 @@ html[data-theme="winter"] .cs-lesson { border-top-color: var(--line); }
 .cs-principle-tag__k { font: 700 11px / 1 var(--ml-font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ml-green-700); margin-right: 6px; }
 
 /* personas (photo cards) + principle tiles */
-.cs-personas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; list-style: none; margin: 0; padding: 0; }
+.cs-personas { display: grid; grid-template-columns: repeat(var(--cs-personas-n, 3), minmax(0, 1fr)); gap: 16px; list-style: none; margin: 0; padding: 0; }
 .cs-persona { display: flex; flex-direction: column; gap: 14px; padding: 16px 16px 24px; border-radius: 20px; background: var(--ml-white); border: 1px solid var(--line); }
-.cs-persona__photo { display: block; width: 100%; height: auto; aspect-ratio: 492 / 434; object-fit: cover; border-radius: 12px; }
+.cs-persona__photo { display: block; width: 100%; height: auto; aspect-ratio: var(--cs-photo-ar, 5 / 3); object-fit: cover; border-radius: 12px; }
 .cs-persona__id, .cs-persona__group { padding: 0 8px; display: flex; flex-direction: column; gap: 6px; }
 .cs-persona__id { gap: 2px; }
 .cs-persona__name { margin: 0; font: 800 24px / 1.15 var(--ml-font-display); letter-spacing: -0.01em; color: var(--fg); }
@@ -540,3 +599,4 @@ html[data-theme="winter"] .cs-lesson { border-top-color: var(--line); }
 .cs[data-hero="pine"] .cs-hero :focus-visible { outline-color: var(--ml-chartreuse-400); }
 /* Field: the pale-green field-note tint with ink text (11:1) */
 .cs[data-hero="field"] .cs-hero { background: var(--cs-note-bg); }
+@media (max-width: 767px) { .cs-pitch--sticker .cs-pitch__title { padding-right: 96px; } }
