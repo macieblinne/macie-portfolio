@@ -40,9 +40,9 @@ const accelerate = {
       blocks: [
         { type: 'p', text: "I was the product designer on the Catalyst UX team, working with a strategist and the Accelerate team. The software had three jobs." },
         { type: 'cards', size: 'sm', cards: [
-          { tone: 'blue', eyebrow: 'Scale', title: 'Fifty tests at a glance', text: 'Show every test without overwhelming the lab.' },
-          { tone: 'blue', eyebrow: 'Simplify', title: 'One app, not two', text: "Bring the engineers' separate repair tool into the same product." },
-          { tone: 'blue', eyebrow: 'Brand', title: 'A flagship look', text: 'The screen would help sell the instrument.' },
+          { tone: 'blue', eyebrow: 'Job 01 · Scale', title: 'Fifty tests, one glance', text: 'A lab tech has to see the status of every test without reading through a wall of data.' },
+          { tone: 'blue', eyebrow: 'Job 02 · Simplify', title: 'One app, not two', text: 'Engineers used a separate repair tool. Folding it in meant one product to learn and support.' },
+          { tone: 'blue', eyebrow: 'Job 03 · Brand', title: 'A look that sells', text: 'The dashboard is the first thing buyers see, so it had to show off the instrument.' },
         ] },
       ],
     },
