@@ -493,5 +493,5 @@ html[data-theme="winter"] .cs-lesson { border-top-color: var(--line); }
 .cs[data-hero="pine"] .cs-crumbs__back:hover { color: var(--ml-blue-300); }
 .cs[data-hero="pine"] .cs-top { --fg: var(--ml-white); --fg-muted: var(--ml-blue-300); }
 .cs[data-hero="pine"] .cs-hero :focus-visible { outline-color: var(--ml-chartreuse-400); }
-/* Slate: blue-500 with ink text (4.8:1; white would be 2.7:1) */
-.cs[data-hero="slate"] .cs-hero { background: var(--ml-blue-500); }
+/* Field: the pale-green field-note tint with ink text (11:1) */
+.cs[data-hero="field"] .cs-hero { background: var(--cs-note-bg); }

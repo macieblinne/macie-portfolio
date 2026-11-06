@@ -14,7 +14,7 @@ const accelerate = {
   titleWidth: 720,
   titleTop: 176,
   titleSize: 72,
-  heroTone: 'slate', // blue-500 with ink text for contrast
+  heroTone: 'field', // pale field-note green with ink text (11:1)
   hero: {
     image: { src: `${A}/dashboard.webp`, alt: 'Operating dashboard: four instrument modules drawn as hardware, each bay lit by run state, with warning and error flags beside the bays that need attention', width: 1200, height: 675, scale: 1 },
     stickers: [
