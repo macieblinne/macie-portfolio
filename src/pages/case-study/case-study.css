@@ -291,6 +291,17 @@ html[data-theme="winter"] .cs-lesson { border-top-color: var(--line); }
 .cs-next__cta:focus-visible { border-radius: var(--ml-radius-pill); }
 
 /* ---- in-between widths -------------------------------------------------- */
+.cs-card__body { display: flex; flex-direction: column; gap: inherit; }
+/* feature rows: one large screenshot per row, text beside it, alternating sides */
+.cs-cards--rows { flex-direction: column; gap: 16px; }
+.cs-cards--rows .cs-card { flex-direction: row; align-items: center; gap: 32px; padding: 20px; }
+.cs-cards--rows .cs-card:nth-child(even) { flex-direction: row-reverse; }
+.cs-cards--rows .cs-card__shot { flex: 0 0 62%; }
+.cs-cards--rows .cs-card__body { flex: 1 1 0; gap: 10px; padding: 0 8px; }
+.cs-cards--rows .cs-card__eyebrow { margin-top: 0; }
+.cs-cards--rows .cs-card__title, .cs-cards--rows .cs-card__text, .cs-cards--rows .cs-card__eyebrow { padding: 0; }
+.cs-cards--rows.cs-cards--tall .cs-card__shot { flex-basis: 46%; }
+
 /* personas (photo cards) + principle tiles */
 .cs-personas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; list-style: none; margin: 0; padding: 0; }
 .cs-persona { display: flex; flex-direction: column; gap: 14px; padding: 16px 16px 24px; border-radius: 20px; background: var(--ml-white); border: 1px solid var(--line); }
@@ -328,6 +339,7 @@ html[data-theme="winter"] .cs-lesson { border-top-color: var(--line); }
   .cs-principles { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 767px) {
+  .cs-cards--rows .cs-card, .cs-cards--rows .cs-card:nth-child(even) { flex-direction: column; align-items: stretch; gap: 14px; }
   .cs-personas { grid-template-columns: 1fr; }
   .cs-principles { grid-template-columns: 1fr; }
   .cs { --cs-pad: var(--ml-mobile-margin); }

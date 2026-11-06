@@ -78,25 +78,25 @@ const accelerate = {
     },
     {
       type: 'break',
-      sticker: 'The whole instrument, at a glance',
+      sticker: 'Readable from across the room',
       image: { src: `${A}/dashboard-5.webp`, alt: 'Dashboard showing five instrument modules, each slot lit green, blue or red by status, with a flag beside the slot that needs attention', width: 1200, height: 675, scale: 1 },
     },
     {
       type: 'pitch', label: 'Dashboard', title: 'Make the screen look like the machine',
       blocks: [
-        { type: 'p', text: "The old dashboard gave every test its own card. At fifty tests, that's a wall. The new one draws the instrument the way Laura sees it on the bench, with each slot lit by its status. A flag only appears where she's needed." },
+        { type: 'p', text: "The old dashboard gave every test its own card. At fifty tests, that's a wall. And labs are big, busy rooms full of machines, so Laura needed to spot a problem from across the room, not just up close. The new dashboard draws the instrument the way it sits on the bench, with each slot glowing by its status and a bright flag only where she's needed." },
         { type: 'compare', wide: true, items: [
           { tag: 'Before', caption: 'One card per test', src: `${A}/legacy-dashboard.webp`, width: 554, height: 360, alt: 'Old dashboard: a light web page with one card per test' },
           { tag: 'After', caption: 'The instrument, drawn as it sits on the bench', src: `${A}/dashboard.webp`, width: 1200, height: 675, alt: 'New dashboard: instrument modules drawn as hardware, with slots lit by status and flags where attention is needed', after: true },
         ] },
-        { type: 'cards', wide: true, size: 'img', cards: [
+        { type: 'cards', wide: true, size: 'img', layout: 'rows', cards: [
           { tone: 'blue', eyebrow: 'Tap a module', title: 'Every test in one list', text: 'Status, when results are due, and the one action that makes sense next.', image: { src: `${A}/module-runs.webp`, width: 1200, height: 675, alt: 'A module opened beside the dashboard, listing its tests with status and an action for each', caption: 'Module test list' } },
           { tone: 'blue', eyebrow: 'Tap a flag', title: 'It says what to do', text: 'A missing step shows up with its fix one tap away.', image: { src: `${A}/run-details.webp`, width: 1200, height: 675, alt: 'Test details showing a missing step and a button to fix it', caption: 'Test details' } },
         ] },
         { type: 'h3', text: 'Starting a test' },
         { type: 'p', text: 'Starting a test is mostly scanning. The software fills in the details and finishes by showing exactly where the sample goes.' },
         { type: 'steps', items: ['Scan patient', 'Scan supplies', 'Insert card', 'Confirm'] },
-        { type: 'cards', wide: true, size: 'img', cards: [
+        { type: 'cards', wide: true, size: 'img', layout: 'rows-tall', cards: [
           { tone: 'blue', eyebrow: 'Scan', title: 'Scan, don’t type', text: "One scan fills in the patient's details.", image: { src: `${A}/newrun-scan.webp`, width: 807, height: 723, alt: 'New test screen: scanning a barcode fills in the patient details', caption: 'Start a test' } },
           { tone: 'blue', eyebrow: 'Insert', title: 'The slot lights up', text: "The screen shows which slot to use, so there's no guessing.", image: { src: `${A}/newrun-insert.webp`, width: 807, height: 723, alt: 'Insert step: the screen highlights module D, slot 8', caption: 'Insert the card' } },
         ] },

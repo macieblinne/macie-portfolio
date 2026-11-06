@@ -117,9 +117,9 @@ function MetaStrip({ items }) {
   );
 }
 
-function Cards({ cards, size }) {
+function Cards({ cards, size, layout }) {
   return (
-    <div className={`cs-cards${size === 'sm' ? ' cs-cards--sm' : ''}${size === 'img' ? ' cs-cards--img' : ''}`}>
+    <div className={`cs-cards${size === 'sm' ? ' cs-cards--sm' : ''}${size === 'img' ? ' cs-cards--img' : ''}${layout?.startsWith('rows') ? ' cs-cards--rows' : ''}${layout === 'rows-tall' ? ' cs-cards--tall' : ''}`}>
       {cards.map((c) => (
         <div key={c.title} className={`cs-card cs-card--${c.tone}`}>
           {c.image && (
@@ -127,9 +127,11 @@ function Cards({ cards, size }) {
               <img src={c.image.src} alt={c.image.alt} width={c.image.width} height={c.image.height} loading="lazy" decoding="async" />
             </Zoomable>
           )}
-          {c.eyebrow && <p className="cs-card__eyebrow">{c.eyebrow}</p>}
-          <h3 className="cs-card__title">{c.title}</h3>
-          <p className="cs-card__text">{c.text}</p>
+          <div className="cs-card__body">
+            {c.eyebrow && <p className="cs-card__eyebrow">{c.eyebrow}</p>}
+            <h3 className="cs-card__title">{c.title}</h3>
+            <p className="cs-card__text">{c.text}</p>
+          </div>
         </div>
       ))}
     </div>
@@ -312,7 +314,7 @@ function Block({ block }) {
     case 'note': return <Note label={block.label} text={block.text} />;
     case 'compare': return <Compare items={block.items} wide={block.wide} />;
     case 'steps': return <Steps items={block.items} />;
-    case 'cards': return <Cards cards={block.cards} size={block.size} />;
+    case 'cards': return <Cards cards={block.cards} size={block.size} layout={block.layout} />;
     case 'fork': return <Fork options={block.options} />;
     case 'media': return <Media block={block} />;
     case 'lessons': return <Lessons items={block.items} />;
