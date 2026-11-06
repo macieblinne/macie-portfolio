@@ -50,18 +50,18 @@ const accelerate = {
       type: 'pitch', label: 'The brief', title: 'Three users, five rules for every screen',
       blocks: [
         { type: 'p', text: 'Research gave us three people to design for and five principles to hold every screen to. When a decision got hard, these settled it.' },
-        { type: 'cards', size: 'sm', cards: [
-          { tone: 'blue', eyebrow: 'Laura · Lab tech', title: 'Runs the tests', text: 'Short-staffed, juggling many tests and nervous about making mistakes on a computer.' },
-          { tone: 'blue', eyebrow: 'Travis · Trainer', title: 'Sets it up', text: 'Trains each new lab and wins over staff who see a new system as more work.' },
-          { tone: 'blue', eyebrow: 'Sergio · Engineer', title: 'Keeps it running', text: 'Installs and repairs machines, and loses time hunting through a cluttered tool.' },
+        { type: 'personas', people: [
+          { name: 'Laura', role: 'Lab tech', photo: `${A}/persona-laura.webp`, goal: 'Get every test done on time, and get it right.', day: ['Watching test status', 'Loading samples', 'Reviewing results'] },
+          { name: 'Travis', role: 'Trainer', photo: `${A}/persona-travis.webp`, goal: 'Get each new lab confident with the system, fast.', day: ['Training new labs', 'Checking first runs', 'Setting lab rules'] },
+          { name: 'Sergio', role: 'Engineer', photo: `${A}/persona-sergio.webp`, goal: 'Fix machines quickly so the lab never waits.', day: ['Installing systems', 'Calibrating', 'Fixing errors'] },
         ] },
         { type: 'h3', text: 'The principles' },
-        { type: 'lessons', items: [
-          "Organize the product around the lab's real work.",
-          'Polish the screens people use most.',
-          'Show only what each screen needs.',
-          'Follow how the lab works, not how computers work.',
-          "The science can be complex. The interface shouldn't be.",
+        { type: 'principles', items: [
+          'Organize around the real work',
+          'Polish the most-used screens',
+          'Show only what’s needed',
+          'Follow the lab, not the computer',
+          'Complex science, simple interface',
         ] },
       ],
     },

@@ -1,7 +1,7 @@
 // Case-study page (/work/flexomics, /work/accio3d) — built from Figma
 // "Work — Case study · Flexomics · Alt" (5383:8227) and "· Accio3D · Alt" (5406:7911).
 // One component, two data files. Section types: pitch | break | milestone.
-// Pitch block types: p | quote | lead | h3 | note | cards | fork | media | compare | lessons.
+// Pitch block types: p | quote | lead | h3 | note | cards | fork | media | compare | lessons | personas | principles.
 // A pitch with `hook: true` is an unnumbered opener (custom waypoint/label/count, no title).
 // A break may carry an `annotation` (ring, box, dotted path, labels) in image-pixel coordinates.
 import { Fragment, useEffect, useRef } from 'react';
@@ -266,6 +266,43 @@ function Lessons({ items }) {
   );
 }
 
+function Personas({ people }) {
+  return (
+    <ul className="cs-personas">
+      {people.map((p) => (
+        <li key={p.name} className="cs-persona">
+          <img className="cs-persona__photo" src={p.photo} alt="" width={492} height={434} loading="lazy" decoding="async" />
+          <div className="cs-persona__id">
+            <h4 className="cs-persona__name">{p.name}</h4>
+            <p className="cs-persona__role">{p.role}</p>
+          </div>
+          <div className="cs-persona__group">
+            <p className="cs-persona__label">Goal</p>
+            <p className="cs-persona__goal">{p.goal}</p>
+          </div>
+          <div className="cs-persona__group">
+            <p className="cs-persona__label">Most of their day</p>
+            <ul className="cs-persona__chips">{p.day.map((d) => <li key={d}>{d}</li>)}</ul>
+          </div>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function Principles({ items }) {
+  return (
+    <ol className="cs-principles">
+      {items.map((text, i) => (
+        <li key={i} className="cs-principle">
+          <span className="cs-principle__n" aria-hidden="true">{pad2(i + 1)}</span>
+          <p>{text}</p>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
 function Block({ block }) {
   switch (block.type) {
     case 'p': return <p className="cs-p">{block.text}</p>;
@@ -279,6 +316,8 @@ function Block({ block }) {
     case 'fork': return <Fork options={block.options} />;
     case 'media': return <Media block={block} />;
     case 'lessons': return <Lessons items={block.items} />;
+    case 'personas': return <Personas people={block.people} />;
+    case 'principles': return <Principles items={block.items} />;
     default: return null;
   }
 }
