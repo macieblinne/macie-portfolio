@@ -32,13 +32,13 @@ const accelerate = {
     {
       type: 'pitch', hook: true, waypoint: '00', label: 'The moment', count: 'Trailhead',
       blocks: [
-        { type: 'lead', text: "When a patient has a serious infection, the hospital lab races to find out which antibiotic will work. Accelerate's next instrument could run fifty of those tests at once. The software had to make that feel simple for a lab that's already stretched thin." },
+        { type: 'lead', text: "When a patient has a serious infection, the hospital lab races to find out which antibiotic will work. Accelerate's next instrument could run fifty of those tests at once. The software had to make that feel simple for a lab that's already stretched pretty thin." },
       ],
     },
     {
       type: 'pitch', label: 'Context', title: 'From one test at a time to fifty',
       blocks: [
-        { type: 'p', text: "Accelerate's current system ran one test at a time. The new instrument runs up to fifty, and its software had to keep up. I was a product designer on the Catalyst UX team, designing that software with a strategist and Accelerate's team." },
+        { type: 'p', text: "Accelerate's Pheno system ran one test at a time. The new instrument runs up to fifty, and its software had to keep up. I was the product designer on the Catalyst UX team, designing that software with a strategist and the Accelerate team." },
         { type: 'cards', size: 'sm', cards: [
           { tone: 'blue', eyebrow: 'Scale', title: 'Fifty tests at a glance', text: 'Show every test without overwhelming the lab.' },
           { tone: 'blue', eyebrow: 'Simplify', title: 'One app, not two', text: "Bring the engineers' separate repair tool into the same product." },
