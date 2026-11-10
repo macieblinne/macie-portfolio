@@ -98,11 +98,6 @@ export default function About() {
         {/* ---- Hero ------------------------------------------------------ */}
         <section className="ab-hero" aria-labelledby="ab-title">
           <div className="ab-hero__text">
-            <p className="ab-hero__meta ab-hero__meta--top">
-              <span>🏔️ Boulder, Colorado</span>
-              <span className="ab-hero__dot" aria-hidden="true">·</span>
-              <span>40°00′54″ N&nbsp;&nbsp;105°16′14″ W</span>
-            </p>
             <div className="ab-hero__titlerow">
               <h1 className="ab-hero__title" id="ab-title">About</h1>
               <a className="sticker sticker--chartreuse sticker--tilt-r sticker--link ab-talk" href={LINKS.email}>Let’s talk ↗</a>
@@ -114,12 +109,13 @@ export default function About() {
             <figure className="ab-photo">
               <img className="ab-photo__img" src="/about/husky-appa.jpg" width="720" height="900" alt="Macie's husky Appa bounding along a mountain creek beside a hiker" />
               <figcaption className="ab-photo__cap">My husky (appa) &amp; I</figcaption>
+              {/* rides with the photo card at every width */}
+              <span className="sticker sticker--chartreuse ab-howdy" aria-hidden="true">🤠 Howdy</span>
             </figure>
             <div className="ab-plan">
               <img className="ab-plan__img" src={plan.src} width="529" height="530" alt={plan.alt} />
               <p className="ab-plan__label">{plan.label}</p>
             </div>
-            <span className="sticker sticker--chartreuse ab-howdy" aria-hidden="true">🤠 Howdy</span>
           </div>
         </section>
 
