@@ -397,20 +397,20 @@ button { background: none; border: 0; cursor: pointer; color: inherit; }
 }
 .m-stop__row small { display: block; font-weight: 400; font-size: var(--ml-text-xs); color: var(--fg-dim); margin-top: 2px; }
 .m-stop__row .accent { color: var(--accent); }
-.m-stop__card { grid-column: 2; margin-top: 8px; }
-.m-stop__card .card { animation: none; border-radius: 18px; height: auto; min-height: 0; }
-.m-stop__card .card__art { margin: 0; border-radius: 18px 18px 0 0; flex: 0 0 150px; height: 150px; }
-.m-stop__card .card__art-img { left: 20px; top: 26px; width: 300px; height: 190px; }
-.m-stop__card .card__body { padding: 16px; flex: none; }
-.m-stop__card .card__headline { font-size: 24px; }
-.m-stop__card .card__stat dd { font-size: 20px; }
+.m-card { grid-column: 2; margin-top: 8px; }
+.m-card .card { animation: none; border-radius: 18px; height: auto; min-height: 0; }
+.m-card .card__art { margin: 0; border-radius: 18px 18px 0 0; flex: 0 0 150px; height: 150px; }
+.m-card .card__art-img { left: 20px; top: 26px; width: 300px; height: 190px; }
+.m-card .card__body { padding: 16px; flex: none; }
+.m-card .card__headline { font-size: 24px; }
+.m-card .card__stat dd { font-size: 20px; }
 .m-cta { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 14px; border-radius: var(--ml-radius-pill); background: var(--ml-cocoa-800); color: var(--ml-white); font-size: var(--ml-text-base); font-weight: 600; }
 .m-stickers { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 8px; }
 .m-footer { display: flex; gap: 20px; font-size: var(--ml-text-sm); font-weight: 500; }
 
 /* phone card art: the welcome scene is short, so its place sticker sits small in the corner */
-.m-stop__card .card__art[data-kind="welcome"] .card__art-sticker-br { font-size: 11px; padding: 7px 11px; bottom: 10px; right: 10px; }
-.m-stop__card .card__art[data-kind="welcome"] .card__art-welcome { justify-content: flex-start; padding-top: 28px; }
+.m-card .card__art[data-kind="welcome"] .card__art-sticker-br { font-size: 11px; padding: 7px 11px; bottom: 10px; right: 10px; }
+.m-card .card__art[data-kind="welcome"] .card__art-welcome { justify-content: flex-start; padding-top: 28px; }
 
 /* ---- hero: split trail sign (role segment + catchphrase segment) ---------- */
 .home__sign {
@@ -470,10 +470,10 @@ button { background: none; border: 0; cursor: pointer; color: inherit; }
 .sticker--link { cursor: pointer; text-decoration: none; transition: translate var(--ml-dur-fast) var(--ml-ease-spring); }
 .sticker--link:hover { translate: 0 -2px; }
 /* phone: same card, shorter art */
-.m-stop__card .card .card__art { height: 170px; }
-.m-stop__card .card .card__art[data-kind="welcome"] { height: 130px; }
-.m-stop__card .card .card__body { padding: 18px 18px 20px; }
-.m-stop__card .card .card__foot .m-cta { width: 100%; }
+.m-card .card .card__art { height: 170px; }
+.m-card .card .card__art[data-kind="welcome"] { height: 130px; }
+.m-card .card .card__body { padding: 18px 18px 20px; }
+.m-card .card .card__foot .m-cta { width: 100%; }
 
 /* ---- header: kicker → greeting → tagline with the route under "clearest route" ---- */
 .home__kicker {
@@ -501,7 +501,7 @@ button { background: none; border: 0; cursor: pointer; color: inherit; }
 .home__tagline--sm .home__route { top: calc(100% + 3px); }
 
 .card .card__art-sticker-tr { position: absolute; right: 14px; top: 16px; }
-.m-stop__card .card .card__art-sticker-tr { font-size: 11px; padding: 7px 11px; }
+.m-card .card .card__art-sticker-tr { font-size: 11px; padding: 7px 11px; }
 
 /* welcome panel: theme photo with the greeting in white over a soft scrim */
 .card .card__art[data-kind="welcome"] { height: 210px; background: var(--ml-cocoa-800); }
@@ -515,7 +515,7 @@ button { background: none; border: 0; cursor: pointer; color: inherit; }
 }
 .card .card__art[data-kind="welcome"] .card__howdy { z-index: 1; color: var(--ml-white); text-shadow: 0 2px 12px rgb(0 0 0 / 0.25); }
 .card .card__art[data-kind="welcome"] .sticker { z-index: 2; }
-.m-stop__card .card .card__art[data-kind="welcome"] { height: 170px; }
+.m-card .card .card__art[data-kind="welcome"] { height: 170px; }
 /* "You are here" always sits above the pins */
 .stage .here { z-index: 5000; }
 
@@ -548,3 +548,41 @@ button { background: none; border: 0; cursor: pointer; color: inherit; }
 /* soft breathing glow, as on the production site's location dot */
 @keyframes here-breathe { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 @media (prefers-reduced-motion: reduce) { .here__pulse { animation: none; } }
+
+/* ---- mobile: map + route + card as one piece ----------------------------- */
+.home__tagline { text-wrap: balance; }
+.m-explore {
+  display: flex; flex-direction: column;
+  border-radius: var(--ml-radius-xl); border: 1px solid var(--line);
+  background: var(--bg-ground); overflow: hidden;
+}
+.m-map { position: relative; overflow: hidden; min-height: 280px; }
+.m-map .stage { touch-action: pan-y; }
+.m-map__loading { position: absolute; inset: 0; }
+/* the card below names the stop, so the mountain keeps only the "You are here" sticker */
+.m-map .plate { display: none; }
+.m-map__hint {
+  position: absolute; left: 0; right: 0; bottom: 8px; z-index: 6000; width: max-content; margin: 0 auto; text-align: center;
+  font: 500 11px / 1.2 var(--ml-font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-dim);
+  pointer-events: none;
+}
+.m-steps {
+  display: grid; grid-template-columns: repeat(4, 1fr); list-style: none; margin: 0; padding: 14px 8px 10px;
+  border-top: 1px solid var(--line);
+}
+.m-steps__item { position: relative; display: flex; justify-content: center; }
+/* the trail between pins: solid once walked, dotted ahead */
+.m-steps__item + .m-steps__item::before {
+  content: ''; position: absolute; top: 21px; right: calc(50% + 24px); left: calc(-50% + 24px); height: 0;
+  border-top: 2px dotted var(--route-ahead); opacity: 0.6;
+}
+.m-steps__item--done + .m-steps__item::before { border-top: 3px solid var(--route-done); opacity: 1; top: 20px; }
+.m-steps__btn { display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 44px; padding: 0; background: none; color: var(--fg-muted); }
+.m-steps__btn .m-pin { margin: 0; transition: transform var(--ml-dur-fast) var(--ml-ease-out), background-color var(--ml-dur-fast); }
+.m-steps__item--done .m-pin { background: var(--pin-done-bg); color: var(--pin-done-fg); }
+.m-steps__item--active .m-pin { background: var(--pin-active-bg); color: var(--pin-active-fg); transform: scale(1.12); }
+.m-steps__name { font: 500 10.5px / 1.2 var(--ml-font-mono); letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
+.m-steps__item--active .m-steps__name { color: var(--fg); font-weight: 700; }
+.m-card { padding: 0 8px 8px; touch-action: pan-y; }
+.m-card .card { border-radius: 18px; }
+.m-map .here__sticker { font-size: 10px; padding: 7px 11px; }
