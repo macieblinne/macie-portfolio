@@ -40,9 +40,9 @@ export function SiteProvider({ children }) {
 /** { theme, setTheme, notesOpen, openNotes, closeNotes } */
 export const useSite = () => useContext(SiteCtx);
 
-export function ThemeToggle({ theme, setTheme }) {
+export function ThemeToggle({ theme, setTheme, className = '' }) {
   return (
-    <div className="theme-toggle" role="group" aria-label="Theme" data-active={theme}>
+    <div className={`theme-toggle ${className}`.trim()} role="group" aria-label="Theme" data-active={theme}>
       <button type="button" className="theme-toggle__btn" aria-pressed={theme === 'summer'} aria-label="Summer (dark) theme" onClick={() => setTheme('summer')}><IconSun size={14} stroke={2.2} /></button>
       <button type="button" className="theme-toggle__btn" aria-pressed={theme === 'winter'} aria-label="Winter (light) theme" onClick={() => setTheme('winter')}><IconSnowflake size={14} stroke={2.2} /></button>
     </div>

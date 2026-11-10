@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { IconSun, IconSnowflake, IconMenu2 } from '@tabler/icons-react';
+import { IconMenu2 } from '@tabler/icons-react';
 import pinsConfig from '../data/pins.json';
 import { useTerrain } from '../summit/useTerrain.js';
 import SummitModel from '../summit/SummitModel.jsx';
@@ -248,9 +248,7 @@ function MobileHome({ theme, setTheme }) {
       <header className="m-header">
         <a className="m-header__brand" href="/"><span className="mark"><img src="/avatar.jpg" alt="" width="40" height="40" /></span>Macie Linne</a>
         <div className="m-header__actions">
-          <button type="button" className="m-iconbtn m-iconbtn--theme" aria-label={theme === 'summer' ? 'Switch to winter theme' : 'Switch to summer theme'} onClick={() => switchTheme(theme === 'summer' ? 'winter' : 'summer')}>
-            {theme === 'summer' ? <IconSun size={18} stroke={2} /> : <IconSnowflake size={18} stroke={2} />}
-          </button>
+          <ThemeToggle theme={theme} setTheme={switchTheme} className="theme-toggle--m" />
           <button type="button" className="m-iconbtn" aria-label="Open menu" aria-expanded={menu} onClick={() => setMenu(true)}><IconMenu2 size={18} stroke={2} /></button>
         </div>
         <MenuSheet open={menu} onClose={() => setMenu(false)} />
