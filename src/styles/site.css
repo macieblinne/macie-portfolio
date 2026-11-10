@@ -31,14 +31,43 @@
 }
 @keyframes sheet-in { from { opacity: 0; translate: 0 -12px; } to { opacity: 1; translate: 0 0; } }
 .menu-sheet__top { display: flex; align-items: center; justify-content: space-between; }
-.menu-sheet__nav { display: flex; flex-direction: column; gap: 4px; }
-.menu-sheet__nav a, .menu-sheet__nav button {
-  text-align: left; padding: 10px 0;
-  font: 800 40px / 1 var(--ml-font-display); letter-spacing: -0.02em; color: var(--fg);
+.menu-sheet { gap: 16px; }
+/* the panel: espresso card with contour lines fading in from the right (resume header) */
+.menu-sheet__panel {
+  position: relative; overflow: hidden; flex: 1; min-height: 0;
+  display: flex; flex-direction: column; padding: 28px 24px 26px;
+  border-radius: 24px;
+  background: var(--ml-cocoa-800); color: var(--ml-white);
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.06) inset;
 }
-.menu-sheet__nav [aria-current="page"] { color: var(--accent); }
-.menu-sheet__nav button { font-size: 24px; font-weight: 700; color: var(--fg-muted); margin-top: 12px; }
-.menu-sheet__foot { margin-top: auto; display: flex; flex-direction: column; gap: 12px; font-size: var(--ml-text-base); font-weight: 500; }
+.menu-sheet__topo {
+  position: absolute; inset: 0; pointer-events: none;
+  background: rgb(185 214 227 / 0.5);
+  -webkit-mask: url('/case-study/contour-hero.png') 70% 50% / auto 120% no-repeat, linear-gradient(105deg, transparent 18%, #000 72%);
+  -webkit-mask-composite: source-in;
+  mask: url('/case-study/contour-hero.png') 70% 50% / auto 120% no-repeat intersect, linear-gradient(105deg, transparent 18%, #000 72%);
+}
+.menu-sheet__kicker {
+  position: relative; margin: 0 0 18px;
+  font: 500 12px / 1.2 var(--ml-font-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ml-blue-300, #B9D6E3);
+}
+.menu-sheet__nav { position: relative; display: flex; flex-direction: column; gap: 2px; }
+.menu-sheet__nav a, .menu-sheet__nav button {
+  display: flex; align-items: baseline; gap: 14px;
+  text-align: left; padding: 10px 0;
+  font: 800 44px / 1 var(--ml-font-display); letter-spacing: -0.02em; color: var(--ml-white);
+}
+.menu-sheet__n { font: 500 12px / 1 var(--ml-font-mono); letter-spacing: 0.06em; color: var(--ml-blue-300, #B9D6E3); translate: 0 -0.9em; }
+.menu-sheet__nav [aria-current="page"] { color: var(--ml-chartreuse-400, #C9CC52); }
+.menu-sheet__nav [aria-current="page"] .menu-sheet__n { color: inherit; }
+.menu-sheet__nav button { font-size: 24px; font-weight: 700; color: rgb(255 255 255 / 0.7); margin-top: 12px; }
+.menu-sheet__tag {
+  position: relative; margin: auto 0 0; max-width: 18em;
+  font: 600 18px / 1.35 var(--ml-font-display); color: var(--ml-white);
+}
+/* contact links as pills under the panel */
+.menu-sheet__foot { display: flex; flex-wrap: wrap; gap: 8px; font-size: var(--ml-text-sm); font-weight: 600; }
+.menu-sheet__foot a { padding: 11px 16px; border-radius: var(--ml-radius-pill); border: 1px solid var(--line); color: var(--fg); }
 
 /* footer */
 .site-footer {
@@ -58,4 +87,4 @@
 /* "Field notes · AI" sticker on the home page */
 .sticker--notes { background: var(--ml-paper-100); cursor: pointer; gap: 8px; }
 .sticker--notes:hover { translate: 0 -2px; }
-[data-theme="winter"] .menu-sheet__nav [aria-current="page"] { color: var(--ml-green-700); }
+/* menu panel is espresso in both themes, so the current page stays chartreuse */

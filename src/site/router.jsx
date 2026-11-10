@@ -43,7 +43,12 @@ export function RouterProvider({ children }) {
     const url = new URL(to, window.location.href);
     if (url.origin !== window.location.origin) { window.location.href = to; return; }
     const next = url.pathname.replace(/\/+$/, '') || '/';
-    if (replace) window.history.replaceState({}, '', url); else window.history.pushState({}, '', url);
+    // remember where a case study was opened from, so its back link returns there
+    // (case study → next case study keeps the original origin)
+    const from = pathRef.current;
+    const origin = from.startsWith('/work/') ? (window.history.state?.origin ?? '/work') : from;
+    const state = { from, origin };
+    if (replace) window.history.replaceState(state, '', url); else window.history.pushState(state, '', url);
     go(next, () => {
       if (url.hash) document.querySelector(url.hash)?.scrollIntoView();
       else window.scrollTo({ top: 0, behavior: 'instant' });

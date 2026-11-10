@@ -192,7 +192,7 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
   }, [scene, theme, width, height, activeIndex, lifts, k, loaded, pinK, viewport]);
 
   const invalidateRef = useRef(null);
-  const { phi: phiRef, faceTo, invalidate } = useDial({ baseAzimuth, onFrame, elementRef: stageRef });
+  const { phi: phiRef, turnTo, invalidate } = useDial({ baseAzimuth, onFrame, elementRef: stageRef });
   const phiNow = () => phiRef.current;
   invalidateRef.current = invalidate;
 
@@ -254,11 +254,27 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
     return () => { clearTimeout(t); freshRef.current = null; };
   }, [activeIndex, prevActive, scene]);
 
-  // face the active pin on change
+  // on change, turn the mountain so the active pin stands clear of its neighbours:
+  // try views within ±70° of the starting angle and keep the one where the active pin
+  // head is furthest from every other pin head (ties go to the smaller turn)
   useEffect(() => {
-    const p = pins[activeIndex];
-    if (p && prevActive !== undefined && prevActive !== activeIndex) faceTo(scene.proj.facing(p.xm, p.ym));
-  }, [activeIndex, pins, scene, faceTo, prevActive]);
+    if (!pins[activeIndex] || prevActive === undefined || prevActive === activeIndex) return;
+    const cur = phiRef.current;
+    const head = (q) => ({ x: q.px, y: q.py });
+    let best = cur, bestScore = -Infinity;
+    for (let deg = -70; deg <= 70; deg += 5) {
+      const phi = baseAzimuth + deg * DEG;
+      const P = scene.projectPins(phi);
+      const a = head(P[activeIndex]);
+      let near = Infinity;
+      P.forEach((q, i) => { if (i !== activeIndex) { const b = head(q); near = Math.min(near, Math.hypot(a.x - b.x, a.y - b.y)); } });
+      let turn = phi - cur; turn = Math.abs(Math.atan2(Math.sin(turn), Math.cos(turn)));
+      // clearance matters up to ~1.6 pin widths; beyond that, prefer the smaller turn
+      const score = Math.min(near, 90 * k) - turn * 40 * k;
+      if (score > bestScore) { bestScore = score; best = phi; }
+    }
+    turnTo(best);
+  }, [activeIndex, pins, scene, turnTo, prevActive, baseAzimuth, k]);
 
   const handlePin = (i) => {
     const p = pins[i];

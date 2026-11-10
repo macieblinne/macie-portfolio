@@ -52,7 +52,11 @@ function Hero({ study, slug }) {
       <span className="cs-contour cs-contour--hero" aria-hidden="true" />
       <div className="cs-hero__body">
         <nav className="cs-crumbs" aria-label="Breadcrumb">
-          <Link to="/work" className="cs-crumbs__back"><IconArrowLeft size={14} stroke={2} aria-hidden="true" />Work</Link>
+          {(() => {
+            // opened from the home map → back to Home; otherwise (Work tab, direct link) → Work
+            const home = typeof window !== 'undefined' && window.history.state?.origin === '/';
+            return <Link to={home ? '/' : '/work'} className="cs-crumbs__back"><IconArrowLeft size={14} stroke={2} aria-hidden="true" />{home ? 'Home' : 'Work'}</Link>;
+          })()}
           <span className="cs-crumbs__sep" aria-hidden="true">/</span>
           <span aria-current="page">{study.name}</span>
         </nav>

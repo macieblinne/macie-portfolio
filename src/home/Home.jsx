@@ -13,6 +13,10 @@ import { IconTent, IconFlag } from '@tabler/icons-react';
 
 const LIVE_QUERY = '(pointer: fine) and (min-width: 768px)';
 
+// The stop you were on, kept in memory for this visit only: coming back from a case study
+// returns you to the same stop; a fresh page load still starts at Welcome.
+const lastStop = { summer: 0, winter: 0 };
+
 function useMedia(q) {
   const [m, setM] = useState(() => (typeof matchMedia === 'function' ? matchMedia(q).matches : true));
   useEffect(() => {
@@ -49,7 +53,8 @@ function RouteTagline({ small = false }) {
 function DesktopHome({ theme, setTheme }) {
   const terrain = useTerrain(theme, pinsConfig);
   const stops = pinsConfig[theme].stops;
-  const [active, setActive] = useState(0); // every visit starts at the Welcome / trailhead stop
+  const [active, setActive] = useState(() => lastStop[theme] ?? 0);
+  useEffect(() => { lastStop[theme] = active; }, [theme, active]);
   const prev = useRef(undefined);
   const [fitState, setFit] = useState({ k: 1, top: STAGE.y, left: 0 });
   const { k, top, left, dialX, dialY, mapBottom } = fitState;
@@ -207,7 +212,8 @@ function MobileHome({ theme, setTheme }) {
   const [menu, setMenu] = useState(false);
   const terrain = useTerrain(theme, pinsConfig);
   const stops = pinsConfig[theme].stops;
-  const [active, setActive] = useState(0); // start at Welcome
+  const [active, setActive] = useState(() => lastStop[theme] ?? 0);
+  useEffect(() => { lastStop[theme] = active; }, [theme, active]);
   const prev = useRef(undefined);
   const mapRef = useRef(null);
   const [fit, setFit] = useState(null);

@@ -36,11 +36,20 @@ export function MenuSheet({ open, onClose }) {
         <Link to="/" className="site-header__brand" onClick={onClose}><span className="mark"><img src="/avatar.jpg" alt="" width="40" height="40" /></span>Macie Linne</Link>
         <button type="button" className="m-iconbtn" aria-label="Close menu" onClick={onClose} autoFocus><IconX size={18} stroke={2} /></button>
       </div>
-      <nav className="menu-sheet__nav" aria-label="Primary">
-        {NAV.map((n) => (
-          <Link key={n.to} to={n.to} onClick={onClose} aria-current={isCurrent(path, n.to) ? 'page' : undefined}>{n.label}</Link>
-        ))}
-      </nav>
+      {/* espresso topo panel, the same treatment as the resume header */}
+      <div className="menu-sheet__panel">
+        <span className="menu-sheet__topo" aria-hidden="true" />
+        <p className="menu-sheet__kicker">Senior Product Designer</p>
+        <nav className="menu-sheet__nav" aria-label="Primary">
+          {NAV.map((n, i) => (
+            <Link key={n.to} to={n.to} onClick={onClose} aria-current={isCurrent(path, n.to) ? 'page' : undefined}>
+              <span className="menu-sheet__n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              {n.label}
+            </Link>
+          ))}
+        </nav>
+        <p className="menu-sheet__tag">I love finding the clearest route to the hardest problems.</p>
+      </div>
       <div className="menu-sheet__foot">
         <a href={LINKS.email}>{LINKS.emailLabel}</a>
         <a href={LINKS.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
