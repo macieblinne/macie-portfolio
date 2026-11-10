@@ -38,14 +38,9 @@ function RouteTagline({ small = false }) {
       <span className="home__route" aria-hidden="true"><i className="home__route-ring" /><i className="home__route-trail" /><i className="home__route-dot" /></span>
     </span>
   );
-  // phones: two set lines, with just enough room under the first for the drawn route
+  // phones: a shorter line that fits on one row, with the drawn route under "clearest route"
   if (small) {
-    return (
-      <p className="home__tagline home__tagline--sm">
-        <span className="home__tagline-l1">I love finding the {route}</span>{' '}
-        <span className="home__tagline-l2">to the hardest problems.</span>
-      </p>
-    );
+    return <p className="home__tagline home__tagline--sm home__tagline--one">Finding the {route} to hard problems.</p>;
   }
   return <p className="home__tagline">I love finding the {route} to the hardest problems.</p>;
 }
