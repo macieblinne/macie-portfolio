@@ -190,3 +190,9 @@ html[data-loading] .nav { animation-play-state: paused !important; }
 .stage--loading .stop { opacity: 0; }
 /* labels stepping aside to avoid a collision get out of the way quickly; only entrances linger */
 .stage .plate--tucked, .stage .here--hidden { transition-duration: var(--ml-dur-fast) !important; transition-delay: 0s !important; }
+
+/* phones: the same sliding toggle, sized for a thumb (both seasons always visible) */
+.theme-toggle--m { margin-left: 0; padding: 3px; gap: 2px; box-shadow: 0 0 0 1.5px rgb(255 255 255 / 0.22), 0 6px 14px rgb(0 0 0 / 0.18); }
+.theme-toggle--m .theme-toggle__btn { width: 32px; height: 32px; }
+.theme-toggle--m::before { width: 32px; height: 32px; }
+.theme-toggle--m[data-active="winter"]::before { translate: 34px 0; }

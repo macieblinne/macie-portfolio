@@ -47,7 +47,8 @@ export function lerpColor(a, b, t) {
 }
 
 /** Stem lengths (design px) per stop id, from the Figma frame. */
-export const STEM = { trailhead: 90, flexomics: 100, accio3d: 120, summit: 150 };
+// staggered so the four upper pins never stack at the starting view (heads ≥ 80px apart at k = 1)
+export const STEM = { trailhead: 90, flexomics: 100, accio3d: 120, accelerate: 170, summit: 240 };
 
 /** Stage: the slice of the 1440×900 Figma frame that holds the mountain. */
 export const STAGE = { x: 0, y: 180, w: 1000, h: 720 };

@@ -30,6 +30,15 @@
         "href": "/work/accio3d"
       },
       {
+        "id": "accelerate",
+        "n": "03",
+        "label": "Accelerate",
+        "sub": "The Narrows · 13,900 ft",
+        "lat": 40.2545,
+        "lon": -105.618,
+        "href": "/work/accelerate"
+      },
+      {
         "id": "summit",
         "label": "Let's Work Together",
         "sub": "Summit · 14,259 ft",
@@ -70,6 +79,15 @@
         "href": "/work/accio3d"
       },
       {
+        "id": "accelerate",
+        "n": "03",
+        "label": "Accelerate",
+        "sub": "Upper Parsenn · 11,450 ft",
+        "lat": 39.85,
+        "lon": -105.7805,
+        "href": "/work/accelerate"
+      },
+      {
         "id": "summit",
         "label": "Let's Work Together",
         "sub": "Parsenn Bowl · 12,060 ft",
@@ -94,8 +112,14 @@
       {
         "name": "Panoramic Express",
         "from": "accio3d",
-        "to": "summit",
+        "to": "accelerate",
         "style": "chairs"
+      },
+      {
+        "name": "traverse",
+        "from": "accelerate",
+        "to": "summit",
+        "style": "dotted"
       }
     ]
   }

@@ -121,5 +121,15 @@ export function useDial({ baseAzimuth, onFrame, elementRef }) {
     anim.current = { from: cur, to: target, t0: performance.now(), dur: ROTATE_MS };
   }, []);
 
-  return { phi, faceTo, invalidate };
+  /** Rotate to an exact azimuth (shortest arc). */
+  const turnTo = useCallback((target) => {
+    if (prefersReducedMotion()) return;
+    const cur = phi.current;
+    let d = target - cur; d = Math.atan2(Math.sin(d), Math.cos(d));
+    if (Math.abs(d) < 0.01) return;
+    vel.current = 0;
+    anim.current = { from: cur, to: cur + d, t0: performance.now(), dur: ROTATE_MS };
+  }, []);
+
+  return { phi, faceTo, turnTo, invalidate };
 }

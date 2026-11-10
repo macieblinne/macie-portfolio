@@ -1,17 +1,21 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { IconSun, IconSnowflake, IconMenu2 } from '@tabler/icons-react';
+import { IconMenu2 } from '@tabler/icons-react';
 import pinsConfig from '../data/pins.json';
 import { useTerrain } from '../summit/useTerrain.js';
 import SummitModel from '../summit/SummitModel.jsx';
 import DetailCard, { CardBody } from './DetailCard.jsx';
 import { STAGE } from '../summit/theme.js';
-import { sceneEnvelope } from '../summit/scene.js';
-import { LINKS, MOBILE_ROWS } from './stops.js';
+import { sceneEnvelope, makeScene } from '../summit/scene.js';
+import { LINKS } from './stops.js';
 import { useSite, ThemeToggle } from '../site/site.jsx';
 import { MenuSheet, PrimaryNav } from '../site/SiteHeader.jsx';
-import { IconTent, IconFlag, IconChevronRight } from '@tabler/icons-react';
+import { IconTent, IconFlag } from '@tabler/icons-react';
 
 const LIVE_QUERY = '(pointer: fine) and (min-width: 768px)';
+
+// The stop you were on, kept in memory for this visit only: coming back from a case study
+// returns you to the same stop; a fresh page load still starts at Welcome.
+const lastStop = { summer: 0, winter: 0 };
 
 function useMedia(q) {
   const [m, setM] = useState(() => (typeof matchMedia === 'function' ? matchMedia(q).matches : true));
@@ -32,23 +36,25 @@ const hero = {
 
 /** "Finding the clearest route through hard problems." with the map's route drawn under the phrase. */
 function RouteTagline({ small = false }) {
-  return (
-    <p className={`home__tagline${small ? ' home__tagline--sm' : ''}`}>
-      I love finding the{' '}
-      <span className="home__route-word">
-        clearest route
-        <span className="home__route" aria-hidden="true"><i className="home__route-ring" /><i className="home__route-trail" /><i className="home__route-dot" /></span>
-      </span>{' '}
-      to the hardest problems.
-    </p>
+  const route = (
+    <span className="home__route-word">
+      clearest route
+      <span className="home__route" aria-hidden="true"><i className="home__route-ring" /><i className="home__route-trail" /><i className="home__route-dot" /></span>
+    </span>
   );
+  // phones: a shorter line that fits on one row, with the drawn route under "clearest route"
+  if (small) {
+    return <p className="home__tagline home__tagline--sm home__tagline--one">Finding the {route} to hard problems.</p>;
+  }
+  return <p className="home__tagline">I love finding the {route} to the hardest problems.</p>;
 }
 
 /* ------------------------------------------------------------------------ */
 function DesktopHome({ theme, setTheme }) {
   const terrain = useTerrain(theme, pinsConfig);
   const stops = pinsConfig[theme].stops;
-  const [active, setActive] = useState(0); // every visit starts at the Welcome / trailhead stop
+  const [active, setActive] = useState(() => lastStop[theme] ?? 0);
+  useEffect(() => { lastStop[theme] = active; }, [theme, active]);
   const prev = useRef(undefined);
   const [fitState, setFit] = useState({ k: 1, top: STAGE.y, left: 0 });
   const { k, top, left, dialX, dialY, mapBottom } = fitState;
@@ -153,29 +159,96 @@ function DesktopHome({ theme, setTheme }) {
 }
 
 /* ------------------------------------------------------------------------ */
+/** Mobile card: same out → in swap as the desktop card, and a horizontal swipe steps the route. */
+function MobileCard({ stops, active, onSelect, badge }) {
+  const [shown, setShown] = useState(active);
+  const [leaving, setLeaving] = useState(false);
+  useEffect(() => {
+    if (active === shown) return undefined;
+    setLeaving(true);
+    const t = setTimeout(() => { setShown(active); setLeaving(false); }, 360); // = --ml-dur-card-out
+    return () => clearTimeout(t);
+  }, [active, shown]);
+  const step = (d) => onSelect(Math.max(0, Math.min(stops.length - 1, active + d)));
+  const touch = useRef(null);
+  const onTouchStart = (e) => { const t = e.touches[0]; touch.current = { x: t.clientX, y: t.clientY }; };
+  const onTouchEnd = (e) => {
+    const s = touch.current; touch.current = null;
+    if (!s) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - s.x, dy = t.clientY - s.y;
+    if (Math.abs(dx) > 56 && Math.abs(dx) > Math.abs(dy) * 1.4) step(dx < 0 ? 1 : -1);
+  };
+  const stop = stops[shown];
+  return (
+    <div className="m-card" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+      <article key={stop.id} className={`card${leaving ? ' card--out' : ''}`} aria-live="polite">
+        <CardBody badge={badge} stop={stop} index={shown} total={stops.length} onStep={step} compact />
+      </article>
+    </div>
+  );
+}
+
+/** The route as a row of pins under the map: the same done / active / ahead states as the mountain. */
+function RouteStepper({ stops, active, onSelect }) {
+  return (
+    <ol className="m-steps" aria-label="Stops on the route" style={{ '--m-steps-n': stops.length }}>
+      {stops.map((s, i) => {
+        const state = i < active ? 'done' : i === active ? 'active' : 'ahead';
+        return (
+          <li key={s.id} className={`m-steps__item m-steps__item--${state}${i === active + 1 ? ' m-steps__item--next' : ''}`}>
+            <button type="button" className="m-steps__btn" onClick={() => onSelect(i)} aria-current={state === 'active' ? 'step' : undefined} aria-label={`${s.label}, ${s.sub}`}>
+              <span className="m-pin" aria-hidden="true">{s.n ? s.n : s.icon === 'flag' ? <IconFlag size={16} stroke={2.2} /> : <IconTent size={16} stroke={2.2} />}</span>
+              <span className="m-steps__name">{s.n ? s.label : s.id === 'trailhead' ? 'Welcome' : 'Summit'}</span>
+            </button>
+          </li>
+        );
+      })}
+    </ol>
+  );
+}
+
 function MobileHome({ theme, setTheme }) {
   const [menu, setMenu] = useState(false);
+  const terrain = useTerrain(theme, pinsConfig);
   const stops = pinsConfig[theme].stops;
-  const [active, setActive] = useState(0); // start at Welcome
-  const [svg, setSvg] = useState({});
-  const file = pinsConfig[theme].terrain.replace('.json', '.svg');
+  const [active, setActive] = useState(() => lastStop[theme] ?? 0);
+  useEffect(() => { lastStop[theme] = active; }, [theme, active]);
+  const prev = useRef(undefined);
+  const mapRef = useRef(null);
+  const [fit, setFit] = useState(null);
+  const envelope = useMemo(() => (terrain ? sceneEnvelope(terrain.g, terrain.rings, terrain.pins) : null), [terrain]);
 
-  useEffect(() => {
-    if (svg[file]) return;
-    fetch(`/terrain/${file}`).then((r) => r.text()).then((t) => setSvg((s) => ({ ...s, [file]: t })));
-  }, [file, svg]);
+  // fit the whole dial (plus compass letters) across the panel width
+  useLayoutEffect(() => {
+    if (!terrain || !envelope) return undefined;
+    const dial = makeScene(terrain.g, terrain.rings, terrain.pins, { k: 1 }).dial;
+    const place = () => {
+      const w = mapRef.current?.clientWidth ?? 358;
+      const kk = w / (2 * (dial.rx + 58));
+      const padTop = 28; // breathing room above the summit pin
+      const dialBottom = dial.cy + dial.ry + 2; // last tick of the dial
+      const lft = w / 2 - dial.cx * kk, tp = padTop - envelope.top * kk;
+      setFit({ k: kk, left: lft, top: tp, h: tp + dialBottom * kk + 14, viewport: { x: -lft, y: -tp + 4, w } });
+    };
+    place();
+    const ro = new ResizeObserver(place);
+    if (mapRef.current) ro.observe(mapRef.current);
+    return () => ro.disconnect();
+  }, [terrain, envelope]);
 
-  const row = (s) => MOBILE_ROWS[s.id] ?? { title: s.label, sub: s.sub };
-  const activeStop = stops[active];
+  const select = useCallback((i) => {
+    setActive((cur) => { prev.current = cur; return i; });
+  }, []);
+  const switchTheme = (t) => { prev.current = undefined; setTheme(t); };
+  const badge = theme === 'winter' ? 'WINTER PARK' : 'BOULDER, CO · 5,430 FT';
 
   return (
     <main className="m-home">
       <header className="m-header">
         <a className="m-header__brand" href="/"><span className="mark"><img src="/avatar.jpg" alt="" width="40" height="40" /></span>Macie Linne</a>
         <div className="m-header__actions">
-          <button type="button" className="m-iconbtn m-iconbtn--theme" aria-label={theme === 'summer' ? 'Switch to winter theme' : 'Switch to summer theme'} onClick={() => setTheme(theme === 'summer' ? 'winter' : 'summer')}>
-            {theme === 'summer' ? <IconSun size={18} stroke={2} /> : <IconSnowflake size={18} stroke={2} />}
-          </button>
+          <ThemeToggle theme={theme} setTheme={switchTheme} className="theme-toggle--m" />
           <button type="button" className="m-iconbtn" aria-label="Open menu" aria-expanded={menu} onClick={() => setMenu(true)}><IconMenu2 size={18} stroke={2} /></button>
         </div>
         <MenuSheet open={menu} onClose={() => setMenu(false)} />
@@ -187,41 +260,29 @@ function MobileHome({ theme, setTheme }) {
         <RouteTagline small />
       </section>
 
-      <figure className="m-thumb" aria-label="Contour map of the route">
-        {Object.entries(svg).map(([f, markup]) => (
-          <div key={f} className="m-thumb__img" style={{ opacity: f === file ? 1 : 0 }} dangerouslySetInnerHTML={{ __html: markup }} />
-        ))}
-        <figcaption className="m-thumb__plate">
-          <span className="plate"><span className="plate__title">You are here</span><span>·</span><span className="plate__title">{STOP_LABEL(activeStop)}</span></span>
-        </figcaption>
-      </figure>
-
-      <section className="m-route" aria-label="The route">
-        <span className="eyebrow m-route__label">The route</span>
-        {stops.map((s, i) => {
-          const state = i < active ? 'done' : i === active ? 'active' : 'ahead';
-          const r = row(s);
-          return (
-            <div key={s.id} className={`m-stop m-stop--${state}`}>
-              <div className="m-stop__rail">
-                <span className="m-pin" aria-hidden="true">{s.n ? s.n : s.icon === 'flag' ? <IconFlag size={16} stroke={2.2} /> : <IconTent size={16} stroke={2.2} />}</span>
-              </div>
-              <button type="button" className="m-stop__row" aria-expanded={state === 'active'} onClick={() => setActive(i)}>
-                <span>{r.title}<small>{r.sub}</small></span>
-                <IconChevronRight size={18} stroke={2} />
-              </button>
-              {state === 'active' && (
-                <div className="m-stop__card">
-                  <article className="card">
-                    <CardBody badge={theme === 'winter' ? 'WINTER PARK' : 'BOULDER, CO · 5,430 FT'} stop={s} index={i} total={stops.length} onStep={(d) => setActive(Math.max(0, Math.min(stops.length - 1, i + d)))} compact />
-                  </article>
-                </div>
-              )}
-            </div>
-          );
-        })}
+      {/* one piece: the live mountain, the route stepper and the stop's card */}
+      <section className="m-explore" aria-label="The route">
+        <div className="m-map" ref={mapRef} style={fit ? { height: fit.h } : undefined}>
+          {terrain && fit ? (
+            <SummitModel
+              key={theme}
+              terrain={terrain}
+              theme={theme}
+              activeIndex={active}
+              prevActive={prev.current}
+              onSelect={select}
+              k={fit.k}
+              top={fit.top}
+              left={fit.left}
+              viewport={fit.viewport}
+              plates={false}
+            />
+          ) : <div className="m-map__loading" aria-busy="true" />}
+        </div>
+        <p className="m-map__hint" aria-hidden="true">Drag to turn the mountain</p>
+        <RouteStepper stops={stops} active={active} onSelect={select} />
+        <MobileCard stops={stops} active={active} onSelect={select} badge={badge} />
       </section>
-
 
       <footer className="m-footer">
         <a href={LINKS.email}>macieblinne@gmail.com</a>
@@ -230,12 +291,6 @@ function MobileHome({ theme, setTheme }) {
       </footer>
     </main>
   );
-}
-
-function STOP_LABEL(s) {
-  const n = s.n ? `${s.n} ` : '';
-  const place = s.sub.split('·')[0].trim();
-  return `${n}${s.n ? place : s.label.split('·')[0].trim()}`;
 }
 
 /* ------------------------------------------------------------------------ */

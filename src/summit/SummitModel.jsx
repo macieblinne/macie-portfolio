@@ -16,7 +16,7 @@ const GLIDE_MS = 900;     // = --ml-dur-route
  * Live, draggable contour mountain. Desktop / fine-pointer only.
  * The canvas is decorative; pins, stems, plates and the route are DOM/SVG.
  */
-export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, top, left = 0, prevActive }) {
+export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, top, left = 0, prevActive, viewport, plates = true }) {
   const { navigate } = useRouter();
   const stageRef = useRef(null);
   const canvasRef = useRef(null);
@@ -84,7 +84,7 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
     const letters = placeCompass(
       scene.compass(phi), scene.dial, rings,
       [...(sizes.obstacles ?? []), ...pinHeads],
-      { x: 4, y: 4, w: width - 8, h: height - 8 }, k,
+      viewport ? { x: viewport.x + 4, y: 4, w: viewport.w - 8, h: height - 8 } : { x: 4, y: 4, w: width - 8, h: height - 8 }, k,
     );
     letters.forEach((c, i) => {
       const el = compassRefs.current[i];
@@ -100,13 +100,14 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
     });
     const labels = [];
     const act = P[activeIndex];
-    if (act) labels.push({ key: `p${activeIndex}`, pin: activeIndex, w: sizes.plates[activeIndex]?.w ?? 180, h: sizes.plates[activeIndex]?.h ?? 46, kind: 'plate' });
-    P.map((p, i) => i).filter((i) => i !== activeIndex)
+    if (act && plates) labels.push({ key: `p${activeIndex}`, pin: activeIndex, w: sizes.plates[activeIndex]?.w ?? 180, h: sizes.plates[activeIndex]?.h ?? 46, kind: 'plate' });
+    // "You are here" claims its spot beside the active pin before the other labels
+    if (act) labels.push({ key: 'here', pin: activeIndex, w: sizes.here.w, h: sizes.here.h, kind: 'sticker' });
+    if (plates) P.map((p, i) => i).filter((i) => i !== activeIndex)
       .sort((a, b) => P[b].gy - P[a].gy) // nearer pins claim space first
       .forEach((i) => labels.push({ key: `p${i}`, pin: i, w: sizes.plates[i]?.w ?? 180, h: sizes.plates[i]?.h ?? 46, kind: 'plate' }));
-    // the sticker is decoration: it goes last and steps aside if the route is too crowded
-    if (act) labels.push({ key: 'here', pin: activeIndex, w: sizes.here.w, h: sizes.here.h, kind: 'sticker' });
-    const bounds = { x: 8, y: -60 * k, w: width - 16, h: height + 60 * k };
+    // on phones the stage is wider than its frame: keep labels inside what's visible
+    const bounds = viewport ? { x: viewport.x + 8, y: viewport.y ?? -60 * k, w: viewport.w - 16, h: height + 60 * k } : { x: 8, y: -60 * k, w: width - 16, h: height + 60 * k };
     const placed = placeLabels(pinGeo, labels, prevPlacement.current, bounds, k, [...(sizes.obstacles ?? []), ...letters.filter((c) => c.visible).map((c) => c.box)]);
     prevPlacement.current = placed;
     P.forEach((p, i) => {
@@ -143,7 +144,7 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
       renderedRef.current = { x: hx, y: hy };
       hereRef.current.style.transform = `translate3d(${hx + 4 - (sizes.here.dx ?? 0)}px, ${hy + 4 - (sizes.here.dy ?? 0)}px, 0)`;
       hereRef.current.classList.toggle('here--left', placed.here.side === 'left');
-      hereRef.current.classList.toggle('here--hidden', placed.here.hit > 60);
+      hereRef.current.classList.toggle('here--hidden', false);
     }
     // route
     const seg = (a, b) => `M${a.gx} ${a.gy}L${b.gx} ${b.gy}`;
@@ -188,10 +189,10 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
     const ft = performance.now() - t0;
     if (ft > 20) { if (++slowFrames.current >= 10) everyOther.current = true; }
     else { slowFrames.current = 0; if (everyOther.current && stageRef.current && !stageRef.current.classList.contains('stage--dragging')) everyOther.current = false; }
-  }, [scene, theme, width, height, activeIndex, lifts, k, loaded, pinK]);
+  }, [scene, theme, width, height, activeIndex, lifts, k, loaded, pinK, viewport, plates]);
 
   const invalidateRef = useRef(null);
-  const { phi: phiRef, faceTo, invalidate } = useDial({ baseAzimuth, onFrame, elementRef: stageRef });
+  const { phi: phiRef, turnTo, invalidate } = useDial({ baseAzimuth, onFrame, elementRef: stageRef });
   const phiNow = () => phiRef.current;
   invalidateRef.current = invalidate;
 
@@ -201,7 +202,7 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
     const obstacles = [];
     if (stage) {
       const pad = 8;
-      document.querySelectorAll('.home__header > *, .card-slot, .nav, .stage__stickers').forEach((el) => {
+      document.querySelectorAll('.home__header > *, .card-slot, .nav, .stage__stickers, .m-map__hint').forEach((el) => {
         const r = el.getBoundingClientRect();
         if (!r.width) return;
         obstacles.push({ x: r.left - stage.left - pad, y: r.top - stage.top - pad, w: r.width + 2 * pad, h: r.height + 2 * pad });
@@ -253,11 +254,27 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
     return () => { clearTimeout(t); freshRef.current = null; };
   }, [activeIndex, prevActive, scene]);
 
-  // face the active pin on change
+  // on change, turn the mountain so the active pin stands clear of its neighbours:
+  // try views within ±70° of the starting angle and keep the one where the active pin
+  // head is furthest from every other pin head (ties go to the smaller turn)
   useEffect(() => {
-    const p = pins[activeIndex];
-    if (p && prevActive !== undefined && prevActive !== activeIndex) faceTo(scene.proj.facing(p.xm, p.ym));
-  }, [activeIndex, pins, scene, faceTo, prevActive]);
+    if (!pins[activeIndex] || prevActive === undefined || prevActive === activeIndex) return;
+    const cur = phiRef.current;
+    const head = (q) => ({ x: q.px, y: q.py });
+    let best = cur, bestScore = -Infinity;
+    for (let deg = -70; deg <= 70; deg += 5) {
+      const phi = baseAzimuth + deg * DEG;
+      const P = scene.projectPins(phi);
+      const a = head(P[activeIndex]);
+      let near = Infinity;
+      P.forEach((q, i) => { if (i !== activeIndex) { const b = head(q); near = Math.min(near, Math.hypot(a.x - b.x, a.y - b.y)); } });
+      let turn = phi - cur; turn = Math.abs(Math.atan2(Math.sin(turn), Math.cos(turn)));
+      // clearance matters up to ~1.6 pin widths; beyond that, prefer the smaller turn
+      const score = Math.min(near, 90 * k) - turn * 40 * k;
+      if (score > bestScore) { bestScore = score; best = phi; }
+    }
+    turnTo(best);
+  }, [activeIndex, pins, scene, turnTo, prevActive, baseAzimuth, k]);
 
   const handlePin = (i) => {
     const p = pins[i];

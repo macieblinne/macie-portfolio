@@ -3,7 +3,7 @@
 // buttons and a menu sheet (same pattern as the home page's mobile header).
 import { createPortal } from 'react-dom';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { IconMenu2, IconX, IconSun, IconSnowflake } from '@tabler/icons-react';
+import { IconMenu2, IconX } from '@tabler/icons-react';
 import { Link, useRouter } from './router.jsx';
 import { useSite, ThemeToggle, LINKS } from './site.jsx';
 
@@ -36,11 +36,18 @@ export function MenuSheet({ open, onClose }) {
         <Link to="/" className="site-header__brand" onClick={onClose}><span className="mark"><img src="/avatar.jpg" alt="" width="40" height="40" /></span>Macie Linne</Link>
         <button type="button" className="m-iconbtn" aria-label="Close menu" onClick={onClose} autoFocus><IconX size={18} stroke={2} /></button>
       </div>
-      <nav className="menu-sheet__nav" aria-label="Primary">
-        {NAV.map((n) => (
-          <Link key={n.to} to={n.to} onClick={onClose} aria-current={isCurrent(path, n.to) ? 'page' : undefined}>{n.label}</Link>
-        ))}
-      </nav>
+      {/* espresso topo panel, the same treatment as the resume header */}
+      <div className="menu-sheet__panel">
+        <span className="menu-sheet__topo" aria-hidden="true" />
+        <nav className="menu-sheet__nav" aria-label="Primary">
+          {NAV.map((n, i) => (
+            <Link key={n.to} to={n.to} onClick={onClose} aria-current={isCurrent(path, n.to) ? 'page' : undefined}>
+              <span className="menu-sheet__n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              {n.label}
+            </Link>
+          ))}
+        </nav>
+      </div>
       <div className="menu-sheet__foot">
         <a href={LINKS.email}>{LINKS.emailLabel}</a>
         <a href={LINKS.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
@@ -98,9 +105,7 @@ export default function SiteHeader() {
       <Link to="/" className="site-header__brand" aria-label="Macie Linne — home"><span className="mark"><img src="/avatar.jpg" alt="" width="40" height="40" /></span>Macie Linne</Link>
       <PrimaryNav className="nav--inline" />
       <div className="site-header__mobile">
-        <button type="button" className="m-iconbtn m-iconbtn--theme" aria-label={theme === 'summer' ? 'Switch to winter theme' : 'Switch to summer theme'} onClick={() => setTheme(theme === 'summer' ? 'winter' : 'summer')}>
-          {theme === 'summer' ? <IconSun size={18} stroke={2} /> : <IconSnowflake size={18} stroke={2} />}
-        </button>
+        <ThemeToggle theme={theme} setTheme={setTheme} className="theme-toggle--m" />
         <button type="button" className="m-iconbtn" aria-label="Open menu" aria-expanded={menu} onClick={() => setMenu(true)}><IconMenu2 size={18} stroke={2} /></button>
       </div>
       <MenuSheet open={menu} onClose={() => setMenu(false)} />

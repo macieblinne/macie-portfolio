@@ -147,8 +147,9 @@
 }
 
 .ab-howdy {
-  position: absolute; left: calc(100% - 29.7px); top: 396.3px; z-index: 2;
-  translate: -50% -50%; rotate: -5deg;
+  /* pinned to the photo card's bottom-right corner (the card itself is tilted -4°) */
+  position: absolute; right: 22px; bottom: 0; z-index: 2;
+  translate: 0 45%; rotate: -1deg;
   font-size: 11px; letter-spacing: 0.02em; text-transform: uppercase;
   box-shadow: 0 0 0 4px var(--ml-white), 0 12px 28px -6px rgb(0 0 0 / 0.35);
 }
@@ -316,7 +317,6 @@
   .ab-hero__art { position: relative; inset: auto; height: 480px; max-width: 720px; margin: 24px auto 0; }
   .ab-photo { right: 16px; top: 16px; }
   .ab-plan { right: auto; left: 24px; top: 170px; }
-  .ab-howdy { left: auto; right: 0; top: 440px; translate: none; }
 
   .ab-values { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .ab-log { grid-template-columns: minmax(0, 1fr); }
@@ -363,7 +363,7 @@
   .ab-photo { --ab-photo: min(214px, 56vw); right: 2px; top: 10px; padding: 9px; gap: 8px; border-radius: 12px; }
   .ab-photo__cap { font-size: 11px; line-height: 14px; }
   .ab-plan { --ab-plan: 200px; left: -6px; top: 168px; }
-  .ab-howdy { right: 4px; top: 330px; }
+  .ab-howdy { right: 12px; font-size: 10px; }
 
   .ab-who { padding: 22px; gap: 14px; }
   .ab-who__lead { font-size: 19px; line-height: 1.35; }

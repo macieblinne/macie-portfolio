@@ -10,7 +10,7 @@ export const STOP_CONTENT = {
   trailhead: {
     art: { kind: 'welcome', sticker: 'Welcome!', title: 'Howdy there \u{1F920}' },
     headline: 'Tap a pin!',
-    body: 'Each pin is a stop on the climb: two case studies on the way up, and a chance to say hi at the summit.',
+    body: 'Each pin is a stop on the climb: three case studies on the way up, and a chance to say hi at the summit.',
     cta: { label: 'Start the journey', action: 'next' },
   },
   flexomics: {
@@ -26,6 +26,13 @@ export const STOP_CONTENT = {
     headline: 'An AI marketplace for parts nobody makes anymore',
     impact: 'Designed the POC the CEO used to close a seed round, then a lean MVP.',
     cta: { label: 'Read the case study', href: '/work/accio3d' },
+  },
+  accelerate: {
+    title: 'Accelerate Diagnostics',
+    art: { kind: 'image', src: '/case-study/accelerate/dashboard.webp', stickerTl: 'Shipped', stickerBr: 'Healthcare' },
+    headline: 'One interface for fifty tests running at once',
+    impact: 'Designed and shipped one simple interface for lab techs, specialists and engineers.',
+    cta: { label: 'Read the case study', href: '/work/accelerate' },
   },
   summit: {
     title: 'The Summit',
