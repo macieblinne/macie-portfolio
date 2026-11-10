@@ -32,16 +32,22 @@ const hero = {
 
 /** "Finding the clearest route through hard problems." with the map's route drawn under the phrase. */
 function RouteTagline({ small = false }) {
-  return (
-    <p className={`home__tagline${small ? ' home__tagline--sm' : ''}`}>
-      I love finding the{' '}
-      <span className="home__route-word">
-        clearest route
-        <span className="home__route" aria-hidden="true"><i className="home__route-ring" /><i className="home__route-trail" /><i className="home__route-dot" /></span>
-      </span>{' '}
-      to the hardest problems.
-    </p>
+  const route = (
+    <span className="home__route-word">
+      clearest route
+      <span className="home__route" aria-hidden="true"><i className="home__route-ring" /><i className="home__route-trail" /><i className="home__route-dot" /></span>
+    </span>
   );
+  // phones: two set lines, with just enough room under the first for the drawn route
+  if (small) {
+    return (
+      <p className="home__tagline home__tagline--sm">
+        <span className="home__tagline-l1">I love finding the {route}</span>{' '}
+        <span className="home__tagline-l2">to the hardest problems.</span>
+      </p>
+    );
+  }
+  return <p className="home__tagline">I love finding the {route} to the hardest problems.</p>;
 }
 
 /* ------------------------------------------------------------------------ */
@@ -186,11 +192,11 @@ function MobileCard({ stops, active, onSelect, badge }) {
 /** The route as a row of pins under the map: the same done / active / ahead states as the mountain. */
 function RouteStepper({ stops, active, onSelect }) {
   return (
-    <ol className="m-steps" aria-label="The route">
+    <ol className="m-steps" aria-label="Stops on the route" style={{ '--m-steps-n': stops.length }}>
       {stops.map((s, i) => {
         const state = i < active ? 'done' : i === active ? 'active' : 'ahead';
         return (
-          <li key={s.id} className={`m-steps__item m-steps__item--${state}`}>
+          <li key={s.id} className={`m-steps__item m-steps__item--${state}${i === active + 1 ? ' m-steps__item--next' : ''}`}>
             <button type="button" className="m-steps__btn" onClick={() => onSelect(i)} aria-current={state === 'active' ? 'step' : undefined} aria-label={`${s.label}, ${s.sub}`}>
               <span className="m-pin" aria-hidden="true">{s.n ? s.n : s.icon === 'flag' ? <IconFlag size={16} stroke={2.2} /> : <IconTent size={16} stroke={2.2} />}</span>
               <span className="m-steps__name">{s.n ? s.label : s.id === 'trailhead' ? 'Welcome' : 'Summit'}</span>
@@ -220,8 +226,9 @@ function MobileHome({ theme, setTheme }) {
       const w = mapRef.current?.clientWidth ?? 358;
       const kk = w / (2 * (dial.rx + 58));
       const padTop = 12;
+      const dialBottom = dial.cy + dial.ry + 2; // last tick of the dial
       const lft = w / 2 - dial.cx * kk, tp = padTop - envelope.top * kk;
-      setFit({ k: kk, left: lft, top: tp, h: padTop + (envelope.bottom - envelope.top - 30) * kk, viewport: { x: -lft, y: -tp + 4, w } });
+      setFit({ k: kk, left: lft, top: tp, h: tp + dialBottom * kk - 16, viewport: { x: -lft, y: -tp + 4, w } });
     };
     place();
     const ro = new ResizeObserver(place);
@@ -271,8 +278,8 @@ function MobileHome({ theme, setTheme }) {
               viewport={fit.viewport}
             />
           ) : <div className="m-map__loading" aria-busy="true" />}
-          <p className="m-map__hint" aria-hidden="true">Drag to turn · tap a pin</p>
         </div>
+        <p className="m-map__hint" aria-hidden="true">Drag to turn the mountain</p>
         <RouteStepper stops={stops} active={active} onSelect={select} />
         <MobileCard stops={stops} active={active} onSelect={select} badge={badge} />
       </section>
