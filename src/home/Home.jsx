@@ -225,10 +225,10 @@ function MobileHome({ theme, setTheme }) {
     const place = () => {
       const w = mapRef.current?.clientWidth ?? 358;
       const kk = w / (2 * (dial.rx + 58));
-      const padTop = 12;
+      const padTop = 28; // breathing room above the summit pin
       const dialBottom = dial.cy + dial.ry + 2; // last tick of the dial
       const lft = w / 2 - dial.cx * kk, tp = padTop - envelope.top * kk;
-      setFit({ k: kk, left: lft, top: tp, h: tp + dialBottom * kk - 16, viewport: { x: -lft, y: -tp + 4, w } });
+      setFit({ k: kk, left: lft, top: tp, h: tp + dialBottom * kk + 14, viewport: { x: -lft, y: -tp + 4, w } });
     };
     place();
     const ro = new ResizeObserver(place);
