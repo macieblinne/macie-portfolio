@@ -16,6 +16,7 @@ function outside(r, bounds) {
 }
 
 const OFFSETS = [0, -1, 1, -2, 2, -3, 3, -4, 4, -5, 5, -6];
+const STICKER_OFFSETS = [0, -1, 1];
 const OVERLAP_W = 60; // any real overlap outweighs every layout preference
 
 /**
@@ -43,7 +44,8 @@ export function placeLabels(pins, labels, prev, bounds, k = 1, obstacles = []) {
     let best = null;
     for (const side of ['right', 'left', 'above']) {
       if (side === 'above' && L.kind === 'sticker') continue;
-      for (const o of OFFSETS) {
+      // the sticker stays tucked against its own pin: it may cover a neighbour's label, never drift off
+      for (const o of (L.kind === 'sticker' ? STICKER_OFFSETS : OFFSETS)) {
         let x, y;
         if (side === 'above') {
           // centred over the pin head, stepping sideways instead of vertically

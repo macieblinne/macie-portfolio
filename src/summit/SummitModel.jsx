@@ -16,7 +16,7 @@ const GLIDE_MS = 900;     // = --ml-dur-route
  * Live, draggable contour mountain. Desktop / fine-pointer only.
  * The canvas is decorative; pins, stems, plates and the route are DOM/SVG.
  */
-export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, top, left = 0, prevActive, viewport }) {
+export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, top, left = 0, prevActive, viewport, plates = true }) {
   const { navigate } = useRouter();
   const stageRef = useRef(null);
   const canvasRef = useRef(null);
@@ -100,12 +100,12 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
     });
     const labels = [];
     const act = P[activeIndex];
-    if (act) labels.push({ key: `p${activeIndex}`, pin: activeIndex, w: sizes.plates[activeIndex]?.w ?? 180, h: sizes.plates[activeIndex]?.h ?? 46, kind: 'plate' });
-    P.map((p, i) => i).filter((i) => i !== activeIndex)
+    if (act && plates) labels.push({ key: `p${activeIndex}`, pin: activeIndex, w: sizes.plates[activeIndex]?.w ?? 180, h: sizes.plates[activeIndex]?.h ?? 46, kind: 'plate' });
+    // "You are here" claims its spot beside the active pin before the other labels
+    if (act) labels.push({ key: 'here', pin: activeIndex, w: sizes.here.w, h: sizes.here.h, kind: 'sticker' });
+    if (plates) P.map((p, i) => i).filter((i) => i !== activeIndex)
       .sort((a, b) => P[b].gy - P[a].gy) // nearer pins claim space first
       .forEach((i) => labels.push({ key: `p${i}`, pin: i, w: sizes.plates[i]?.w ?? 180, h: sizes.plates[i]?.h ?? 46, kind: 'plate' }));
-    // the sticker is decoration: it goes last and steps aside if the route is too crowded
-    if (act) labels.push({ key: 'here', pin: activeIndex, w: sizes.here.w, h: sizes.here.h, kind: 'sticker' });
     // on phones the stage is wider than its frame: keep labels inside what's visible
     const bounds = viewport ? { x: viewport.x + 8, y: viewport.y ?? -60 * k, w: viewport.w - 16, h: height + 60 * k } : { x: 8, y: -60 * k, w: width - 16, h: height + 60 * k };
     const placed = placeLabels(pinGeo, labels, prevPlacement.current, bounds, k, [...(sizes.obstacles ?? []), ...letters.filter((c) => c.visible).map((c) => c.box)]);
@@ -144,7 +144,7 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
       renderedRef.current = { x: hx, y: hy };
       hereRef.current.style.transform = `translate3d(${hx + 4 - (sizes.here.dx ?? 0)}px, ${hy + 4 - (sizes.here.dy ?? 0)}px, 0)`;
       hereRef.current.classList.toggle('here--left', placed.here.side === 'left');
-      hereRef.current.classList.toggle('here--hidden', placed.here.hit > 60);
+      hereRef.current.classList.toggle('here--hidden', false);
     }
     // route
     const seg = (a, b) => `M${a.gx} ${a.gy}L${b.gx} ${b.gy}`;
@@ -189,7 +189,7 @@ export default function SummitModel({ terrain, theme, activeIndex, onSelect, k, 
     const ft = performance.now() - t0;
     if (ft > 20) { if (++slowFrames.current >= 10) everyOther.current = true; }
     else { slowFrames.current = 0; if (everyOther.current && stageRef.current && !stageRef.current.classList.contains('stage--dragging')) everyOther.current = false; }
-  }, [scene, theme, width, height, activeIndex, lifts, k, loaded, pinK, viewport]);
+  }, [scene, theme, width, height, activeIndex, lifts, k, loaded, pinK, viewport, plates]);
 
   const invalidateRef = useRef(null);
   const { phi: phiRef, turnTo, invalidate } = useDial({ baseAzimuth, onFrame, elementRef: stageRef });

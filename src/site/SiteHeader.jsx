@@ -39,7 +39,6 @@ export function MenuSheet({ open, onClose }) {
       {/* espresso topo panel, the same treatment as the resume header */}
       <div className="menu-sheet__panel">
         <span className="menu-sheet__topo" aria-hidden="true" />
-        <p className="menu-sheet__kicker">Senior Product Designer</p>
         <nav className="menu-sheet__nav" aria-label="Primary">
           {NAV.map((n, i) => (
             <Link key={n.to} to={n.to} onClick={onClose} aria-current={isCurrent(path, n.to) ? 'page' : undefined}>
@@ -48,7 +47,6 @@ export function MenuSheet({ open, onClose }) {
             </Link>
           ))}
         </nav>
-        <p className="menu-sheet__tag">I love finding the clearest route to the hardest problems.</p>
       </div>
       <div className="menu-sheet__foot">
         <a href={LINKS.email}>{LINKS.emailLabel}</a>

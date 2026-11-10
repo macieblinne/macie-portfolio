@@ -275,6 +275,7 @@ function MobileHome({ theme, setTheme }) {
               top={fit.top}
               left={fit.left}
               viewport={fit.viewport}
+              plates={false}
             />
           ) : <div className="m-map__loading" aria-busy="true" />}
         </div>
